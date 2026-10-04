@@ -9,6 +9,9 @@ export async function validate() {
     assert.equal(data.loop.reduce((sum,day)=>sum+day.km,0),data.trip.routeKm);
     assert.equal(data.trip.operator,'Valor');assert.equal(data.package.price,null);
     assert.equal(data.trip.travellers,null);assert.equal(data.package.pricing.currency,'USD');
+    assert.equal(data.weather.days.length,data.itinerary.length);
+    for(const [index,location] of data.weather.days.entries()) {assert.equal(location.date,data.itinerary[index].date);assert(location.coordinates.length===2&&location.coordinates.every(Number.isFinite));}
+    assert.equal(new Set(data.loop.map(day=>day.photoId)).size,4,'Daily hero photographs must be distinct');
     assert.equal(data.package.pricing.rides.find(ride=>ride.id==='easy').amount,250);
     assert.equal(data.package.pricing.rides.find(ride=>ride.id==='self').amount,210);
     for(const id of data.gallery)assert(data.photos[id]);

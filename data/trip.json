@@ -63,6 +63,13 @@
   },
   "gallery": ["ma-pi-leng","nho-que","dong-van","lung-cu","tham-ma","du-gia","quan-ba","hanoi"],
   "photos": {
+    "vuong-palace": {
+      "image": "assets/vuong-palace.jpg",
+      "alt": "Vuong Family Palace courtyard in Sa Phin, Dong Van",
+      "credit": "Khánh Hmoong · CC BY 2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Dinh_th%E1%BB%B1_vua_M%C3%A8o_h%E1%BB%8D_V%C6%B0%C6%A1ng_-_Vuong%E2%80%99s_Palace,_%C4%90%E1%BB%93ng_V%C4%83n.jpg",
+      "license": "https://creativecommons.org/licenses/by/2.0/"
+    },
     "quan-ba": {
       "image": "assets/quan-ba.jpg",
       "alt": "Bac Sum Pass approach in the Quan Ba region",
@@ -222,7 +229,7 @@
       "loopDay": 2,
       "minutes": 45,
       "status": "included",
-      "photoId": "tham-ma",
+      "photoId": "vuong-palace",
       "mapsQuery": "Vuong Family Palace, Ha Giang, Vietnam",
       "sourceIds": [
         "valor",
@@ -758,7 +765,17 @@
   "weather": {
     "title": "November: layers, not promises.",
     "note": "Expect cooler mountain mornings and evenings. Seasonal notes are not a date-specific forecast; recheck road conditions and weather with the guide before departure.",
-    "sourceId": "weather"
+    "sourceId": "weather",
+    "days": [
+      {"date":"2026-11-07","name":"Hanoi / arrival","coordinates":[21.0285,105.8542]},
+      {"date":"2026-11-08","name":"Quan Ba / Yen Minh","coordinates":[23.1187,105.1425]},
+      {"date":"2026-11-09","name":"Lung Cu / Dong Van","coordinates":[23.2781,105.3629]},
+      {"date":"2026-11-10","name":"Ma Pi Leng / Meo Vac","coordinates":[23.1854,105.4106]},
+      {"date":"2026-11-11","name":"Du Gia / return","coordinates":[22.9263,105.2247]},
+      {"date":"2026-11-12","name":"Hanoi / rest","coordinates":[21.0285,105.8542]},
+      {"date":"2026-11-13","name":"Hanoi / explore","coordinates":[21.0285,105.8542]},
+      {"date":"2026-11-14","name":"Hanoi / departure","coordinates":[21.0285,105.8542]}
+    ]
   },
   "sources": [
     {

@@ -1,4 +1,7 @@
 :root { --forest:#183d35; --ink:#21352e; --cream:#f4efe4; --paper:#fcf9f2; --muted:#647268; --rust:#a44f2e; --orange:#df8b50; --line:#d5d9cd; --display:"Iowan Old Style","Palatino Linotype",Georgia,serif; --body:"Avenir Next","Trebuchet MS",sans-serif; --gutter:clamp(22px,5vw,80px); }
+:root { --on-forest:#fcf9f2; --crew-surface:#e3e7dc; --shadow:rgb(24 61 53 / .14); }
+:root[data-theme="sunrise"] { --forest:#773c28; --ink:#49291e; --cream:#f8eddd; --paper:#fff9ef; --muted:#785541; --rust:#994320; --orange:#efb16b; --line:#d9c9b7; --crew-surface:#efdfcb; }
+:root[data-theme="night"] { color-scheme:dark; --forest:#263f3b; --ink:#f1ede3; --cream:#151f20; --paper:#202c2d; --muted:#bbc8c3; --rust:#efb16b; --orange:#efb16b; --line:#475652; --crew-surface:#1a2929; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; scroll-padding-top:80px; }
 body { margin:0; background:var(--cream); color:var(--ink); font:16px/1.65 var(--body); }
@@ -17,6 +20,10 @@ em { font-weight:400; }
 .section { padding-block:clamp(65px,8vw,115px); }
 .eyebrow { font-size:.67rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase; margin-bottom:18px; }
 .navigation { position:absolute; top:0; z-index:5; width:100%; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:26px var(--gutter); color:var(--paper); border-bottom:1px solid rgb(252 249 242 / .3); }
+.appearance{position:absolute;top:108px;right:0;z-index:6;display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:12px;color:var(--on-forest);font-size:.7rem}.appearance select{font:inherit;max-width:160px;padding:7px 10px;background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.navigation,.hero,.hero-foot,.day-photo figcaption{color:var(--on-forest)}
+.daily-weather-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.daily-weather-grid article{padding:22px;border:1px solid var(--line);background:var(--paper)}.daily-weather-grid h3{font-size:1.6rem;margin-bottom:20px}.daily-weather-grid small{color:var(--muted);font-size:.65rem}.weather-result{font-size:.85rem;min-height:85px}.weather-result strong{font:1.6rem var(--display)}.weather-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:24px;margin-bottom:24px}.weather-toolbar span{font-size:.75rem;color:var(--muted)}
+@media(max-width:700px){.daily-weather-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.appearance{justify-content:flex-start;left:0;top:110px;gap:9px}.appearance label{display:none}.appearance select{max-width:132px}}
 .brand { text-decoration:none; font-size:1.15rem; font-weight:bold; letter-spacing:.12em; }
 .brand span { color:var(--orange); }
 .brand small { display:block; margin-top:3px; font-size:.5rem; letter-spacing:.18em; }
@@ -41,13 +48,13 @@ em { font-weight:400; }
 .week-strip { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); border:1px solid var(--line); margin-bottom:40px; }
 .week-day { padding:15px 12px; border-right:1px solid var(--line); }
 .week-day:last-child { border:0; }
-.week-day.is-loop { background:var(--forest); color:var(--cream); }
+.week-day.is-loop { background:var(--forest); color:var(--on-forest); }
 .week-day b { display:block; font:1.6rem var(--display); }
 .week-day span { display:block; font-size:.65rem; line-height:1.5; margin-top:6px; }
 .week-day small { display:block; font-size:.58rem; margin-top:8px; opacity:.85; }
 .day-tabs,.filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
 .day-tabs button,.filters button { padding:11px 20px; background:transparent; border:1px solid var(--line); color:var(--ink); font-size:.75rem; }
-.day-tabs button[aria-pressed="true"],.filters button[aria-pressed="true"] { background:var(--forest); color:var(--paper); border-color:var(--forest); }
+.day-tabs button[aria-pressed="true"],.filters button[aria-pressed="true"] { background:var(--forest); color:var(--on-forest); border-color:var(--forest); }
 .day-layout { display:grid; grid-template-columns:1.1fr 1fr; border:1px solid var(--line); background:var(--paper); }
 .day-photo { margin:0; position:relative; min-height:420px; }
 .day-photo img { width:100%; height:100%; object-fit:cover; }
@@ -90,11 +97,11 @@ em { font-weight:400; }
 .table-scroll { overflow-x:auto; border:1px solid var(--line); }
 table { border-collapse:collapse; width:100%; min-width:700px; font-size:.78rem; text-align:left; }
 th,td { padding:18px; border-bottom:1px solid var(--line); vertical-align:top; }
-th { background:var(--forest); color:var(--paper); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; }
+th { background:var(--forest); color:var(--on-forest); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; }
 td small { display:block; color:var(--muted); }
 .fineprint { color:var(--muted); font-size:.75rem; margin-top:14px; }
-.prepare-section { background:var(--forest); color:var(--cream); }
-.prepare-section .section-heading > p,.prepare-section .fineprint { color:var(--cream); opacity:.8; }
+.prepare-section { background:var(--forest); color:var(--on-forest); }
+.prepare-section .section-heading > p,.prepare-section .fineprint { color:var(--on-forest); opacity:.8; }
 .weather-note { padding:22px 25px; border:1px solid rgb(244 239 228 / .3); margin-bottom:30px; }
 .weather-note h3 { margin-bottom:10px; }
 .weather-note p { font-size:.85rem; opacity:.85; }
@@ -122,11 +129,14 @@ footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space
 @media print { .navigation,.hero,.filters,.day-tabs,#route-map,footer button { display:none; } .section { padding-block:25px; } .checkpoint-grid { grid-template-columns:repeat(2,1fr); } .prepare-section { background:var(--paper); color:var(--ink); } .check-row { background:var(--paper); } .checklist { grid-template-columns:1fr; } .checkpoint-card,.check-row { break-inside:avoid; } }
 /* Group planner, route gallery and consent-based member cards. */
 .ride-grid,.crew-grid,.quote-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:32px 0}
-.ride-grid article,.crew-grid article{padding:28px;border:1px solid #c9cdc0;background:#faf7ef}
-.ride-grid strong{font-size:22px;color:#a64b29}.ride-grid label,.group-controls label{display:block;margin-top:18px}
-.ride-grid input,.group-controls input[type=number]{width:76px;padding:10px;margin-left:8px;border:1px solid #738077;background:#fff;font:inherit}
-.group-controls{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:30px}.group-controls input[type=checkbox]{accent-color:#183d35}
+.ride-grid article,.crew-grid article{padding:28px;border:1px solid var(--line);background:var(--paper)}
+.ride-grid strong{font-size:22px;color:var(--rust)}.ride-grid label,.group-controls label{display:block;margin-top:18px}
+.ride-grid input,.group-controls input[type=number]{width:76px;padding:10px;margin-left:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit}
+.group-controls{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:30px}.group-controls input[type=checkbox]{accent-color:var(--forest)}
 .gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:36px}
 .gallery-grid figure{margin:0}.gallery-grid img{width:100%;height:260px;object-fit:cover}.gallery-grid figcaption{padding:12px 0;font-size:12px}
-.crew-section{background:#e3e7dc}.crew-grid img{width:100%;aspect-ratio:1;object-fit:cover}.quote-grid blockquote{margin:0;font-family:Georgia,serif;font-size:24px;padding:28px;border-left:2px solid #a64b29}
+.crew-section{background:var(--crew-surface)}.crew-grid img{width:100%;aspect-ratio:1;object-fit:cover}.quote-grid blockquote{margin:0;font-family:var(--display);font-size:24px;padding:28px;border-left:2px solid var(--rust)}
 @media(max-width:700px){.ride-grid,.crew-grid,.quote-grid{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery-grid img{height:180px}.group-controls{display:block}}
+.navigation,.hero,.day-photo figcaption{color:var(--on-forest)}
+.button{color:var(--ink)}.route-pin span{color:var(--on-forest);border-color:var(--on-forest)}
+@media print{.appearance,.weather-toolbar{display:none}}

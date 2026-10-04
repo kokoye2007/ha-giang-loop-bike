@@ -29,7 +29,7 @@ npm run build
 npx wrangler pages deploy public --project-name vn-bike
 ```
 
-GitHub Actions is the deployment owner; do not enable a second Cloudflare Git integration. `.github/workflows/deploy.yml` validates and builds pull requests, then deploys the tested artifact on pushes to `main` or manual dispatch. The Pages project `vn-bike` already exists. Production URL: https://vn-bike.pages.dev/ (available after the first successful deployment).
+GitHub Actions is the deployment owner; do not enable a second Cloudflare Git integration. `.github/workflows/deploy.yml` validates and builds pull requests, then deploys the tested artifact on pushes to `main` or manual dispatch. Production URL: https://vn-bike.pages.dev/. Both deployment secrets are configured and the first deployment succeeded.
 
 Configure repository Actions secrets:
 
@@ -49,3 +49,11 @@ Research sources are listed on the website and in `reports/research.md`. Photo l
 ## Map design
 
 Leaflet keeps checkpoint interactions; MapLibre renders OpenFreeMap's Positron vector style rather than default raster OSM tiles. Custom controls, numbered pins and a schematic route overlay match the roadbook. Libraries are version-pinned on unpkg; map styles/tiles need network access and WebGL. No map API token is required. Required map-provider/data attribution remains visible. [Official integration guide](https://openfreemap.org/quick_start/).
+
+## Themes, weather and members
+
+The theme selector offers Forest & cream, Sunrise & clay and Night ride; preference is stored in this browser. Tokens preserve the editorial roadbook layout.
+
+Daily weather locations/dates live in `trip.json` → `weather.days`. The browser calls [Open-Meteo's forecast API](https://open-meteo.com/en/docs) only for dates within today through 15 days ahead, using `Asia/Ho_Chi_Minh`. It displays minimum/maximum temperature, rain probability and fetch time, with explicit unavailable/error states. These are area-grid forecasts, not forecasts for every pass. The free API is for this non-commercial personal group guide; review [usage terms](https://open-meteo.com/en/terms) before adding advertising or commercial booking functions. Unit tests stub API responses, so CI doesn't depend on live weather.
+
+`data/member-template.json` shows the member schema. Names, portraits and joke quotes remain absent until supplied and approved; the consent gate is browser-tested. See `reports/backlog.md` for completed and remaining tasks.

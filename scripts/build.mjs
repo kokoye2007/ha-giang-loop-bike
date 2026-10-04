@@ -5,4 +5,6 @@ await validate();
 const output=path.join(root,'public');await mkdir(output,{recursive:true});
 for(const name of ['index.html','styles.css','app.js'])await copyFile(path.join(root,name),path.join(output,name));
 for(const name of ['assets','data'])await cp(path.join(root,name),path.join(output,name),{recursive:true});
+await mkdir(path.join(output,'scripts'),{recursive:true});
+await copyFile(path.join(root,'scripts/weather.mjs'),path.join(output,'scripts/weather.mjs'));
 console.log('Built public/index.html and its local data/assets.');

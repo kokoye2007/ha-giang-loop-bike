@@ -1,3 +1,4 @@
+import {forecastStatus, fetchForecast, weatherTimezone} from './scripts/weather.mjs';
 const $ = selector => document.querySelector(selector);
 const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = value => value === null ? 'TBC' : new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(value);
@@ -7,6 +8,34 @@ const maps = item => 'https://www.google.com/maps/search/?api=1&query='+encodeUR
 let trip, map, routeBounds, day = 1, filter = 0;
 const markers = new Map();
 const storageKey = 'vn-bike-valor-checklist-v1';
+const themeKey = 'vn-bike-theme';
+function setTheme(value) {
+    const theme = ['forest','sunrise','night'].includes(value) ? value : 'forest';
+    document.documentElement.dataset.theme = theme;
+    $('[data-theme-picker]').value = theme;
+    try { localStorage.setItem(themeKey, theme); } catch {}
+}
+try { setTheme(localStorage.getItem(themeKey)); } catch { setTheme('forest'); }
+$('[data-theme-picker]').addEventListener('change', event => setTheme(event.target.value));
+let refreshingWeather = false;
+async function renderDailyWeather() {
+    if (refreshingWeather) return;
+    refreshingWeather = true;
+    const button = $('[data-weather-refresh]'); button.disabled = true;
+    const now = new Date();
+    $('[data-daily-weather]').innerHTML = trip.weather.days.map((location,index) => '<article data-weather-day="'+index+'"><p class="eyebrow">'+e(date(location.date))+'</p><h3>'+e(location.name)+'</h3><p class="weather-result">'+(forecastStatus(location.date,now)==='available'?'Loading forecast…':forecastStatus(location.date,now)==='past'?'Trip date has passed. Live forecast unavailable.':'Forecast not available yet.')+'</p><small>Destination area · '+e(weatherTimezone)+'</small></article>').join('');
+    await Promise.all(trip.weather.days.map(async (location,index) => {
+        if (forecastStatus(location.date,now) !== 'available') return;
+        const element = $('[data-weather-day="'+index+'"] .weather-result');
+        try {
+            const forecast = await fetchForecast(location,{now});
+            element.innerHTML = '<strong>'+Math.round(forecast.low)+'–'+Math.round(forecast.high)+' °C</strong><br>'+e(forecast.description)+' · rain probability '+Math.round(forecast.rain)+'%<br><small>Fetched '+e(new Intl.DateTimeFormat('en-AU',{timeZone:weatherTimezone,hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'}).format(new Date(forecast.updated)))+' (Vietnam)</small>';
+        } catch { element.textContent = 'Forecast unavailable. Try again when connected.'; }
+    }));
+    $('[data-weather-updated]').textContent = 'Checked in Vietnam local time. Dates outside the forecast window remain unavailable.';
+    button.disabled = false; refreshingWeather = false;
+}
+$('[data-weather-refresh]').addEventListener('click',()=>{if(trip)renderDailyWeather();});
 function saved() { try { const value=JSON.parse(localStorage.getItem(storageKey)||'{}'); return value && typeof value==='object' && !Array.isArray(value) ? value : {}; } catch { return {}; } }
 function sourceLink(id,label='Source ↗') { const source=trip.sources.find(s=>s.id===id); return source ? '<a href="'+e(source.url)+'" target="_blank" rel="noopener">'+e(label)+'</a>' : ''; }
 function photoCaption(photo) { return '<a href="'+e(photo.source)+'" target="_blank" rel="noopener">'+e(photo.credit)+' ↗</a>'; }
@@ -74,7 +103,7 @@ function render() {
     $('[data-weather]').innerHTML='<h3>'+e(trip.weather.title)+'</h3><p>'+e(trip.weather.note)+' '+sourceLink(trip.weather.sourceId,'Seasonal notes ↗')+'</p>';
     $('[data-advice]').innerHTML=[['DO',trip.advice.do],['DON’T',trip.advice.dont]].map(([title,items])=>'<article><h3>'+e(title)+'</h3><ul>'+items.map(item=>'<li>'+e(item)+'</li>').join('')+'</ul>'+sourceLink('safety','Official travel and riding advice ↗')+'</article>').join('');
     $('[data-sources]').innerHTML=trip.sources.map(source=>'<details><summary>'+e(source.title)+' · '+e(source.type)+'</summary><p>'+e(source.note)+'</p><a href="'+e(source.url)+'" target="_blank" rel="noopener">Read reference ↗</a></details>').join('');
-    renderDay();renderCheckpoints();renderGroup();renderBudget();renderChecklist();renderMap();
+    renderDay();renderCheckpoints();renderGroup();renderBudget();renderChecklist();renderMap();renderDailyWeather();
 }
 document.addEventListener('click',event=>{
     const zoom=event.target.closest('[data-map-zoom]');if(zoom&&map)map.setZoom(map.getZoom()+Number(zoom.dataset.mapZoom));

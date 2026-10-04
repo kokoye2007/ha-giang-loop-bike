@@ -13,7 +13,7 @@ Data validation and static build pass. Browser checks cover root index, four dai
 
 ## Deployment ownership
 
-GitHub Actions validates/builds, uploads the artifact and invokes pinned Wrangler for production main pushes. Cloudflare Pages project `vn-bike` exists. Local OAuth is not reused by CI. Account ID secret is configured and GitHub workflow scope is authorised; the scoped Cloudflare API token is still required to activate deployment.
+GitHub Actions validates/builds, uploads the artifact and invokes pinned Wrangler for production main pushes. Cloudflare Pages project `vn-bike` exists. Local OAuth is not reused by CI. Both deployment secrets are configured and GitHub workflow scope is authorised. Run 37224364893 deployed successfully; production responds at https://vn-bike.pages.dev/.
 
 ## Styled map
 

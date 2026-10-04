@@ -1,7 +1,7 @@
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const http=require('node:http'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'../public');
-const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml'};
+const types={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml'};
 const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);const file=path.resolve(root,'.'+(pathname==='/'?'/index.html':pathname));if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}fs.readFile(file,(err,data)=>{if(err){res.writeHead(404).end();return;}res.setHeader('Content-Type',types[path.extname(file)]||'application/octet-stream');res.end(data);});});
 (async()=>{
     await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -12,6 +12,13 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         const url='http://127.0.0.1:'+server.address().port;
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
         assert.equal(await page.locator('.week-day').count(),8);
+        assert.equal(await page.locator('[data-weather-day]').count(),8);
+        for(const theme of ['sunrise','night','forest']){
+            await page.locator('[data-theme-picker]').selectOption(theme);
+            assert.equal(await page.evaluate(()=>document.documentElement.dataset.theme),theme);
+            await page.reload();await page.waitForSelector('.checkpoint-card');
+            assert.equal(await page.locator('[data-theme-picker]').inputValue(),theme);
+        }
         await page.locator('[data-ride="easy"]').fill('3');await page.locator('[data-ride="self"]').fill('2');
         assert.match(await page.locator('[data-budget-summary]').innerText(),/5 PEOPLE/);
         assert.match(await page.locator('[data-budget-summary]').innerText(),/1,350/);
@@ -33,6 +40,10 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.locator('#route-map').scrollIntoViewIfNeeded();
         await page.waitForTimeout(1500);
         await page.locator('#route-map').screenshot({path:path.resolve(__dirname,'../previews/map.png')});
+        await page.locator('#daily-weather').screenshot({path:path.resolve(__dirname,'../previews/weather.png')});
+        await page.locator('[data-theme-picker]').selectOption('night');
+        await page.locator('#budget').screenshot({path:path.resolve(__dirname,'../previews/night-budget.png')});
+        await page.locator('[data-theme-picker]').selectOption('forest');
         for(const width of [390,768]){
             await page.setViewportSize({width,height:844});
             assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Overflow at '+width);
@@ -41,6 +52,18 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.setViewportSize({width:390,height:844});await page.locator('.checkpoint-card').first().screenshot({path:path.resolve(__dirname,'../previews/mobile-card.png')});
         await page.locator('.hero').screenshot({path:path.resolve(__dirname,'../previews/mobile.png')});
         assert.deepEqual(errors,[]);
+        const fixture=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../data/trip.json'),'utf8'));
+        fixture.members=[{name:'Hidden test member',publishConsent:false},{name:'Approved test member',publishConsent:true,quote:'<b>A harmless joke</b>'}];
+        const {localDate}=await import('./weather.mjs');
+        const today=localDate();fixture.weather.days[0].date=today;
+        await page.route('https://api.open-meteo.com/**',route=>route.fulfill({json:{daily:{time:[today],temperature_2m_min:[16],temperature_2m_max:[25],precipitation_probability_max:[70],weather_code:[63]}}}));
+        await page.route('**/data/trip.json',route=>route.fulfill({json:fixture}));
+        await page.reload();await page.waitForSelector('.crew-grid h3');
+        assert.match(await page.locator('.crew-grid').innerText(),/Approved test member/);
+        assert.doesNotMatch(await page.locator('.crew-grid').innerText(),/Hidden test member/);
+        assert.equal(await page.locator('.crew-grid blockquote b').count(),0,'Member quote must be escaped');
+        await page.waitForFunction(()=>document.querySelector('[data-weather-day="0"]').innerText.includes('70%'));
+        assert.match(await page.locator('[data-weather-day="0"]').innerText(),/16–25 °C/);
         console.log('PASS: root index, 8 travel days, 4 loop days, 11 checkpoints, photos, map, budget, saved checklist, deep link and responsive layout.');
     } finally {await browser.close();server.close();}
 })().catch(error=>{console.error(error);server.close();process.exitCode=1;});

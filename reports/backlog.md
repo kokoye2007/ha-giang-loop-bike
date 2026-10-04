@@ -1,17 +1,21 @@
-# Future tasks
+# Backlog status — 5 October 2026
 
 ## Colour themes
 
-Add selectable themes using CSS design tokens: current forest/cream, a brighter travel palette, and a dark roadbook. Persist preference locally, respect reduced motion, and verify text/control contrast and mobile layouts. Final palette is a user choice.
+Implemented: Forest & cream, Sunrise & clay and Night ride using shared CSS tokens. Browser checks verify selection and persistence after reload. Reduced-motion behaviour is retained. Final palette selection remains open for user feedback.
 
 ## Daily, location-based weather
 
-Research a suitable forecast API and its licence/usage policy before integration. Match each day's stop coordinates to forecast data; display local Vietnam time, temperature, rain probability, update time and provider attribution. Handle unavailable networks and expired results. Dates outside the supported forecast horizon must say "Forecast not available yet" and may show separately labelled seasonal context. Do not invent day-specific forecasts for November.
+Implemented: Open-Meteo daily destination-area forecasts, Vietnam local dates/time, min/max temperature, rain probability, fetch time and CC BY attribution. Dates outside the 16-day window say "Forecast not available yet"; passed dates and network failures have separate states. Seasonal context remains separate. Unit tests cover horizon boundaries, date alignment, incomplete responses and API errors. API is free for this non-commercial personal guide; revisit terms if its purpose changes.
 
 ## Tour members
 
-Collect display name, ride preference, approved portrait and approved joke quote. Keep member records in editable JSON and portraits in `assets/members/`. Only `publishConsent: true` entries render publicly. Build a responsive team section with optional roles and private coordination handled outside this public repository. Do not add passport details, phone numbers, accommodation allocations or emergency contacts.
+Implemented infrastructure: editable member records, responsive cards, escaped quotes, publication-consent filtering and a member template. Browser tests verify unpublished profiles remain hidden. Awaiting real display names, ride choices, approved portraits and quotes. Store portraits in `assets/members/`. No private identifiers, booking documents or contact details.
 
-## Current deployment dependency
+## Checkpoint photographs
 
-GitHub Actions workflow is installed and build checks passed. Production publishing needs the repository secret `CLOUDFLARE_API_TOKEN` (Account → Cloudflare Pages → Edit scoped to the selected account). The account ID secret is configured. After adding the token, rerun the failed workflow or manually dispatch it.
+The four daily hero photos are distinct. Vuong Palace now has a licensed exact palace photograph instead of Tham Ma Pass. Nam Dam, Lung Tam and Lung Ho still use explicitly labelled regional views; Du Gia uses a valley view, not a waterfall photograph. Exact licensed replacement photographs for these stops remain pending. Do not substitute unrelated areas or reuse operator photographs without permission.
+
+## Cloudflare deployment
+
+Both GitHub Actions secrets are configured. The first authenticated CI/CD deployment succeeded (run 37224364893), and https://vn-bike.pages.dev returns HTTP200. New main pushes validate/build and publish through Wrangler; no local OAuth token is used by CI.

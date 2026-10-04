@@ -1,0 +1,10 @@
+{
+  "instructions": "Copy an approved member into trip.json members. Store their own authorised photo locally. Keep publishConsent false until both portrait and quote are approved.",
+  "member": {
+    "name": "Display name here",
+    "photo": null,
+    "ride": "Easy Rider / Self-rider / Passenger / Jeep",
+    "quote": "Member-approved joke here",
+    "publishConsent": false
+  }
+}

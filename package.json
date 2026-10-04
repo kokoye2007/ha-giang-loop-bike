@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node scripts/validate.mjs",
+    "test": "node scripts/validate.mjs && node --test scripts/weather.test.mjs",
     "dev": "node scripts/serve.mjs",
     "test:browser": "node scripts/browser-check.cjs"
   },
