@@ -11,6 +11,8 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         page.on('pageerror',error=>errors.push(error.message));
         const url='http://127.0.0.1:'+server.address().port;
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
+        assert.equal(await page.title(),'Ha Giang Loop Bike — Group Tour Roadbook');
+        assert.match(await page.locator('.navigation .brand').innerText(),/HA GIANG/);
         assert.equal(await page.locator('.week-day').count(),8);
         assert.equal(await page.locator('[data-weather-day]').count(),8);
         for(const theme of ['sunrise','night','forest']){

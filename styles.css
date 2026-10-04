@@ -26,6 +26,7 @@ em { font-weight:400; }
 @media(max-width:700px){.daily-weather-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.appearance{justify-content:flex-start;left:0;top:110px;gap:9px}.appearance label{display:none}.appearance select{max-width:132px}}
 .brand { text-decoration:none; font-size:1.15rem; font-weight:bold; letter-spacing:.12em; }
 .brand span { color:var(--orange); }
+.brand .brand-line { display:block; }
 .brand small { display:block; margin-top:3px; font-size:.5rem; letter-spacing:.18em; }
 .navigation nav { display:flex; flex-wrap:wrap; gap:24px; }
 .navigation nav a { font-size:.73rem; text-decoration:none; padding:8px 0; }
@@ -138,5 +139,7 @@ footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space
 .crew-section{background:var(--crew-surface)}.crew-grid img{width:100%;aspect-ratio:1;object-fit:cover}.quote-grid blockquote{margin:0;font-family:var(--display);font-size:24px;padding:28px;border-left:2px solid var(--rust)}
 @media(max-width:700px){.ride-grid,.crew-grid,.quote-grid{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery-grid img{height:180px}.group-controls{display:block}}
 .navigation,.hero,.day-photo figcaption{color:var(--on-forest)}
+.navigation .brand{flex-shrink:0}
+@media(max-width:620px){.navigation nav{max-width:190px}.navigation .brand{font-size:1rem}.navigation .brand small{font-size:.43rem;max-width:125px}}
 .button{color:var(--ink)}.route-pin span{color:var(--on-forest);border-color:var(--on-forest)}
 @media print{.appearance,.weather-toolbar{display:none}}

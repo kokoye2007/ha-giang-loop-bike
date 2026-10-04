@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 export const root=fileURLToPath(new URL('../',import.meta.url));
 export async function validate() {
     const data=JSON.parse(await readFile(path.join(root,'data/trip.json'),'utf8'));
+    assert.equal(data.trip.name,'Ha Giang Loop Bike');
     assert.equal(data.loop.length,4);assert.equal(data.trip.loopNights,3);assert.equal(data.itinerary.length,8);
     assert.equal(data.loop.reduce((sum,day)=>sum+day.km,0),data.trip.routeKm);
     assert.equal(data.trip.operator,'Valor');assert.equal(data.package.price,null);

@@ -1,4 +1,4 @@
-# VN BIKE — Ha Giang Roadbook
+# Ha Giang Loop Bike — Group Tour Roadbook
 
 A group-tour website for Valor’s 4-day/3-night Ha Giang package, with an eight-day Hanoi arrival/return plan. Dates currently assume **7–14 November 2026**, with the loop **8–11 November**; this is provisional.
 
@@ -26,10 +26,12 @@ Cloudflare Pages: build command `npm run build`, output directory `public`, prod
 
 ```sh
 npm run build
-npx wrangler pages deploy public --project-name vn-bike
+npx wrangler pages deploy public --project-name ha-giang-loop-bike
 ```
 
-GitHub Actions is the deployment owner; do not enable a second Cloudflare Git integration. `.github/workflows/deploy.yml` validates and builds pull requests, then deploys the tested artifact on pushes to `main` or manual dispatch. Production URL: https://vn-bike.pages.dev/. Both deployment secrets are configured and the first deployment succeeded.
+GitHub Actions is the deployment owner; do not enable a second Cloudflare Git integration. `.github/workflows/deploy.yml` validates and builds pull requests, then deploys the tested artifact on pushes to `main` or manual dispatch. Production URL: https://ha-giang-loop-bike.pages.dev/. Repository: https://github.com/kokoye2007/ha-giang-loop-bike. Both deployment secrets remain configured after the repository rename.
+
+The original `vn-bike.pages.dev` site is retained as a legacy snapshot, not the active deployment target. The local checkout directory remains `vn-bike` to avoid disrupting local commands. Existing browser-storage key names remain unchanged for compatibility; preferences cannot transfer automatically between the old and new domains.
 
 Configure repository Actions secrets:
 
