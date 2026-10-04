@@ -33,6 +33,10 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         assert.ok(Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-scale'))<motoMiddle,'Reverse scroll should zoom the motorcycle back out');
         assert.equal(await page.title(),'Ha Giang Loop Bike — Group Tour Roadbook');
         assert.match(await page.locator('.navigation .brand').innerText(),/HA GIANG/);
+        assert.equal(await page.locator('.crew-card').count(),2);
+        assert.match(await page.locator('.crew-card').nth(1).innerText(),/Ko Ko Ye/);
+        assert.match(await page.locator('.crew-card').nth(1).innerText(),/Easy Rider/);
+        assert.match(await page.locator('.crew-card').nth(1).innerText(),/Linux Admin/);
         assert.equal(await page.locator('.week-day').count(),8);
         assert.equal(await page.locator('[data-weather-day]').count(),8);
         await page.waitForFunction(()=>document.querySelectorAll('.weather-result strong').length===8);

@@ -68,6 +68,18 @@
       "quote": "Single-threaded. Lightweight build. Heavy-duty kindness. Sleep mode unavailable. GG.",
       "quoteLabel": "Suggested crew joke",
       "publishConsent": true
+    },
+    {
+      "id": "crew-2",
+      "label": "Crew 2",
+      "name": "Ko Ko Ye",
+      "photo": null,
+      "photoAlt": null,
+      "role": "Tech Guru · Linux Admin · IoT · Research Assistant · VarCamp Organiser",
+      "ride": "Easy Rider",
+      "quote": null,
+      "quoteLabel": null,
+      "publishConsent": true
     }
   ],
   "crew": {
