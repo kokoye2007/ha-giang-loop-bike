@@ -1,0 +1,852 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-05",
+  "trip": {
+    "name": "VN BIKE",
+    "title": "Ha Giang, one bend at a time.",
+    "start": "2026-11-07",
+    "end": "2026-11-14",
+    "dateStatus": "Provisional November/year assumption; user supplied days 7–14",
+    "travellers": 2,
+    "mode": "Easy Rider",
+    "operator": "Valor",
+    "packageUrl": "https://valorhagiangloop.com/tours/ha-giang-loop-tour-4-days/",
+    "loopDates": "8–11 November 2026",
+    "loopDays": 4,
+    "loopNights": 3,
+    "routeKm": 424
+  },
+  "package": {
+    "price": null,
+    "priceStatus": "Final Valor quote required",
+    "included": [
+      "3 breakfasts, 4 lunches, 3 dinners",
+      "Homestays; pre-tour dorm",
+      "Daily water and sightseeing tickets",
+      "Fuel, rain and safety gear"
+    ],
+    "excluded": [
+      "Drinks",
+      "Personal insurance",
+      "VAT",
+      "Tips and personal spending"
+    ],
+    "clarifications": [
+      "Transfer price and first breakfast",
+      "Room type and optional activities",
+      "Deposit and cancellation terms"
+    ]
+  },
+  "photos": {
+    "quan-ba": {
+      "image": "assets/quan-ba.jpg",
+      "alt": "Bac Sum Pass approach in the Quan Ba region",
+      "credit": "Thái Nhi · Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:DuonglencongtroiQuanBa.jpg",
+      "license": "https://commons.wikimedia.org/wiki/File:DuonglencongtroiQuanBa.jpg"
+    },
+    "tham-ma": {
+      "image": "assets/tham-ma.jpg",
+      "alt": "Tham Ma Pass switchbacks",
+      "credit": "NKSTTSSHNVN · CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Tham_Ma_pass_-_Dong_Van.jpg",
+      "license": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "lung-cu": {
+      "image": "assets/lung-cu.jpg",
+      "alt": "Lung Cu flag tower",
+      "credit": "Vuong Tri Binh · CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Lung_Cu_flag_tower_of_Ha_Giang_in_2014_07.jpg",
+      "license": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "dong-van": {
+      "image": "assets/dong-van.jpg",
+      "alt": "Dong Van old town",
+      "credit": "HuangWending18072009 · CC0",
+      "source": "https://commons.wikimedia.org/wiki/File:Dong_Van_old_town.jpg",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    "ma-pi-leng": {
+      "image": "assets/ma-pi-leng.jpg",
+      "alt": "Mountain road at Ma Pi Leng Pass",
+      "credit": "Khánh Hmoong · CC BY 2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Mountain_road_at_M%C3%A3_P%C3%AD_L%C3%A8ng_Pass%2C_H%C3%A0_Giang_Province%2C_Vietnam.jpg",
+      "license": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    "nho-que": {
+      "image": "assets/nho-que.jpg",
+      "alt": "Nho Que River and limestone canyon",
+      "credit": "NKSTTSSHNVN · CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:S%C3%B4ng_Nho_Qu%E1%BA%BF_2022_-_NKS.jpg",
+      "license": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "du-gia": {
+      "image": "assets/du-gia.jpg",
+      "alt": "Du Gia valley landscape",
+      "credit": "NKSTTSSHNVN · CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Du_Gi%C3%A0.jpg",
+      "license": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "hanoi": {
+      "image": "assets/hanoi.jpg",
+      "alt": "Temple of Literature main gate, Hanoi",
+      "credit": "Daderot · CC0",
+      "source": "https://commons.wikimedia.org/wiki/File:Main_gate_-_Temple_of_Literature%2C_Hanoi_-_DSC04519.JPG",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  },
+  "checkpoints": [
+    {
+      "id": "quan-ba",
+      "name": "Quan Ba & Bac Sum",
+      "type": "Pass views",
+      "description": "Pause at designated roadside viewpoints.",
+      "coordinates": [
+        23.057,
+        104.995
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 1,
+      "minutes": 30,
+      "status": "included",
+      "photoId": "quan-ba",
+      "mapsQuery": "Quan Ba & Bac Sum, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Package sightseeing; confirm ticket coverage"
+    },
+    {
+      "id": "nam-dam",
+      "name": "Nam Dam village",
+      "type": "Village visit",
+      "description": "Ask before photographing people or entering homes.",
+      "coordinates": [
+        23.045,
+        104.995
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 1,
+      "minutes": 45,
+      "status": "included",
+      "photoId": "quan-ba",
+      "mapsQuery": "Nam Dam village, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Package sightseeing; confirm ticket coverage"
+    },
+    {
+      "id": "lung-tam",
+      "name": "Lung Tam weaving",
+      "type": "Craft stop",
+      "description": "Meet textile makers; buy directly if something catches your eye.",
+      "coordinates": [
+        23.08,
+        105.08
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 1,
+      "minutes": 45,
+      "status": "included",
+      "photoId": "quan-ba",
+      "mapsQuery": "Lung Tam weaving, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Package sightseeing; confirm ticket coverage"
+    },
+    {
+      "id": "tham-ma",
+      "name": "Tham Ma Pass",
+      "type": "Optional viewpoint",
+      "description": "A photo stop to request if the day’s route and weather allow.",
+      "coordinates": [
+        23.152,
+        105.227
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 2,
+      "minutes": 20,
+      "status": "optional",
+      "photoId": "tham-ma",
+      "mapsQuery": "Tham Ma Pass, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Extra price / availability TBC"
+    },
+    {
+      "id": "vuong",
+      "name": "Vuong Family Palace",
+      "type": "History",
+      "description": "A short heritage visit in Sa Phin.",
+      "coordinates": [
+        23.255,
+        105.262
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 2,
+      "minutes": 45,
+      "status": "included",
+      "photoId": "tham-ma",
+      "mapsQuery": "Vuong Family Palace, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Package sightseeing; confirm ticket coverage"
+    },
+    {
+      "id": "lung-cu",
+      "name": "Lung Cu & Lo Lo village",
+      "type": "Frontier detour",
+      "description": "Confirm tower access and the exact village stop with the guide.",
+      "coordinates": [
+        23.364,
+        105.317
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 2,
+      "minutes": 60,
+      "status": "confirm",
+      "photoId": "lung-cu",
+      "mapsQuery": "Lung Cu & Lo Lo village, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Confirm inclusion"
+    },
+    {
+      "id": "dong-van",
+      "name": "Dong Van old town",
+      "type": "Evening walk",
+      "description": "Coffee, lanes and a relaxed dinner. Our draft arrival is Monday, not market Sunday.",
+      "coordinates": [
+        23.279,
+        105.362
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 2,
+      "minutes": 60,
+      "status": "included",
+      "photoId": "dong-van",
+      "mapsQuery": "Dong Van old town, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Package sightseeing; confirm ticket coverage"
+    },
+    {
+      "id": "ma-pi-leng",
+      "name": "Ma Pi Leng & Sky Path",
+      "type": "Mountain highlight",
+      "description": "Wear grippy shoes; take the guided walk only if conditions suit.",
+      "coordinates": [
+        23.236,
+        105.408
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 3,
+      "minutes": 150,
+      "status": "included",
+      "photoId": "ma-pi-leng",
+      "mapsQuery": "Ma Pi Leng & Sky Path, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Package sightseeing; confirm ticket coverage"
+    },
+    {
+      "id": "nho-que",
+      "name": "Nho Que boat option",
+      "type": "Optional add-on",
+      "description": "Ask whether a boat trip can fit; it is not listed as a separate included activity.",
+      "coordinates": [
+        23.218,
+        105.416
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 3,
+      "minutes": 120,
+      "status": "optional",
+      "photoId": "nho-que",
+      "mapsQuery": "Nho Que boat option, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Extra price / availability TBC"
+    },
+    {
+      "id": "du-gia",
+      "name": "Du Gia & waterfall",
+      "type": "Valley stay",
+      "description": "Ask the guide about access, flow and safe swimming conditions.",
+      "coordinates": [
+        22.936,
+        105.213
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 4,
+      "minutes": 60,
+      "status": "included",
+      "photoId": "du-gia",
+      "mapsQuery": "Du Gia & waterfall, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Package sightseeing; confirm ticket coverage"
+    },
+    {
+      "id": "lung-ho",
+      "name": "Lung Ho / Duong Thuong",
+      "type": "Return valley",
+      "description": "Viewpoint stops before heading back to Ha Giang.",
+      "coordinates": [
+        23.016,
+        105.23
+      ],
+      "coordinateNote": "Approximate area centre, not a navigation waypoint",
+      "loopDay": 4,
+      "minutes": 30,
+      "status": "included",
+      "photoId": "du-gia",
+      "mapsQuery": "Lung Ho / Duong Thuong, Ha Giang, Vietnam",
+      "sourceIds": [
+        "valor",
+        "tourism",
+        "between"
+      ],
+      "budgetNote": "Package sightseeing; confirm ticket coverage"
+    }
+  ],
+  "loop": [
+    {
+      "day": 1,
+      "date": "2026-11-08",
+      "title": "Into the mountains",
+      "route": "Ha Giang → Quan Ba → Yen Minh",
+      "km": 123,
+      "stay": "Yen Minh",
+      "checkpointIds": [
+        "quan-ba",
+        "nam-dam",
+        "lung-tam"
+      ],
+      "photoId": "quan-ba",
+      "blocks": [
+        {
+          "time": "08:00",
+          "activity": "Briefing & gear fitting"
+        },
+        {
+          "time": "Daytime · flexible",
+          "activity": "Village stops and lunch"
+        },
+        {
+          "time": "Evening",
+          "activity": "Check in and rest"
+        }
+      ],
+      "sourceId": "valor",
+      "durationNote": "Distances are operator estimates. Timings may change."
+    },
+    {
+      "day": 2,
+      "date": "2026-11-09",
+      "title": "The northern frontier",
+      "route": "Yen Minh → Lung Cu → Dong Van",
+      "km": 95,
+      "stay": "Dong Van",
+      "checkpointIds": [
+        "tham-ma",
+        "vuong",
+        "lung-cu",
+        "dong-van"
+      ],
+      "photoId": "lung-cu",
+      "blocks": [
+        {
+          "time": "After breakfast",
+          "activity": "Palace and frontier route"
+        },
+        {
+          "time": "Afternoon · flexible",
+          "activity": "Village visit"
+        },
+        {
+          "time": "Evening",
+          "activity": "Old-town walk"
+        }
+      ],
+      "sourceId": "valor",
+      "durationNote": "Distances are operator estimates. Timings may change."
+    },
+    {
+      "day": 3,
+      "date": "2026-11-10",
+      "title": "Above the canyon",
+      "route": "Dong Van → Meo Vac → Du Gia",
+      "km": 107,
+      "stay": "Du Gia",
+      "checkpointIds": [
+        "ma-pi-leng",
+        "nho-que"
+      ],
+      "photoId": "ma-pi-leng",
+      "blocks": [
+        {
+          "time": "09:30",
+          "activity": "Depart for the pass"
+        },
+        {
+          "time": "Daytime · flexible",
+          "activity": "Sky Path; lunch; valley ride"
+        },
+        {
+          "time": "Evening",
+          "activity": "Homestay"
+        }
+      ],
+      "sourceId": "valor",
+      "durationNote": "Distances are operator estimates. Timings may change."
+    },
+    {
+      "day": 4,
+      "date": "2026-11-11",
+      "title": "The road back",
+      "route": "Du Gia → Lung Ho → Ha Giang",
+      "km": 99,
+      "stay": "Hanoi, if transfer confirmed",
+      "checkpointIds": [
+        "du-gia",
+        "lung-ho"
+      ],
+      "photoId": "du-gia",
+      "blocks": [
+        {
+          "time": "Morning",
+          "activity": "Waterfall and checkout"
+        },
+        {
+          "time": "Around 16:00",
+          "activity": "Return to Ha Giang"
+        },
+        {
+          "time": "Around 23:00",
+          "activity": "Hanoi arrival, operator estimate"
+        }
+      ],
+      "sourceId": "valor",
+      "durationNote": "Distances are operator estimates. Timings may change."
+    }
+  ],
+  "itinerary": [
+    {
+      "date": "2026-11-07",
+      "title": "Hanoi arrival → Ha Giang",
+      "place": "Travel day",
+      "detail": "A daytime transfer only works with an early Hanoi arrival. Confirm flight-to-pickup time; sleep in Ha Giang before the loop.",
+      "stay": "Ha Giang pre-tour dorm / upgrade",
+      "phase": "transfer"
+    },
+    {
+      "date": "2026-11-08",
+      "title": "Ha Giang → Quan Ba → Yen Minh",
+      "place": "Yen Minh",
+      "detail": "Into the mountains",
+      "stay": "Yen Minh",
+      "phase": "loop",
+      "loopDay": 1
+    },
+    {
+      "date": "2026-11-09",
+      "title": "Yen Minh → Lung Cu → Dong Van",
+      "place": "Dong Van",
+      "detail": "The northern frontier",
+      "stay": "Dong Van",
+      "phase": "loop",
+      "loopDay": 2
+    },
+    {
+      "date": "2026-11-10",
+      "title": "Dong Van → Meo Vac → Du Gia",
+      "place": "Du Gia",
+      "detail": "Above the canyon",
+      "stay": "Du Gia",
+      "phase": "loop",
+      "loopDay": 3
+    },
+    {
+      "date": "2026-11-11",
+      "title": "Du Gia → Lung Ho → Ha Giang",
+      "place": "Hanoi, if transfer confirmed",
+      "detail": "The road back",
+      "stay": "Hanoi, if transfer confirmed",
+      "phase": "loop",
+      "loopDay": 4
+    },
+    {
+      "date": "2026-11-12",
+      "title": "A slow Hanoi day",
+      "place": "Hanoi",
+      "detail": "Rest, laundry, Hoan Kiem Lake and a local dinner.",
+      "stay": "Hanoi",
+      "phase": "hanoi"
+    },
+    {
+      "date": "2026-11-13",
+      "title": "Hanoi culture & food",
+      "place": "Hanoi",
+      "detail": "Temple of Literature, cafés and an Old Quarter food walk. Keep transfer contingency available.",
+      "stay": "Hanoi",
+      "phase": "hanoi"
+    },
+    {
+      "date": "2026-11-14",
+      "title": "Return flight",
+      "place": "Hanoi airport",
+      "detail": "Confirm airport transfer and flight check-in time before adding activities.",
+      "stay": "Departure",
+      "phase": "departure"
+    }
+  ],
+  "checklist": [
+    {
+      "id": "quote",
+      "label": "Confirm Valor dates, ride option and final quote",
+      "category": "Booking"
+    },
+    {
+      "id": "pickup",
+      "label": "Confirm 7 November Hanoi pickup and pre-tour arrival",
+      "category": "Booking"
+    },
+    {
+      "id": "room",
+      "label": "Confirm room type and private upgrade",
+      "category": "Booking"
+    },
+    {
+      "id": "coverage",
+      "label": "Confirm meals, tickets and bus inclusions in writing",
+      "category": "Booking"
+    },
+    {
+      "id": "terms",
+      "label": "Clarify conflicting cancellation/deposit wording before payment",
+      "category": "Booking"
+    },
+    {
+      "id": "vat",
+      "label": "Ask for VAT and payment fees in the total",
+      "category": "Booking"
+    },
+    {
+      "id": "insurance",
+      "label": "Confirm motorcycle-pillion cover and medical evacuation",
+      "category": "Safety"
+    },
+    {
+      "id": "helmet",
+      "label": "Check helmet fit, chin strap and protective gear",
+      "category": "Safety"
+    },
+    {
+      "id": "documents",
+      "label": "Pack passport and offline document copies",
+      "category": "Pack"
+    },
+    {
+      "id": "layers",
+      "label": "Pack fleece, long trousers and a rain layer",
+      "category": "Pack"
+    },
+    {
+      "id": "shoes",
+      "label": "Pack closed shoes with grip for walks",
+      "category": "Pack"
+    },
+    {
+      "id": "cash",
+      "label": "Carry small cash, phone/SIM and power bank",
+      "category": "Pack"
+    },
+    {
+      "id": "sun",
+      "label": "Pack sunscreen, sunglasses and insect repellent",
+      "category": "Pack"
+    },
+    {
+      "id": "swim",
+      "label": "Pack swimwear and a dry bag",
+      "category": "Pack"
+    },
+    {
+      "id": "lightbag",
+      "label": "Use a small riding bag; ask about large-bag storage",
+      "category": "Pack"
+    },
+    {
+      "id": "boat",
+      "label": "Confirm optional boat price and time before committing",
+      "category": "Optional"
+    },
+    {
+      "id": "market",
+      "label": "Do not schedule a Sunday market for Monday 9 November",
+      "category": "Schedule"
+    },
+    {
+      "id": "return",
+      "label": "Confirm 11 November return bus and Hanoi accommodation",
+      "category": "Return"
+    }
+  ],
+  "budget": [
+    {
+      "item": "Valor 4D3N package",
+      "amount": null,
+      "quantity": 2,
+      "basis": "per person",
+      "status": "Quote required",
+      "sourceId": "valor",
+      "currency": "AUD"
+    },
+    {
+      "item": "Hanoi–Ha Giang return buses",
+      "amount": 25,
+      "quantity": 4,
+      "basis": "per person / direction",
+      "status": "Allowance; inclusion TBC",
+      "sourceId": null,
+      "currency": "AUD"
+    },
+    {
+      "item": "Hanoi room",
+      "amount": 50,
+      "quantity": 3,
+      "basis": "per room / night",
+      "status": "Allowance",
+      "sourceId": null,
+      "currency": "AUD"
+    },
+    {
+      "item": "Hanoi food and coffee",
+      "amount": 20,
+      "quantity": 6,
+      "basis": "per person / day",
+      "status": "Allowance",
+      "sourceId": null,
+      "currency": "AUD"
+    },
+    {
+      "item": "Airport transfers",
+      "amount": 25,
+      "quantity": 2,
+      "basis": "per vehicle / transfer",
+      "status": "Allowance",
+      "sourceId": null,
+      "currency": "AUD"
+    },
+    {
+      "item": "Tips, drinks and small extras",
+      "amount": 35,
+      "quantity": 2,
+      "basis": "per person",
+      "status": "Allowance",
+      "sourceId": null,
+      "currency": "AUD"
+    },
+    {
+      "item": "Flights",
+      "amount": null,
+      "quantity": 2,
+      "basis": "per person",
+      "status": "Quote required",
+      "sourceId": null,
+      "currency": "AUD"
+    },
+    {
+      "item": "Insurance",
+      "amount": null,
+      "quantity": 2,
+      "basis": "per person",
+      "status": "Quote required",
+      "sourceId": null,
+      "currency": "AUD"
+    },
+    {
+      "item": "VAT, card fees, upgrades",
+      "amount": null,
+      "quantity": 1,
+      "basis": "booking total",
+      "status": "Confirm with Valor",
+      "sourceId": "valor",
+      "currency": "AUD"
+    },
+    {
+      "item": "Optional boat trip",
+      "amount": null,
+      "quantity": 2,
+      "basis": "per person",
+      "status": "Optional / TBC",
+      "sourceId": null,
+      "currency": "AUD"
+    }
+  ],
+  "advice": {
+    "do": [
+      "Choose a licensed local driver and check your cover.",
+      "Stop in daylight; let the guide change plans for weather.",
+      "Wear a fitted helmet, closed shoes and warm layers.",
+      "Ask before taking portraits; pay fairly for local crafts.",
+      "Keep offline maps, cash and a charged phone."
+    ],
+    "dont": [
+      "Do not treat an Australian licence or Australian IDP as permission to self-ride.",
+      "Do not drink before riding or distract your driver.",
+      "Do not stop on blind bends or cross border restrictions.",
+      "Do not give children sweets or money for photographs.",
+      "Do not assume a river boat, upgrade or transfer is included."
+    ]
+  },
+  "weather": {
+    "title": "November: layers, not promises.",
+    "note": "Expect cooler mountain mornings and evenings. Seasonal notes are not a date-specific forecast; recheck road conditions and weather with the guide before departure.",
+    "sourceId": "weather"
+  },
+  "sources": [
+    {
+      "id": "valor",
+      "title": "Valor • selected 4D3N package",
+      "url": "https://valorhagiangloop.com/tours/ha-giang-loop-tour-4-days/",
+      "type": "selected package",
+      "note": "Read; price is dynamic/unconfirmed. Cancellation and deposit wording needs clarification.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "tourism",
+      "title": "Vietnam Tourism • four-day route",
+      "url": "https://vietnam.travel/things-to-do/ha-giang-loop-four-day-road-trip",
+      "type": "official destination guide",
+      "note": "Different final overnight: Bao Lam. Used for geography and road context.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "safety",
+      "title": "Smartraveller • Vietnam",
+      "url": "https://www.smartraveller.gov.au/destinations/asia/vietnam",
+      "type": "official travel advice",
+      "note": "Australian driving documents are not accepted as authority to ride in Vietnam.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "weather",
+      "title": "Local Vietnam • November",
+      "url": "https://localvietnam.com/ha-giang/ha-giang-loop-november-weather/",
+      "type": "seasonal context",
+      "note": "Seasonal expectations, not a forecast for our dates.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "hagianggo",
+      "title": "HaGiangGo • alternatives",
+      "url": "https://hagianggo.com/ha-giang-loop-tours",
+      "type": "comparison",
+      "note": "Alternative operator; prices and package terms do not apply to Valor.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "motorbike",
+      "title": "Vietnam Motorbike Tours",
+      "url": "https://www.vietnammotorbiketours.com/",
+      "type": "comparison",
+      "note": "Operator reference, not our booking.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "intrepid",
+      "title": "Intrepid • Cycle Vietnam",
+      "url": "https://www.intrepidtravel.com/nz/vietnam/cycle-vietnam-167326",
+      "type": "different trip",
+      "note": "A 15-day cycling journey, not this motorcycle loop.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "dirtbike",
+      "title": "Dirt Bike Travel • Northwest",
+      "url": "https://www.dirtbiketravel.com/our-tours/glimpse-north-west-vietnam-motorbike-trip",
+      "type": "different trip",
+      "note": "Three-day Mai Chau/Moc Chau itinerary, not this route.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "klook-au",
+      "title": "Klook • Australia",
+      "url": "https://www.klook.com/en-AU/destination/p60271411-ha-giang-loop/",
+      "type": "marketplace",
+      "note": "Compare exact operator and inclusions before using a displayed fare.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "klook-us",
+      "title": "Klook • things to do",
+      "url": "https://www.klook.com/en-US/destination/p60271411-ha-giang-loop/1-things-to-do/",
+      "type": "marketplace",
+      "note": "Different locale/currency; not a Valor quotation.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "emma",
+      "title": "Emma’s Daydream",
+      "url": "https://www.emmasdaydream.com/blog/ha-giang-loop",
+      "type": "traveller account",
+      "note": "Three-day experience; used only for background.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "viator",
+      "title": "Viator • Ha Giang",
+      "url": "https://www.viator.com/Ha-Giang/d50728-ttd",
+      "type": "marketplace",
+      "note": "Products vary; no booking or current quote stored.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "between",
+      "title": "In Between Travels • 4 days",
+      "url": "https://inbetweentravels.com/ha-giang-loop-4-days/",
+      "type": "traveller account",
+      "note": "Personal itinerary and preparation notes; operator stops vary.",
+      "checked": "2026-10-05"
+    },
+    {
+      "id": "mirror",
+      "title": "Supplied IP mirror",
+      "url": "http://160.191.85.82:9191/things-to-do/ha-giang-loop-four-day-road-trip",
+      "type": "unavailable",
+      "note": "Could not verify; canonical official article used instead.",
+      "checked": "2026-10-05"
+    }
+  ]
+}

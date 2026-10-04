@@ -1,0 +1,13 @@
+{
+  "name": "vn-bike",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/validate.mjs",
+    "dev": "node scripts/serve.mjs",
+    "test:browser": "node scripts/browser-check.cjs"
+  },
+  "engines": { "node": ">=22" }
+}

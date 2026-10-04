@@ -1,0 +1,8 @@
+import { mkdir, copyFile, cp } from 'node:fs/promises';
+import path from 'node:path';
+import { root, validate } from './validate.mjs';
+await validate();
+const output=path.join(root,'public');await mkdir(output,{recursive:true});
+for(const name of ['index.html','styles.css','app.js'])await copyFile(path.join(root,name),path.join(output,name));
+for(const name of ['assets','data'])await cp(path.join(root,name),path.join(output,name),{recursive:true});
+console.log('Built public/index.html and its local data/assets.');
