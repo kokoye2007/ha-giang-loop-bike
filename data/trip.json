@@ -768,7 +768,7 @@
       "Keep offline maps, cash and a charged phone."
     ],
     "dont": [
-      "Do not treat an Australian licence or Australian IDP as permission to self-ride.",
+      "Do not self-ride until Valor confirms your motorcycle licence, recognised international permit and insurance are valid in Vietnam.",
       "Do not drink before riding or distract your driver.",
       "Do not stop on blind bends or cross border restrictions.",
       "Do not give children sweets or money for photographs.",
@@ -808,14 +808,6 @@
       "checked": "2026-10-05"
     },
     {
-      "id": "safety",
-      "title": "Smartraveller • Vietnam",
-      "url": "https://www.smartraveller.gov.au/destinations/asia/vietnam",
-      "type": "official travel advice",
-      "note": "Australian driving documents are not accepted as authority to ride in Vietnam.",
-      "checked": "2026-10-05"
-    },
-    {
       "id": "weather",
       "title": "Local Vietnam • November",
       "url": "https://localvietnam.com/ha-giang/ha-giang-loop-november-weather/",
@@ -840,27 +832,11 @@
       "checked": "2026-10-05"
     },
     {
-      "id": "intrepid",
-      "title": "Intrepid • Cycle Vietnam",
-      "url": "https://www.intrepidtravel.com/nz/vietnam/cycle-vietnam-167326",
-      "type": "different trip",
-      "note": "A 15-day cycling journey, not this motorcycle loop.",
-      "checked": "2026-10-05"
-    },
-    {
       "id": "dirtbike",
       "title": "Dirt Bike Travel • Northwest",
       "url": "https://www.dirtbiketravel.com/our-tours/glimpse-north-west-vietnam-motorbike-trip",
       "type": "different trip",
       "note": "Three-day Mai Chau/Moc Chau itinerary, not this route.",
-      "checked": "2026-10-05"
-    },
-    {
-      "id": "klook-au",
-      "title": "Klook • Australia",
-      "url": "https://www.klook.com/en-AU/destination/p60271411-ha-giang-loop/",
-      "type": "marketplace",
-      "note": "Compare exact operator and inclusions before using a displayed fare.",
       "checked": "2026-10-05"
     },
     {

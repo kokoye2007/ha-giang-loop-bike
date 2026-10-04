@@ -52,6 +52,12 @@ em { font-weight:400; }
 .trip-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; padding-block:28px; border-bottom:1px solid var(--line); }
 .trip-strip b { display:block; font:1.65rem var(--display); }
 .trip-strip small { color:var(--muted); font-size:.65rem; }
+.moto-scroll{position:relative;height:190svh;min-height:1100px;background:var(--forest);color:var(--on-forest);overflow:clip}
+.moto-sticky{position:sticky;top:0;min-height:100svh;display:grid;grid-template-columns:minmax(280px,.65fr) minmax(0,1.35fr);align-items:center;gap:clamp(20px,5vw,80px);padding-block:90px}
+.moto-copy{position:relative;z-index:2;max-width:510px}.moto-copy h2 em{color:var(--orange)}.moto-copy>p:not(.eyebrow){max-width:420px;margin:26px 0;color:rgb(252 249 242 / .76);font-size:.9rem}.moto-copy small{display:block;margin-top:12px;color:rgb(252 249 242 / .56);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase}
+.moto-meter{width:min(260px,70vw);height:2px;background:rgb(252 249 242 / .2);overflow:hidden}.moto-meter span{display:block;width:100%;height:100%;background:var(--orange);transform:scaleX(var(--moto-progress,0));transform-origin:left}
+.moto-stage{position:relative;min-height:620px;height:72svh;isolation:isolate}.moto-stage::before{content:"";position:absolute;z-index:-1;left:50%;top:50%;width:min(52vw,650px);aspect-ratio:1;border:1px solid rgb(252 249 242 / .13);border-radius:50%;transform:translate(-50%,-50%)}.moto-stage::after{content:"";position:absolute;z-index:-1;left:8%;right:8%;bottom:15%;height:18%;background:radial-gradient(ellipse,rgb(0 0 0 / .35),transparent 68%);filter:blur(16px)}
+[data-moto-canvas]{display:block;width:100%;height:100%;touch-action:pan-y}.moto-fallback{position:absolute;inset:0;display:grid;place-content:center;text-align:center}.moto-fallback span{font:clamp(3rem,9vw,8rem)/1 var(--display);letter-spacing:.1em;color:var(--orange)}.moto-fallback p{font-size:.72rem}.moto-stage.is-ready .moto-fallback{display:none}.moto-hint{position:absolute;right:12px;bottom:18px;color:rgb(252 249 242 / .55);font-size:.58rem;letter-spacing:.16em}
 .section-heading { display:grid; grid-template-columns:1.3fr 1fr; align-items:end; gap:60px; margin-bottom:42px; }
 .section-heading > p { max-width:410px; color:var(--muted); font-size:.9rem; }
 .arrival-note { padding:16px 20px; background:var(--paper); border-left:3px solid var(--rust); font-size:.8rem; margin-bottom:24px; }
@@ -135,7 +141,8 @@ td small { display:block; color:var(--muted); }
 footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px; padding-block:25px; border-top:1px solid var(--line); font-size:.7rem; }
 @media(max-width:900px) { .checkpoint-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .day-layout { grid-template-columns:1fr 1fr; } .day-copy { padding:25px; } .week-strip { grid-template-columns:repeat(4,1fr); } .week-day { border-bottom:1px solid var(--line); } }
 @media(max-width:620px) { .navigation { align-items:flex-start; gap:15px; padding-block:20px; } .navigation nav { gap:8px 15px; justify-content:flex-end; max-width:210px; } .navigation nav a { font-size:.65rem; } .brand small { max-width:100px; } .hero { min-height:760px; padding-top:160px; } .hero-copy > p:not(.eyebrow) { font-size:.9rem; } .hero-foot { font-size:.55rem; } .trip-strip { grid-template-columns:repeat(2,1fr); } .section-heading,.day-layout,.map-block,.package-grid,.advice-grid { grid-template-columns:1fr; gap:25px; } .section-heading { margin-bottom:28px; } .day-photo { min-height:260px; height:300px; } .day-tabs button { flex:1; min-width:90px; padding:12px; } .checkpoint-grid,.checklist { grid-template-columns:1fr; } .time-block { grid-template-columns:110px 1fr; } #route-map { height:330px; } .week-day { padding:12px 9px; } .advice-grid { gap:20px; } .checkpoint-card img { height:240px; } }
-@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+@media(max-width:760px){.moto-scroll{height:170svh;min-height:1000px}.moto-sticky{grid-template-columns:1fr;grid-template-rows:auto minmax(360px,1fr);align-content:center;gap:0;padding-block:70px 30px}.moto-copy h2{font-size:clamp(2.7rem,15vw,4.3rem)}.moto-copy>p:not(.eyebrow){margin:18px 0}.moto-stage{height:48svh;min-height:350px}.moto-stage::before{width:min(88vw,500px)}.moto-hint{bottom:4px}}
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .moto-scroll{height:auto;min-height:0}.moto-sticky{position:relative;min-height:760px}.moto-hint,.moto-meter{display:none} }
 @media print { .navigation,.hero,.filters,.day-tabs,#route-map,footer button { display:none; } .section { padding-block:25px; } .checkpoint-grid { grid-template-columns:repeat(2,1fr); } .prepare-section { background:var(--paper); color:var(--ink); } .check-row { background:var(--paper); } .checklist { grid-template-columns:1fr; } .checkpoint-card,.check-row { break-inside:avoid; } }
 /* Group planner, route gallery and consent-based member cards. */
 .ride-grid,.crew-grid,.quote-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:32px 0}
@@ -161,4 +168,4 @@ footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space
 .navigation .brand{flex-shrink:0}
 @media(max-width:620px){.navigation nav{max-width:190px}.navigation .brand{font-size:1rem}.navigation .brand small{font-size:.43rem;max-width:125px}}
 .button{color:var(--ink)}.route-pin span{color:var(--on-forest);border-color:var(--on-forest)}
-@media print{.appearance,.weather-toolbar{display:none}}
+@media print{.appearance,.weather-toolbar,.moto-scroll{display:none}}

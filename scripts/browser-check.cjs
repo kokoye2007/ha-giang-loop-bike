@@ -17,6 +17,15 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.route('https://api.open-meteo.com/**',route=>{apiCalls++;return route.fulfill({json:{current:{temperature_2m:23,weather_code:2,wind_speed_10m:8,time:today+'T10:00'},daily:{time:dates,temperature_2m_min:dates.map(()=>16),temperature_2m_max:dates.map(()=>25),precipitation_probability_max:dates.map(()=>70),weather_code:dates.map(()=>63)}}});});
         const url='http://127.0.0.1:'+server.address().port;
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
+        await page.waitForSelector('[data-moto-canvas][data-ready="true"]',{timeout:15000});
+        const motoStart=Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-scale'));
+        await page.evaluate(()=>{const section=document.querySelector('[data-moto-scroll]');scrollTo(0,section.offsetTop+(section.offsetHeight-innerHeight)/2);});
+        await page.waitForFunction(()=>Number(document.querySelector('[data-moto-canvas]').dataset.scrollProgress)>.35);
+        const motoMiddle=Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-scale'));
+        assert.ok(motoMiddle>motoStart,'Motorcycle should zoom toward the scroll midpoint');
+        await page.evaluate(()=>scrollTo(0,0));
+        await page.waitForFunction(()=>Number(document.querySelector('[data-moto-canvas]').dataset.scrollProgress)<.05);
+        assert.ok(Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-scale'))<motoMiddle,'Reverse scroll should zoom the motorcycle back out');
         assert.equal(await page.title(),'Ha Giang Loop Bike — Group Tour Roadbook');
         assert.match(await page.locator('.navigation .brand').innerText(),/HA GIANG/);
         assert.equal(await page.locator('.week-day').count(),8);
@@ -48,6 +57,8 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
         fs.mkdirSync(path.resolve(__dirname,'../previews'),{recursive:true});
         await page.screenshot({path:path.resolve(__dirname,'../previews/desktop.png')});
+        await page.locator('[data-moto-scroll]').scrollIntoViewIfNeeded();await page.waitForTimeout(250);
+        await page.locator('.moto-sticky').screenshot({path:path.resolve(__dirname,'../previews/motorcycle-3d.png')});
         await page.locator('.day-layout').screenshot({path:path.resolve(__dirname,'../previews/roadbook.png')});
         await page.locator('#route-map').scrollIntoViewIfNeeded();
         await page.waitForTimeout(1500);
@@ -88,6 +99,6 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.route('https://api.open-meteo.com/**',route=>route.abort());
         await page.click('[data-weather-refresh]');
         await page.waitForFunction(()=>document.querySelector('[data-weather-day="0"]').innerText.includes('could not load'));
-        console.log('PASS: root index, 8 travel days, 4 loop days, 11 checkpoints, photos, map, budget, saved checklist, deep link and responsive layout.');
+        console.log('PASS: root index, scroll-driven 3D motorcycle, 8 travel days, 4 loop days, 11 checkpoints, photos, map, budget, saved checklist, deep link and responsive layout.');
     } finally {await browser.close();server.close();}
 })().catch(error=>{console.error(error);server.close();process.exitCode=1;});

@@ -52,6 +52,8 @@ Research sources are listed on the website and in `reports/research.md`. Photo l
 
 Leaflet keeps checkpoint interactions; MapLibre renders OpenFreeMap's Positron vector style rather than default raster OSM tiles. Custom controls, numbered pins and a schematic route overlay match the roadbook. Libraries are version-pinned on unpkg; map styles/tiles need network access and WebGL. No map API token is required. Required map-provider/data attribution remains visible. [Official integration guide](https://openfreemap.org/quick_start/).
 
+The workshop section builds its motorcycle from Three.js primitives and maps page scroll to rotation and scale. It uses pinned Three.js `0.180.0`, downloads no third-party 3D model, stops continuous rendering when idle, and falls back to static copy when WebGL is unavailable.
+
 ## Themes, weather and members
 
 The theme selector offers Forest & cream, Sunrise & clay and Night ride; preference is stored in this browser. Tokens preserve the editorial roadbook layout.

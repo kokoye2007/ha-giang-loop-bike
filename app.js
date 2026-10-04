@@ -14,6 +14,7 @@ function setTheme(value) {
     document.documentElement.dataset.theme = theme;
     document.querySelectorAll('[data-theme-choice]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme)));
     try { localStorage.setItem(themeKey, theme); } catch {}
+    window.dispatchEvent(new CustomEvent('roadbook-theme-change',{detail:{theme}}));
 }
 try { setTheme(localStorage.getItem(themeKey)); } catch { setTheme('forest'); }
 $('.theme-switch').addEventListener('click', event => {
@@ -89,7 +90,7 @@ function renderBudget() {
     const vehicles=Math.ceil(people/Math.max(1,Number($('[data-vehicle-sharing]').value)||1));
     const allowances=trip.budget.filter(item=>!['Valor 4D3N package','Hanoi–Ha Giang return buses'].includes(item.item)).map(item=>({...item,quantity:item.basis==='per room / night'?rooms*3:item.basis==='per vehicle / transfer'?vehicles*2:item.basis==='per person / day'?people*3:item.basis==='booking total'?(people?1:0):people}));
     const known=allowances.reduce((sum,item)=>sum+(item.amount===null?0:item.amount*item.quantity),0);
-    const warnings=[people>6?'Ask Valor to confirm capacity or a split/private group for more than six.':'',count('jeep')===1?'Jeep requires at least two people.':'',count('self')||count('friend')?'Self-riding requires valid Vietnam riding eligibility, experience and insurance; Australian licence/IDP alone is not sufficient.':''].filter(Boolean);
+    const warnings=[people>6?'Ask Valor to confirm capacity or a split/private group for more than six.':'',count('jeep')===1?'Jeep requires at least two people.':'',count('self')||count('friend')?'Self-riding requires the motorcycle licence and international permit recognised in Vietnam, riding experience and suitable insurance. Confirm the exact documents with Valor.':''].filter(Boolean);
     $('[data-budget-summary]').innerHTML='<div><p class="eyebrow">'+people+' PEOPLE / LISTED TOUR'+(bus?' + RETURN BUSES':'')+'</p><strong>'+usd(tour+bus)+'</strong><small>'+money(known)+' AUD local allowances · kept separate</small></div><p>'+(people?'Partial group estimate, not a booking or complete trip cost.':'Add travellers to the ride options to calculate your group.')+' '+warnings.map(e).join(' ')+' '+sourceLink('valor','Verify current prices ↗')+'</p>';
     $('[data-budget]').innerHTML=allowances.map(item=>'<tr><td>'+e(item.item)+'</td><td>'+money(item.amount)+'<small>'+e(item.basis)+'</small></td><td>'+e(item.quantity)+'</td><td>'+money(item.amount===null?null:item.amount*item.quantity)+'</td><td>'+e(item.status)+'</td></tr>').join('');
 }
@@ -115,7 +116,7 @@ function render() {
     $('[data-tabs]').innerHTML=trip.loop.map(item=>'<button type="button" data-day="'+e(item.day)+'" aria-pressed="false">Day '+e(item.day)+' · '+e(Number(item.date.slice(-2)))+' Nov</button>').join('');
     $('[data-filters]').innerHTML=[0,1,2,3,4].map(i=>'<button type="button" data-filter="'+i+'" aria-pressed="false">'+(i?'Day '+i:'All checkpoints')+'</button>').join('');
     $('[data-weather]').innerHTML='<h3>'+e(trip.weather.title)+'</h3><p>'+e(trip.weather.note)+' '+sourceLink(trip.weather.sourceId,'Seasonal notes ↗')+'</p>';
-    $('[data-advice]').innerHTML=[['DO',trip.advice.do],['DON’T',trip.advice.dont]].map(([title,items])=>'<article><h3>'+e(title)+'</h3><ul>'+items.map(item=>'<li>'+e(item)+'</li>').join('')+'</ul>'+sourceLink('safety','Official travel and riding advice ↗')+'</article>').join('');
+    $('[data-advice]').innerHTML=[['DO',trip.advice.do],['DON’T',trip.advice.dont]].map(([title,items])=>'<article><h3>'+e(title)+'</h3><ul>'+items.map(item=>'<li>'+e(item)+'</li>').join('')+'</ul>'+sourceLink('valor','Package riding requirements ↗')+'</article>').join('');
     $('[data-sources]').innerHTML=trip.sources.map(source=>'<details><summary>'+e(source.title)+' · '+e(source.type)+'</summary><p>'+e(source.note)+'</p><a href="'+e(source.url)+'" target="_blank" rel="noopener">Read reference ↗</a></details>').join('');
     renderDay();renderCheckpoints();renderGroup();renderBudget();renderChecklist();renderMap();renderDailyWeather();
 }

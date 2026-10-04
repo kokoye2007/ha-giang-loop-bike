@@ -12,11 +12,11 @@ The user specified Hanoi on the 7th, tour on the 8th–11th and return on the 14
 
 ## Official advice and alternatives
 
-[Vietnam Tourism](https://vietnam.travel/things-to-do/ha-giang-loop-four-day-road-trip) uses a different final night in Bao Lam; its route was not combined with Valor’s. [Smartraveller](https://www.smartraveller.gov.au/destinations/asia/vietnam) states that Australian licences and Australian-issued IDPs do not authorise riding in Vietnam. The roadbook defaults to a local driver and recommends checking insurance even for passengers.
+[Vietnam Tourism](https://vietnam.travel/things-to-do/ha-giang-loop-four-day-road-trip) uses a different final night in Bao Lam; its route was not combined with Valor’s. Valor’s published package requirements are the linked starting point for riding documents. Travellers should get written confirmation for their own licence, international permit and insurance before choosing self-rider.
 
 [Local Vietnam](https://localvietnam.com/ha-giang/ha-giang-loop-november-weather/) provides November context, not a forecast. Do not promise clear skies or festival dates.
 
-All user-provided operator, marketplace and travelogue references are retained in `data/trip.json`, with their relevance marked. Intrepid’s bicycle journey and Dirt Bike Travel’s northwest trip are different products. The supplied IP mirror could not be verified; the canonical tourism article was accessible. Klook/Viator prices vary by product, date, currency and inclusions, so none is treated as the selected package quote.
+Relevant operator, marketplace and travelogue references are retained in `data/trip.json`, with their relevance marked. Australia-specific and unrelated regional links were removed from the public reference desk. Dirt Bike Travel’s northwest trip is a different product. The supplied IP mirror could not be verified; the canonical tourism article was accessible. Klook/Viator prices vary by product, date, currency and inclusions, so none is treated as the selected package quote.
 
 ## Visual and implementation decisions
 
