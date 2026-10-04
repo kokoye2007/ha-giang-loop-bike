@@ -12,11 +12,14 @@ const themeKey = 'vn-bike-theme';
 function setTheme(value) {
     const theme = ['forest','sunrise','night'].includes(value) ? value : 'forest';
     document.documentElement.dataset.theme = theme;
-    $('[data-theme-picker]').value = theme;
+    document.querySelectorAll('[data-theme-choice]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme)));
     try { localStorage.setItem(themeKey, theme); } catch {}
 }
 try { setTheme(localStorage.getItem(themeKey)); } catch { setTheme('forest'); }
-$('[data-theme-picker]').addEventListener('change', event => setTheme(event.target.value));
+$('.theme-switch').addEventListener('click', event => {
+    const button = event.target.closest('[data-theme-choice]');
+    if (button) setTheme(button.dataset.themeChoice);
+});
 let refreshingWeather = false;
 async function renderDailyWeather() {
     if (refreshingWeather) return;

@@ -16,10 +16,11 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         assert.equal(await page.locator('.week-day').count(),8);
         assert.equal(await page.locator('[data-weather-day]').count(),8);
         for(const theme of ['sunrise','night','forest']){
-            await page.locator('[data-theme-picker]').selectOption(theme);
+            await page.locator('[data-theme-choice="'+theme+'"]').click();
             assert.equal(await page.evaluate(()=>document.documentElement.dataset.theme),theme);
             await page.reload();await page.waitForSelector('.checkpoint-card');
-            assert.equal(await page.locator('[data-theme-picker]').inputValue(),theme);
+            assert.equal(await page.locator('[data-theme-choice="'+theme+'"]').getAttribute('aria-pressed'),'true');
+            assert.equal(await page.locator('[data-theme-choice][aria-pressed="true"]').count(),1);
         }
         await page.locator('[data-ride="easy"]').fill('3');await page.locator('[data-ride="self"]').fill('2');
         assert.match(await page.locator('[data-budget-summary]').innerText(),/5 PEOPLE/);
@@ -43,12 +44,13 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.waitForTimeout(1500);
         await page.locator('#route-map').screenshot({path:path.resolve(__dirname,'../previews/map.png')});
         await page.locator('#daily-weather').screenshot({path:path.resolve(__dirname,'../previews/weather.png')});
-        await page.locator('[data-theme-picker]').selectOption('night');
+        await page.locator('[data-theme-choice="night"]').click();
         await page.locator('#budget').screenshot({path:path.resolve(__dirname,'../previews/night-budget.png')});
-        await page.locator('[data-theme-picker]').selectOption('forest');
-        for(const width of [390,768]){
+        await page.locator('[data-theme-choice="forest"]').click();
+        for(const width of [320,390,768]){
             await page.setViewportSize({width,height:844});
             assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Overflow at '+width);
+            assert.ok(await page.evaluate(()=>document.querySelector('.hero-copy').getBoundingClientRect().top>=document.querySelector('.appearance').getBoundingClientRect().bottom),'Theme switch must not overlap hero copy');
             for(const img of await page.locator('.hero img, .day-photo img, .checkpoint-card img, .gallery-grid img').all()){await img.scrollIntoViewIfNeeded();await img.evaluate(async node=>{try {await node.decode();}catch(error){throw new Error('Photo failed: '+node.src+' — '+error.message);}});}
         }
         await page.setViewportSize({width:390,height:844});await page.locator('.checkpoint-card').first().screenshot({path:path.resolve(__dirname,'../previews/mobile-card.png')});
