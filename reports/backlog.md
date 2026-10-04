@@ -6,7 +6,7 @@ Implemented: Forest & cream, Sunrise & clay and Night ride using shared CSS toke
 
 ## Daily, location-based weather
 
-Implemented: Open-Meteo daily destination-area forecasts, Vietnam local dates/time, min/max temperature, rain probability, fetch time and CC BY attribution. Dates outside the 16-day window say "Forecast not available yet"; passed dates and network failures have separate states. Seasonal context remains separate. Unit tests cover horizon boundaries, date alignment, incomplete responses and API errors. API is free for this non-commercial personal guide; revisit terms if its purpose changes.
+Implemented: Open-Meteo destination-area weather, Vietnam local dates/time, temperature, wind, daily outlook, rain probability, fetch time and CC BY attribution. Dates outside the 16-day forecast window now show labelled today's-area weather instead of empty forecast cards. In-window dates use the trip-date forecast. Seasonal context remains separate. Unit tests cover selection, horizon boundaries, date alignment, incomplete responses and API errors. Browser tests cover populated cards and retry states. API is free for this non-commercial personal guide; revisit terms if its purpose changes.
 
 ## Tour members
 

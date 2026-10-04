@@ -8,6 +8,10 @@ export function forecastStatus(date, now = new Date()) {
     const delta = (Date.parse(date+'T00:00:00Z') - Date.parse(localDate(now)+'T00:00:00Z')) / 86400000;
     return delta < 0 ? 'past' : delta <= 15 ? 'available' : 'future';
 }
+export function weatherTarget(location, now = new Date()) {
+    const isTripForecast = forecastStatus(location.date, now) === 'available';
+    return {location: {...location, date: isTripForecast ? location.date : localDate(now)}, isTripForecast};
+}
 export function weatherDescription(code) {
     if (code === 0) return 'Clear';
     if ([1, 2, 3].includes(code)) return 'Cloudy';
@@ -21,13 +25,14 @@ export function weatherDescription(code) {
 export async function fetchForecast(location, {fetcher = fetch, now = new Date()} = {}) {
     if (forecastStatus(location.date, now) !== 'available') return null;
     const url = new URL('https://api.open-meteo.com/v1/forecast');
-    url.search = new URLSearchParams({latitude: location.coordinates[0], longitude: location.coordinates[1], timezone: weatherTimezone, forecast_days: 16, daily: 'temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code'});
+    url.search = new URLSearchParams({latitude: location.coordinates[0], longitude: location.coordinates[1], timezone: weatherTimezone, forecast_days: 16, current: 'temperature_2m,weather_code,wind_speed_10m', daily: 'temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code'});
     const response = await fetcher(url, {signal: AbortSignal.timeout(12000)});
     if (!response.ok) throw new Error('Weather request failed');
-    const {daily} = await response.json();
+    const {daily, current} = await response.json();
     const index = daily?.time?.indexOf(location.date) ?? -1;
     if (index < 0) throw new Error('Forecast date missing');
     const values = ['temperature_2m_min', 'temperature_2m_max', 'precipitation_probability_max', 'weather_code'].map(key => daily[key]?.[index]);
     if (!values.every(Number.isFinite)) throw new Error('Forecast values incomplete');
-    return {low: values[0], high: values[1], rain: values[2], description: weatherDescription(values[3]), updated: new Date().toISOString()};
+    const currentConditions = current && Number.isFinite(current.temperature_2m) && Number.isFinite(current.weather_code) ? {temperature: current.temperature_2m, description: weatherDescription(current.weather_code), wind: Number.isFinite(current.wind_speed_10m) ? current.wind_speed_10m : null, time: current.time} : null;
+    return {low: values[0], high: values[1], rain: values[2], description: weatherDescription(values[3]), current: currentConditions, updated: new Date().toISOString()};
 }

@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {localDate, forecastStatus, fetchForecast, weatherDescription} from './weather.mjs';
+import {localDate, forecastStatus, weatherTarget, fetchForecast, weatherDescription} from './weather.mjs';
 const now = new Date('2026-10-05T00:00:00Z');
 test('Vietnam local date and exact forecast horizon', () => {
     assert.equal(localDate(new Date('2026-10-04T18:00:00Z')), '2026-10-05');
@@ -11,6 +11,20 @@ test('Vietnam local date and exact forecast horizon', () => {
 test('out-of-range dates do not call API', async () => {
     const value = await fetchForecast({date:'2026-11-08'}, {now, fetcher:()=>{throw new Error('Must not fetch');}});
     assert.equal(value, null);
+});
+test('future trip dates show today without changing itinerary date', () => {
+    const original={date:'2026-11-08',coordinates:[23,105]};
+    const target=weatherTarget(original,now);
+    assert.equal(target.location.date,'2026-10-05');assert.equal(target.isTripForecast,false);
+    assert.equal(original.date,'2026-11-08');
+    assert.equal(weatherTarget({date:'2026-10-10'},now).isTripForecast,true);
+});
+test('extract current temperature and wind with today’s daily outlook', async () => {
+    const result=await fetchForecast({date:'2026-10-05',coordinates:[23,105]}, {now,fetcher:async url=>{
+        assert.ok(url.searchParams.get('current').includes('temperature_2m'));
+        return {ok:true,json:async()=>({current:{temperature_2m:23.4,weather_code:2,wind_speed_10m:8.2,time:'2026-10-05T10:00'},daily:{time:['2026-10-05'],temperature_2m_min:[18],temperature_2m_max:[26],precipitation_probability_max:[20],weather_code:[2]}})};
+    }});
+    assert.equal(result.current.temperature,23.4);assert.equal(result.current.wind,8.2);assert.equal(result.current.description,'Cloudy');
 });
 test('extract exact daily values, not the first day', async () => {
     const fetcher = async url => {

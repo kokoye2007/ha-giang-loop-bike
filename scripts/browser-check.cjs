@@ -9,12 +9,21 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
     try {
         const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];
         page.on('pageerror',error=>errors.push(error.message));
+        const {localDate,weatherTarget}=await import('./weather.mjs');
+        const today=localDate();
+        const canonical=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../data/trip.json'),'utf8'));
+        const dates=[...new Set([today,...canonical.weather.days.map(day=>day.date)])];
+        let apiCalls=0;
+        await page.route('https://api.open-meteo.com/**',route=>{apiCalls++;return route.fulfill({json:{current:{temperature_2m:23,weather_code:2,wind_speed_10m:8,time:today+'T10:00'},daily:{time:dates,temperature_2m_min:dates.map(()=>16),temperature_2m_max:dates.map(()=>25),precipitation_probability_max:dates.map(()=>70),weather_code:dates.map(()=>63)}}});});
         const url='http://127.0.0.1:'+server.address().port;
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
         assert.equal(await page.title(),'Ha Giang Loop Bike — Group Tour Roadbook');
         assert.match(await page.locator('.navigation .brand').innerText(),/HA GIANG/);
         assert.equal(await page.locator('.week-day').count(),8);
         assert.equal(await page.locator('[data-weather-day]').count(),8);
+        await page.waitForFunction(()=>document.querySelectorAll('.weather-result strong').length===8);
+        assert.doesNotMatch(await page.locator('[data-daily-weather]').innerText(),/Forecast not available yet/);
+        assert.equal(apiCalls,new Set(canonical.weather.days.map(day=>{const target=weatherTarget(day);return target.location.coordinates.join(',')+'|'+target.location.date;})).size,'Repeated areas share requests');
         for(const theme of ['sunrise','night','forest']){
             await page.locator('[data-theme-choice="'+theme+'"]').click();
             assert.equal(await page.evaluate(()=>document.documentElement.dataset.theme),theme);
@@ -53,17 +62,20 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
             assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Overflow at '+width);
             const avatar=await page.locator('.crew-avatar').first().boundingBox();
             assert.ok(avatar.width<=96&&avatar.height<=96,'Crew avatar must remain compact');
-            assert.ok(await page.evaluate(()=>document.querySelector('.hero-copy').getBoundingClientRect().top>=document.querySelector('.appearance').getBoundingClientRect().bottom),'Theme switch must not overlap hero copy');
+            assert.ok(await page.evaluate(()=>document.querySelector('.appearance').getBoundingClientRect().top>=document.querySelector('.hero').getBoundingClientRect().bottom),'Theme switch must sit below hero');
+            assert.ok(await page.evaluate(()=>document.querySelector('.appearance').getBoundingClientRect().top>=document.querySelector('.navigation').getBoundingClientRect().bottom),'Theme switch must not overlap header');
+            const themeButton=await page.locator('[data-theme-choice]').first().boundingBox();
+            assert.ok(themeButton.height<=32,'Theme controls should stay small');
             for(const img of await page.locator('.hero img, .day-photo img, .checkpoint-card img, .gallery-grid img, .crew-grid img').all()){await img.scrollIntoViewIfNeeded();await img.evaluate(async node=>{try {await node.decode();}catch(error){throw new Error('Photo failed: '+node.src+' — '+error.message);}});}
         }
         await page.setViewportSize({width:390,height:844});await page.locator('.checkpoint-card').first().screenshot({path:path.resolve(__dirname,'../previews/mobile-card.png')});
         await page.locator('.hero').screenshot({path:path.resolve(__dirname,'../previews/mobile.png')});
+        await page.locator('.appearance').screenshot({path:path.resolve(__dirname,'../previews/theme-toolbar-mobile.png')});
         await page.locator('.crew-card').first().screenshot({path:path.resolve(__dirname,'../previews/crew-card-mobile.png')});
         assert.deepEqual(errors,[]);
         const fixture=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../data/trip.json'),'utf8'));
         fixture.members=[{name:'Hidden test member',publishConsent:false},{name:'Approved test member',publishConsent:true,quote:'<b>A harmless joke</b>'}];
-        const {localDate}=await import('./weather.mjs');
-        const today=localDate();fixture.weather.days[0].date=today;
+        fixture.weather.days[0].date=today;
         await page.route('https://api.open-meteo.com/**',route=>route.fulfill({json:{daily:{time:[today],temperature_2m_min:[16],temperature_2m_max:[25],precipitation_probability_max:[70],weather_code:[63]}}}));
         await page.route('**/data/trip.json',route=>route.fulfill({json:fixture}));
         await page.reload();await page.waitForSelector('.crew-grid h3');
@@ -72,6 +84,10 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         assert.equal(await page.locator('.crew-grid blockquote b').count(),0,'Member quote must be escaped');
         await page.waitForFunction(()=>document.querySelector('[data-weather-day="0"]').innerText.includes('70%'));
         assert.match(await page.locator('[data-weather-day="0"]').innerText(),/16–25 °C/);
+        assert.match(await page.locator('[data-weather-day="0"] .weather-mode').innerText(),/Trip-date forecast/);
+        await page.route('https://api.open-meteo.com/**',route=>route.abort());
+        await page.click('[data-weather-refresh]');
+        await page.waitForFunction(()=>document.querySelector('[data-weather-day="0"]').innerText.includes('could not load'));
         console.log('PASS: root index, 8 travel days, 4 loop days, 11 checkpoints, photos, map, budget, saved checklist, deep link and responsive layout.');
     } finally {await browser.close();server.close();}
 })().catch(error=>{console.error(error);server.close();process.exitCode=1;});

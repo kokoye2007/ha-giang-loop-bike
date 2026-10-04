@@ -1,4 +1,4 @@
-import {forecastStatus, fetchForecast, weatherTimezone} from './scripts/weather.mjs';
+import {forecastStatus, weatherTarget, fetchForecast, weatherTimezone} from './scripts/weather.mjs';
 const $ = selector => document.querySelector(selector);
 const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = value => value === null ? 'TBC' : new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(value);
@@ -26,16 +26,23 @@ async function renderDailyWeather() {
     refreshingWeather = true;
     const button = $('[data-weather-refresh]'); button.disabled = true;
     const now = new Date();
-    $('[data-daily-weather]').innerHTML = trip.weather.days.map((location,index) => '<article data-weather-day="'+index+'"><p class="eyebrow">'+e(date(location.date))+'</p><h3>'+e(location.name)+'</h3><p class="weather-result">'+(forecastStatus(location.date,now)==='available'?'Loading forecast…':forecastStatus(location.date,now)==='past'?'Trip date has passed. Live forecast unavailable.':'Forecast not available yet.')+'</p><small>Destination area · '+e(weatherTimezone)+'</small></article>').join('');
+    const requests = new Map();
+    $('[data-daily-weather]').innerHTML = trip.weather.days.map((location,index) => {
+        const target = weatherTarget(location,now);
+        return '<article data-weather-day="'+index+'"><p class="eyebrow">TRIP DAY / '+e(date(location.date))+'</p><h3>'+e(location.name)+'</h3><span class="weather-mode">'+(target.isTripForecast?'Trip-date forecast':'Today’s area weather')+' · '+e(date(target.location.date))+'</span><p class="weather-result">Loading area weather…</p>'+(target.isTripForecast?'':'<p class="weather-trip-note">'+(forecastStatus(location.date,now)==='past'?'Trip date has passed.':'Trip-date forecast will appear closer to departure.')+'</p>')+'<small>Vietnam local time · '+e(weatherTimezone)+'</small></article>';
+    }).join('');
     await Promise.all(trip.weather.days.map(async (location,index) => {
-        if (forecastStatus(location.date,now) !== 'available') return;
+        const target = weatherTarget(location,now);
         const element = $('[data-weather-day="'+index+'"] .weather-result');
         try {
-            const forecast = await fetchForecast(location,{now});
-            element.innerHTML = '<strong>'+Math.round(forecast.low)+'–'+Math.round(forecast.high)+' °C</strong><br>'+e(forecast.description)+' · rain probability '+Math.round(forecast.rain)+'%<br><small>Fetched '+e(new Intl.DateTimeFormat('en-AU',{timeZone:weatherTimezone,hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'}).format(new Date(forecast.updated)))+' (Vietnam)</small>';
-        } catch { element.textContent = 'Forecast unavailable. Try again when connected.'; }
+            const key = target.location.coordinates.join(',')+'|'+target.location.date;
+            if (!requests.has(key)) requests.set(key,fetchForecast(target.location,{now}));
+            const forecast = await requests.get(key);
+            const current = !target.isTripForecast ? forecast.current : null;
+            element.innerHTML = (current?'<strong>'+Math.round(current.temperature)+' °C now</strong><br>'+e(current.description)+(current.wind===null?'':' · wind '+Math.round(current.wind)+' km/h')+'<br>Today: ':'<strong>')+Math.round(forecast.low)+'–'+Math.round(forecast.high)+' °C'+(current?'':'</strong>')+'<br>'+(!current?e(forecast.description)+' · ':'')+'Rain probability '+Math.round(forecast.rain)+'%<br><small>Fetched '+e(new Intl.DateTimeFormat('en-AU',{timeZone:weatherTimezone,hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'}).format(new Date(forecast.updated)))+' (Vietnam)</small>';
+        } catch { element.textContent = 'Area weather could not load. Refresh to retry.'; }
     }));
-    $('[data-weather-updated]').textContent = 'Checked in Vietnam local time. Dates outside the forecast window remain unavailable.';
+    $('[data-weather-updated]').textContent = 'Today’s weather is shown where trip-date forecasts are not yet available. All times are local to Vietnam.';
     button.disabled = false; refreshingWeather = false;
 }
 $('[data-weather-refresh]').addEventListener('click',()=>{if(trip)renderDailyWeather();});
