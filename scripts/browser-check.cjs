@@ -37,6 +37,7 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         assert.match(await page.locator('.crew-card').nth(1).innerText(),/Ko Ko Ye/);
         assert.match(await page.locator('.crew-card').nth(1).innerText(),/Easy Rider/);
         assert.match(await page.locator('.crew-card').nth(1).innerText(),/Linux Admin/);
+        assert.match(await page.locator('.crew-card').nth(1).locator('img').getAttribute('src'),/ko-ko-ye\.png$/);
         assert.equal(await page.locator('.week-day').count(),8);
         assert.equal(await page.locator('[data-weather-day]').count(),8);
         await page.waitForFunction(()=>document.querySelectorAll('.weather-result strong').length===8);
@@ -74,6 +75,7 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.locator('#route-map').screenshot({path:path.resolve(__dirname,'../previews/map.png')});
         await page.locator('#daily-weather').screenshot({path:path.resolve(__dirname,'../previews/weather.png')});
         await page.locator('.crew-card').first().screenshot({path:path.resolve(__dirname,'../previews/crew-card-desktop.png')});
+        await page.locator('.crew-card').nth(1).screenshot({path:path.resolve(__dirname,'../previews/ko-ko-ye-card.png')});
         await page.locator('[data-theme-choice="night"]').click();
         await page.locator('#budget').screenshot({path:path.resolve(__dirname,'../previews/night-budget.png')});
         await page.locator('[data-theme-choice="forest"]').click();
