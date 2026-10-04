@@ -14,3 +14,6 @@ Photographs downloaded from Wikimedia Commons on 5 October 2026. Files were resi
 Leaflet 1.9.4: BSD-2-Clause; see `LEAFLET-LICENSE.txt`. OpenStreetMap map attribution is displayed in the website.
 
 - `assets/vuong-palace.jpg`: Khánh Hmoong · CC BY 2.0; [source](https://commons.wikimedia.org/wiki/File:Dinh_th%E1%BB%B1_vua_M%C3%A8o_h%E1%BB%8D_V%C6%B0%C6%A1ng_-_Vuong%E2%80%99s_Palace,_%C4%90%E1%BB%93ng_V%C4%83n.jpg); [licence](https://creativecommons.org/licenses/by/2.0/). Downloaded as a 960px Commons thumbnail; display cropping only.
+# 3D assets
+
+- `road-sportbike.glb` — “Road sportbike (Motorcycle Racing and Street Bikes)” by 3D Assets, [asset page](https://3dassets.dev/assets/motorcycle-racing-and-street-bikes-road-sportbike-e1418015), dedicated to the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). Bundled locally; 5,156 triangles.

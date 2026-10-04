@@ -19,10 +19,15 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
         await page.waitForSelector('[data-moto-canvas][data-ready="true"]',{timeout:15000});
         const motoStart=Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-scale'));
+        const motoStartRotation=Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-rotation'));
         await page.evaluate(()=>{const section=document.querySelector('[data-moto-scroll]');scrollTo(0,section.offsetTop+(section.offsetHeight-innerHeight)/2);});
         await page.waitForFunction(()=>Number(document.querySelector('[data-moto-canvas]').dataset.scrollProgress)>.35);
         const motoMiddle=Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-scale'));
-        assert.ok(motoMiddle>motoStart,'Motorcycle should zoom toward the scroll midpoint');
+        assert.ok(motoMiddle/motoStart>1.7,'Motorcycle should make a strong push-in at the scroll midpoint');
+        await page.evaluate(()=>{const section=document.querySelector('[data-moto-scroll]');scrollTo(0,section.offsetTop+section.offsetHeight-innerHeight);});
+        await page.waitForFunction(()=>Number(document.querySelector('[data-moto-canvas]').dataset.scrollProgress)>.95);
+        const motoEndRotation=Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-rotation'));
+        assert.ok(Math.abs(motoEndRotation-motoStartRotation)<1.8,'Motorcycle inspection arc must remain below a half turn');
         await page.evaluate(()=>scrollTo(0,0));
         await page.waitForFunction(()=>Number(document.querySelector('[data-moto-canvas]').dataset.scrollProgress)<.05);
         assert.ok(Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-scale'))<motoMiddle,'Reverse scroll should zoom the motorcycle back out');

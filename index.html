@@ -16,6 +16,7 @@
     <script src="assets/leaflet.js" defer></script>
     <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js" defer></script>
     <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js" defer></script>
+    <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.180.0/build/three.module.min.js","three/addons/":"https://unpkg.com/three@0.180.0/examples/jsm/"}}</script>
     <script type="module" src="app.js"></script>
     <script type="module" src="scripts/motorcycle.mjs"></script>
 </head>
@@ -28,7 +29,7 @@
         <div class="trip-strip wrap" data-stats></div>
         <section class="moto-scroll" id="motorcycle" data-moto-scroll>
             <div class="moto-sticky wrap">
-                <div class="moto-copy"><p class="eyebrow">00 / THE MACHINE</p><h2>Turn it.<br><em>Meet the ride.</em></h2><p>Scroll through the workshop view. The bike turns with you, drawing closer before easing back toward the road.</p><div class="moto-meter" aria-hidden="true"><span data-moto-meter></span></div><small>Procedural 3D illustration · no model download</small></div>
+                <div class="moto-copy"><p class="eyebrow">00 / THE MACHINE</p><h2>Turn it.<br><em>Meet the ride.</em></h2><p>Scroll through the workshop view. The bike shifts through a restrained inspection angle, pushing close before easing back toward the road.</p><div class="moto-meter" aria-hidden="true"><span data-moto-meter></span></div><small>Real-time 3D road bike · CC0 model</small></div>
                 <div class="moto-stage"><canvas data-moto-canvas aria-label="Interactive three-dimensional touring motorcycle"></canvas><div class="moto-fallback" data-moto-fallback><span aria-hidden="true">◉—◉</span><p>3D preview unavailable. The roadbook still works.</p></div><p class="moto-hint">SCROLL ↕ ROTATE · ZOOM</p></div>
             </div>
         </section>
