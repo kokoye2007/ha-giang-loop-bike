@@ -56,7 +56,20 @@
       "Deposit and cancellation terms"
     ]
   },
-  "members": [],
+  "members": [
+    {
+      "id": "crew-1",
+      "label": "Crew 1",
+      "name": "Zawye Lwin",
+      "photo": "assets/members/zawye-lwin.png",
+      "photoAlt": "Cartoon avatar chosen for Zawye Lwin",
+      "role": "Tech guy · Night owl",
+      "ride": null,
+      "quote": "Single-threaded. Lightweight build. Heavy-duty kindness. Sleep mode unavailable. GG.",
+      "quoteLabel": "Suggested crew joke",
+      "publishConsent": true
+    }
+  ],
   "crew": {
     "note": "Member portraits and attributed quotes will appear here after members approve publication. Do not publish booking documents or contact details.",
     "sampleQuotes": ["I came for the views. My knees came for the negotiation.","Professional passenger. Amateur photographer.","My itinerary says adventure. My backpack says snacks."]
