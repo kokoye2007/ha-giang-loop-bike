@@ -1,6 +1,6 @@
 # VN BIKE — Ha Giang Roadbook
 
-A personal website for Valor’s 4-day/3-night Ha Giang package, with an eight-day Hanoi arrival/return plan. Dates currently assume **7–14 November 2026**, with the loop **8–11 November**; this is provisional.
+A group-tour website for Valor’s 4-day/3-night Ha Giang package, with an eight-day Hanoi arrival/return plan. Dates currently assume **7–14 November 2026**, with the loop **8–11 November**; this is provisional.
 
 ## Local development
 
@@ -16,7 +16,9 @@ Open http://localhost:8001/. `public/index.html` is the published entry. Source 
 
 ## Editable data
 
-Edit `data/trip.json` for dates, itinerary, checkpoints, budget and checklist. All costs are AUD. `null` means a quote is required; allowances are not confirmed prices. The selected Valor package price remains unconfirmed. Map markers are approximate location centres, not navigation waypoints.
+Edit `data/trip.json` for itinerary, checkpoints, photos, budget, ride options, members and checklist. Valor's booking configuration lists ride prices in **USD** (checked 5 October 2026); local allowances are **AUD**. The calculator keeps currencies separate and supports mixed ride choices, room sharing and vehicle sharing. No group size is assumed. Prices are not a final booking quote. Map markers are approximate location centres, not navigation waypoints.
+
+Member entries use `name`, `photo` (a local `assets/members/` image), `ride`, `quote` and `publishConsent`. Only entries with `publishConsent: true` render. Get approval for both the portrait and quote before public publication. The current joke ideas are unassigned, not attributed to real members.
 
 ## Publish
 
@@ -27,7 +29,14 @@ npm run build
 npx wrangler pages deploy public --project-name vn-bike
 ```
 
-For automatic deployments, connect the GitHub repository to Cloudflare Pages. The CI workflow validates and builds every change; it does not store or reuse your personal OAuth token.
+GitHub Actions is the deployment owner; do not enable a second Cloudflare Git integration. `.github/workflows/deploy.yml` validates and builds pull requests, then deploys the tested artifact on pushes to `main` or manual dispatch. The Pages project `vn-bike` already exists. Production URL: https://vn-bike.pages.dev/ (available after the first successful deployment).
+
+Configure repository Actions secrets:
+
+- `CLOUDFLARE_ACCOUNT_ID` — configured for this account.
+- `CLOUDFLARE_API_TOKEN` — create a scoped token with **Account → Cloudflare Pages → Edit**, restricted to the selected account. Never commit it or use the local Wrangler OAuth token in CI.
+
+The local command above is only a recovery option. Wrangler is pinned in the workflow. Only `main` deploys; pull requests have no deployment access. GitHub authentication needs the `workflow` scope to upload workflow files.
 
 Vercel alternative: import the GitHub repository. `vercel.json` supplies the build command and output directory.
 

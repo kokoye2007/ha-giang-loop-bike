@@ -1,6 +1,7 @@
 const $ = selector => document.querySelector(selector);
 const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = value => value === null ? 'TBC' : new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(value);
+const usd = value => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(value)+' USD';
 const date = value => new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'short',weekday:'short',timeZone:'UTC'}).format(new Date(value+'T12:00:00Z'));
 const maps = item => 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(item.mapsQuery);
 let trip, map, day = 1, filter = 0;
@@ -36,21 +37,39 @@ function renderMap() {
 }
 function renderBudget() {
     $('[data-package]').innerHTML=[['Listed inclusions',trip.package.included],['Listed exclusions',trip.package.excluded],['Ask Valor to confirm',trip.package.clarifications]].map(([title,items])=>'<article><h3>'+e(title)+'</h3><ul>'+items.map(item=>'<li>'+e(item)+'</li>').join('')+'</ul></article>').join('');
-    const known=trip.budget.reduce((sum,item)=>sum+(item.amount===null?0:item.amount*item.quantity),0);
-    $('[data-budget-summary]').innerHTML='<div><p class="eyebrow">PARTIAL ALLOWANCES / TWO TRAVELLERS</p><strong>'+money(known)+'</strong><small>Plus tour, flights, insurance and other TBC items</small></div><p>Valor package price: <b>TBC</b>. This is a subtotal of planning allowances, not a complete trip cost. '+sourceLink('valor','Open selected package ↗')+'</p>';
-    $('[data-budget]').innerHTML=trip.budget.map(item=>'<tr><td>'+e(item.item)+'</td><td>'+money(item.amount)+'<small>'+e(item.basis)+'</small></td><td>'+e(item.quantity)+'</td><td>'+money(item.amount===null?null:item.amount*item.quantity)+'</td><td>'+e(item.status)+'</td></tr>').join('');
+    const count=id=>Math.max(0,Math.min(100,Math.floor(Number($('[data-ride="'+id+'"]').value)||0)));
+    const people=trip.package.pricing.rides.reduce((sum,ride)=>sum+count(ride.id),0);
+    const tour=trip.package.pricing.rides.reduce((sum,ride)=>sum+count(ride.id)*ride.amount,0);
+    const bus=$('[data-bus]').checked?people*2*trip.package.pricing.extras[0].amount:0;
+    const rooms=Math.ceil(people/Math.max(1,Number($('[data-room-sharing]').value)||1));
+    const vehicles=Math.ceil(people/Math.max(1,Number($('[data-vehicle-sharing]').value)||1));
+    const allowances=trip.budget.filter(item=>!['Valor 4D3N package','Hanoi–Ha Giang return buses'].includes(item.item)).map(item=>({...item,quantity:item.basis==='per room / night'?rooms*3:item.basis==='per vehicle / transfer'?vehicles*2:item.basis==='per person / day'?people*3:item.basis==='booking total'?(people?1:0):people}));
+    const known=allowances.reduce((sum,item)=>sum+(item.amount===null?0:item.amount*item.quantity),0);
+    const warnings=[people>6?'Ask Valor to confirm capacity or a split/private group for more than six.':'',count('jeep')===1?'Jeep requires at least two people.':'',count('self')||count('friend')?'Self-riding requires valid Vietnam riding eligibility, experience and insurance; Australian licence/IDP alone is not sufficient.':''].filter(Boolean);
+    $('[data-budget-summary]').innerHTML='<div><p class="eyebrow">'+people+' PEOPLE / LISTED TOUR'+(bus?' + RETURN BUSES':'')+'</p><strong>'+usd(tour+bus)+'</strong><small>'+money(known)+' AUD local allowances · kept separate</small></div><p>'+(people?'Partial group estimate, not a booking or complete trip cost.':'Add travellers to the ride options to calculate your group.')+' '+warnings.map(e).join(' ')+' '+sourceLink('valor','Verify current prices ↗')+'</p>';
+    $('[data-budget]').innerHTML=allowances.map(item=>'<tr><td>'+e(item.item)+'</td><td>'+money(item.amount)+'<small>'+e(item.basis)+'</small></td><td>'+e(item.quantity)+'</td><td>'+money(item.amount===null?null:item.amount*item.quantity)+'</td><td>'+e(item.status)+'</td></tr>').join('');
+}
+function renderGroup() {
+    $('[data-rides]').innerHTML=trip.package.pricing.rides.map(ride=>'<article><p class="eyebrow">4 DAYS / 3 NIGHTS</p><h3>'+e(ride.name)+'</h3><strong>'+usd(ride.amount)+' / person</strong><p>'+e(ride.description)+'</p><label>Travellers <input type="number" min="0" max="100" value="0" data-ride="'+e(ride.id)+'"></label></article>').join('');
+    $('[data-price-note]').innerHTML=e(trip.package.pricing.note)+' Checked '+e(trip.package.pricing.checked)+'. '+sourceLink('valor','Booking source ↗');
+    $('[data-extras]').innerHTML=trip.package.pricing.extras.map(extra=>'<p>'+e(extra.name)+': <b>'+usd(extra.amount)+'</b> · '+e(extra.basis)+'</p>').join('');
+    $('[data-gallery]').innerHTML=trip.gallery.map(id=>{const photo=trip.photos[id];return '<figure><img src="'+e(photo.image)+'" alt="'+e(photo.alt)+'" loading="lazy"><figcaption>'+e(photo.alt)+'<br>'+photoCaption(photo)+'</figcaption></figure>';}).join('');
+    $('[data-crew-note]').textContent=trip.crew.note;
+    const members=trip.members.filter(member=>member.publishConsent===true);
+    $('[data-members]').innerHTML=members.length?members.map(member=>'<article>'+(member.photo?'<img src="'+e(member.photo)+'" alt="'+e(member.name)+'">':'')+'<h3>'+e(member.name)+'</h3><p>'+e(member.ride||'Ride choice pending')+'</p><blockquote>'+e(member.quote||'Quote pending')+'</blockquote></article>').join(''):'<article><h3>Your crew goes here.</h3><p>Send a portrait, display name, ride choice and a joke quote for each person. Only member-approved profiles will be published.</p></article>';
+    $('[data-jokes]').innerHTML=trip.crew.sampleQuotes.map(quote=>'<blockquote>“'+e(quote)+'”</blockquote>').join('');
 }
 function updateProgress() { const state=saved();$('[data-progress]').textContent=trip.checklist.filter(item=>state[item.id]).length+' / '+trip.checklist.length+' ready'; }
 function renderChecklist() { const state=saved();$('[data-checklist]').innerHTML=trip.checklist.map(item=>'<label class="check-row"><input type="checkbox" data-check="'+e(item.id)+'" '+(state[item.id]?'checked':'')+'><span><small>'+e(item.category)+'</small>'+e(item.label)+'</span></label>').join('');updateProgress(); }
 function render() {
-    $('[data-stats]').innerHTML=[['7–14 Nov','Hanoi arrival & return · provisional'],['8–11 Nov','The loop · 4 days / 3 nights'],[trip.trip.routeKm+' km','Valor route estimate'],[trip.trip.mode,'Local driver / pillion plan']].map(([value,label])=>'<div><b>'+e(value)+'</b><small>'+e(label)+'</small></div>').join('');
+    $('[data-stats]').innerHTML=[['7–14 Nov','Hanoi arrival & return · provisional'],['8–11 Nov','The loop · 4 days / 3 nights'],[trip.trip.routeKm+' km','Valor route estimate'],[trip.trip.mode,'Mix your crew’s ride choices']].map(([value,label])=>'<div><b>'+e(value)+'</b><small>'+e(label)+'</small></div>').join('');
     $('[data-week]').innerHTML=trip.itinerary.map(item=>'<div class="week-day'+(item.phase==='loop'?' is-loop':'')+'"><b>'+e(Number(item.date.slice(-2)))+'</b><span>'+e(item.title)+'</span><small>'+e(item.stay)+'</small></div>').join('');
     $('[data-tabs]').innerHTML=trip.loop.map(item=>'<button type="button" data-day="'+e(item.day)+'" aria-pressed="false">Day '+e(item.day)+' · '+e(Number(item.date.slice(-2)))+' Nov</button>').join('');
     $('[data-filters]').innerHTML=[0,1,2,3,4].map(i=>'<button type="button" data-filter="'+i+'" aria-pressed="false">'+(i?'Day '+i:'All checkpoints')+'</button>').join('');
     $('[data-weather]').innerHTML='<h3>'+e(trip.weather.title)+'</h3><p>'+e(trip.weather.note)+' '+sourceLink(trip.weather.sourceId,'Seasonal notes ↗')+'</p>';
     $('[data-advice]').innerHTML=[['DO',trip.advice.do],['DON’T',trip.advice.dont]].map(([title,items])=>'<article><h3>'+e(title)+'</h3><ul>'+items.map(item=>'<li>'+e(item)+'</li>').join('')+'</ul>'+sourceLink('safety','Official travel and riding advice ↗')+'</article>').join('');
     $('[data-sources]').innerHTML=trip.sources.map(source=>'<details><summary>'+e(source.title)+' · '+e(source.type)+'</summary><p>'+e(source.note)+'</p><a href="'+e(source.url)+'" target="_blank" rel="noopener">Read reference ↗</a></details>').join('');
-    renderDay();renderCheckpoints();renderBudget();renderChecklist();renderMap();
+    renderDay();renderCheckpoints();renderGroup();renderBudget();renderChecklist();renderMap();
 }
 document.addEventListener('click',event=>{
     const dayButton=event.target.closest('[data-day]');if(dayButton&&trip){day=Number(dayButton.dataset.day);renderDay();}
@@ -59,5 +78,6 @@ document.addEventListener('click',event=>{
     const mapButton=event.target.closest('[data-map]');if(mapButton&&map){const marker=markers.get(mapButton.dataset.map);if(marker){map.setView(marker.getLatLng(),12,{animate:!matchMedia('(prefers-reduced-motion:reduce)').matches});marker.openPopup();$('#route-map').scrollIntoView({block:'center'});}}
     if(event.target.closest('[data-print]'))window.print();
 });
+$('#budget').addEventListener('input',event=>{if(event.target.matches('[data-ride], [data-room-sharing], [data-vehicle-sharing], [data-bus]'))renderBudget();});
 $('[data-checklist]').addEventListener('change',event=>{const input=event.target.closest('[data-check]');if(!input)return;const state=saved();state[input.dataset.check]=input.checked;try{localStorage.setItem(storageKey,JSON.stringify(state));}catch{}updateProgress();});
 fetch('data/trip.json').then(response=>{if(!response.ok)throw new Error('Trip data unavailable');return response.json();}).then(data=>{trip=data;const requested=Number(new URLSearchParams(location.search).get('day'));if([1,2,3,4].includes(requested))day=requested;render();}).catch(()=>{$('[data-day-detail]').innerHTML='<p role="alert">The roadbook could not load. Please refresh or check your connection.</p>';});

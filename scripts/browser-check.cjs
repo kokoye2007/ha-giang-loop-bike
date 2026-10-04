@@ -12,6 +12,10 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         const url='http://127.0.0.1:'+server.address().port;
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
         assert.equal(await page.locator('.week-day').count(),8);
+        await page.locator('[data-ride="easy"]').fill('3');await page.locator('[data-ride="self"]').fill('2');
+        assert.match(await page.locator('[data-budget-summary]').innerText(),/5 PEOPLE/);
+        assert.match(await page.locator('[data-budget-summary]').innerText(),/1,350/);
+        await page.locator('[data-bus]').uncheck();assert.match(await page.locator('[data-budget-summary]').innerText(),/1,170/);
         for(let i=1;i<=4;i++){await page.click('[data-day="'+i+'"]');assert.match(await page.locator('.day-copy .eyebrow').innerText(),new RegExp('DAY '+i));assert.ok(page.url().includes('day='+i));}
         for(let i=1;i<=4;i++){await page.click('[data-filter="'+i+'"]');assert.ok(await page.locator('.checkpoint-card').count()>0);}
         await page.click('[data-filter="0"]');assert.equal(await page.locator('.checkpoint-card').count(),11);
@@ -25,7 +29,7 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         for(const width of [390,768]){
             await page.setViewportSize({width,height:844});
             assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Overflow at '+width);
-            for(const img of await page.locator('.hero img, .day-photo img, .checkpoint-card img').all()){await img.scrollIntoViewIfNeeded();await img.evaluate(async node=>{try {await node.decode();}catch(error){throw new Error('Photo failed: '+node.src+' — '+error.message);}});}
+            for(const img of await page.locator('.hero img, .day-photo img, .checkpoint-card img, .gallery-grid img').all()){await img.scrollIntoViewIfNeeded();await img.evaluate(async node=>{try {await node.decode();}catch(error){throw new Error('Photo failed: '+node.src+' — '+error.message);}});}
         }
         await page.setViewportSize({width:390,height:844});await page.locator('.checkpoint-card').first().screenshot({path:path.resolve(__dirname,'../previews/mobile-card.png')});
         await page.locator('.hero').screenshot({path:path.resolve(__dirname,'../previews/mobile.png')});

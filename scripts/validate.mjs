@@ -8,6 +8,11 @@ export async function validate() {
     assert.equal(data.loop.length,4);assert.equal(data.trip.loopNights,3);assert.equal(data.itinerary.length,8);
     assert.equal(data.loop.reduce((sum,day)=>sum+day.km,0),data.trip.routeKm);
     assert.equal(data.trip.operator,'Valor');assert.equal(data.package.price,null);
+    assert.equal(data.trip.travellers,null);assert.equal(data.package.pricing.currency,'USD');
+    assert.equal(data.package.pricing.rides.find(ride=>ride.id==='easy').amount,250);
+    assert.equal(data.package.pricing.rides.find(ride=>ride.id==='self').amount,210);
+    for(const id of data.gallery)assert(data.photos[id]);
+    for(const member of data.members){assert(member.name);assert.equal(typeof member.publishConsent,'boolean');if(member.photo){assert(member.photo.startsWith('assets/members/'));await access(path.join(root,member.photo));}}
     const ids=new Set(data.checkpoints.map(point=>point.id));assert.equal(ids.size,data.checkpoints.length);
     const days=new Set(data.itinerary.map(day=>day.date));assert.equal(days.size,8);
     for(const [index,day] of data.loop.entries()) {
