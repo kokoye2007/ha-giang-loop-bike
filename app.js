@@ -4,7 +4,7 @@ const money = value => value === null ? 'TBC' : new Intl.NumberFormat('en-AU',{s
 const usd = value => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(value)+' USD';
 const date = value => new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'short',weekday:'short',timeZone:'UTC'}).format(new Date(value+'T12:00:00Z'));
 const maps = item => 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(item.mapsQuery);
-let trip, map, day = 1, filter = 0;
+let trip, map, routeBounds, day = 1, filter = 0;
 const markers = new Map();
 const storageKey = 'vn-bike-valor-checklist-v1';
 function saved() { try { const value=JSON.parse(localStorage.getItem(storageKey)||'{}'); return value && typeof value==='object' && !Array.isArray(value) ? value : {}; } catch { return {}; } }
@@ -25,15 +25,20 @@ function renderCheckpoints() {
 }
 function renderMap() {
     if(!window.L) { $('[data-map-status]').textContent='Map unavailable. Google Maps links are available on every checkpoint.'; return; }
-    map=L.map('route-map',{scrollWheelZoom:false});
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map).on('tileerror',()=>{$('[data-map-status]').textContent='Base tiles could not load. Checkpoint links still work.';});
+    map=L.map('route-map',{scrollWheelZoom:false,zoomControl:false,minZoom:2,maxZoom:18});
+    if(window.MaplibreGLLeaflet&&window.maplibregl&&maplibregl.supported()){
+        const base=MaplibreGLLeaflet.maplibreGL({style:'https://tiles.openfreemap.org/styles/positron',attribution:'<a href="https://openfreemap.org/">OpenFreeMap</a> · © <a href="https://openmaptiles.org/">OpenMapTiles</a> · © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+        base.getMaplibreMap().on('error',()=>{$('[data-map-status]').textContent='Some basemap resources could not load. Place pins and Google Maps links still work.';});
+    }else{$('[data-map-status]').textContent='Vector basemap needs WebGL and a connection. Place pins and Google Maps links remain available.';}
+    const controls=L.control({position:'topright'});controls.onAdd=()=>{const box=L.DomUtil.create('div','roadbook-map-controls');box.innerHTML='<button type="button" data-map-zoom="1" aria-label="Zoom in">+</button><button type="button" data-map-zoom="-1" aria-label="Zoom out">−</button><button type="button" data-map-reset aria-label="Show the whole route">↗</button>';L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);return box;};controls.addTo(map);
+    const label=L.control({position:'topleft'});label.onAdd=()=>{const box=L.DomUtil.create('div','roadbook-map-label');box.innerHTML='<b>HA GIANG / THE LOOP</b><span>424 km · schematic stop order</span>';return box;};label.addTo(map);
     const origin=[22.8233,104.9836];
     L.marker(origin,{icon:L.divIcon({className:'route-pin',html:'<span>H</span>',iconSize:[28,28],iconAnchor:[14,14]})}).addTo(map).bindPopup('Ha Giang · start / finish');
     trip.checkpoints.forEach((point,index)=>{
         const icon=L.divIcon({className:'route-pin',html:'<span>'+e(index+1)+'</span>',iconSize:[28,28],iconAnchor:[14,14]});
         const marker=L.marker(point.coordinates,{icon,title:point.name}).addTo(map).bindPopup('<b>'+e(point.name)+'</b><br>Day '+e(point.loopDay)+' · approximate location<br><a href="'+e(maps(point))+'" target="_blank" rel="noopener">Google Maps ↗</a>'); markers.set(point.id,marker);
     });
-    const line=L.polyline([origin,...trip.checkpoints.filter(p=>p.status!=='optional').map(p=>p.coordinates),origin],{color:'#183d35',weight:3,dashArray:'5 8'}).addTo(map);map.fitBounds(line.getBounds(),{padding:[25,25]});
+    const line=L.polyline([origin,...trip.checkpoints.filter(p=>p.status!=='optional').map(p=>p.coordinates),origin],{color:'#bd653d',weight:3,dashArray:'4 8',opacity:.85}).addTo(map);routeBounds=line.getBounds();map.fitBounds(routeBounds,{padding:[45,45]});
 }
 function renderBudget() {
     $('[data-package]').innerHTML=[['Listed inclusions',trip.package.included],['Listed exclusions',trip.package.excluded],['Ask Valor to confirm',trip.package.clarifications]].map(([title,items])=>'<article><h3>'+e(title)+'</h3><ul>'+items.map(item=>'<li>'+e(item)+'</li>').join('')+'</ul></article>').join('');
@@ -72,6 +77,8 @@ function render() {
     renderDay();renderCheckpoints();renderGroup();renderBudget();renderChecklist();renderMap();
 }
 document.addEventListener('click',event=>{
+    const zoom=event.target.closest('[data-map-zoom]');if(zoom&&map)map.setZoom(map.getZoom()+Number(zoom.dataset.mapZoom));
+    if(event.target.closest('[data-map-reset]')&&map)map.fitBounds(routeBounds,{padding:[45,45]});
     const dayButton=event.target.closest('[data-day]');if(dayButton&&trip){day=Number(dayButton.dataset.day);renderDay();}
     const filterButton=event.target.closest('[data-filter]');if(filterButton&&trip){filter=Number(filterButton.dataset.filter);renderCheckpoints();}
     const checkpoint=event.target.closest('[data-show-checkpoint]');if(checkpoint&&trip){filter=0;renderCheckpoints();}

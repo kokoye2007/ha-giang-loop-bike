@@ -21,6 +21,9 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.click('[data-filter="0"]');assert.equal(await page.locator('.checkpoint-card').count(),11);
         await page.locator('[data-check]').first().check();await page.reload();await page.waitForSelector('[data-check]');assert.equal(await page.locator('[data-check]').first().isChecked(),true);
         await page.goto(url+'/?day=3');await page.waitForSelector('.day-copy');assert.match(await page.locator('.day-copy h3').innerText(),/Above the canyon/);
+        assert.equal(await page.locator('.leaflet-control-zoom').count(),0);
+        assert.equal(await page.locator('[data-map-zoom]').count(),2);
+        await page.locator('[data-map-zoom="1"]').click();await page.locator('[data-map-reset]').click();
         await page.locator('[data-map]').first().click();await page.waitForSelector('.leaflet-popup');
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
         fs.mkdirSync(path.resolve(__dirname,'../previews'),{recursive:true});

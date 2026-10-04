@@ -45,3 +45,7 @@ Vercel alternative: import the GitHub repository. `vercel.json` supplies the bui
 `npm test` validates date sequence, package shape, distances, references, photo files and budget values. `scripts/browser-check.cjs` uses Playwright and a local Chrome installation; set `PLAYWRIGHT_MODULE` to an installed Playwright package and optionally `CHROME_PATH`. It exercises day selection, map actions, filters, saved checklist and mobile layouts.
 
 Research sources are listed on the website and in `reports/research.md`. Photo licences are in `assets/CREDITS.md`. No booking payments or personal traveller documents are stored.
+
+## Map design
+
+Leaflet keeps checkpoint interactions; MapLibre renders OpenFreeMap's Positron vector style rather than default raster OSM tiles. Custom controls, numbered pins and a schematic route overlay match the roadbook. Libraries are version-pinned on unpkg; map styles/tiles need network access and WebGL. No map API token is required. Required map-provider/data attribution remains visible. [Official integration guide](https://openfreemap.org/quick_start/).

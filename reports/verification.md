@@ -13,7 +13,11 @@ Data validation and static build pass. Browser checks cover root index, four dai
 
 ## Deployment ownership
 
-GitHub Actions validates/builds, uploads the artifact and invokes pinned Wrangler for production main pushes. Cloudflare Pages project `vn-bike` exists. Local OAuth is not reused by CI. Account ID secret is configured; a scoped API token and GitHub workflow upload permission are needed to activate the first pipeline deployment.
+GitHub Actions validates/builds, uploads the artifact and invokes pinned Wrangler for production main pushes. Cloudflare Pages project `vn-bike` exists. Local OAuth is not reused by CI. Account ID secret is configured and GitHub workflow scope is authorised; the scoped Cloudflare API token is still required to activate deployment.
+
+## Styled map
+
+Leaflet interactions use an OpenFreeMap Positron vector basemap rendered by pinned MapLibre and its official Leaflet adapter. No default OSM raster layer or default zoom widget. Custom controls, route framing, numbered markers and popup styling are in place. Provider/data attribution is preserved. WebGL/network limitations display an explicit fallback note with usable place pins and Google Maps links.
 
 ## Open content inputs
 

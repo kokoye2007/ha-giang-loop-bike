@@ -62,8 +62,9 @@ em { font-weight:400; }
 .day-stops a { display:inline-block; margin:6px 12px 0 0; }
 .map-block { display:grid; grid-template-columns:.6fr 1fr; align-items:center; gap:40px; margin-top:50px; }
 .map-block p { color:var(--muted); font-size:.8rem; margin-top:16px; }
-#route-map { height:420px; background:var(--line); z-index:0; border:1px solid var(--line); }
+#route-map { height:460px; background:#e6e9e4; z-index:0; border:1px solid var(--line); border-radius:18px; overflow:hidden; }
 .route-pin span { display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:var(--forest); color:var(--paper); border:2px solid var(--paper); font-size:11px; }
+.route-pin span{box-shadow:0 3px 12px #183d3533;font-weight:700}.roadbook-map-controls{display:flex;flex-direction:column;background:#faf7ef;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px #183d3522}.roadbook-map-controls button{width:42px;height:42px;border:0;border-bottom:1px solid #d9ddd4;background:transparent;color:#183d35;font-size:22px;cursor:pointer}.roadbook-map-controls button:hover{background:#e3e7dc}.roadbook-map-label{padding:12px 16px;background:#faf7eff0;border-radius:10px;box-shadow:0 4px 20px #183d3515}.roadbook-map-label b{display:block;font-size:10px;letter-spacing:1.5px}.roadbook-map-label span{font-size:11px;color:#64716a}.leaflet-popup-content-wrapper{border-radius:12px;background:#faf7ef;color:#183d35;box-shadow:0 5px 25px #183d3522}.leaflet-popup-content{font-family:inherit;line-height:1.7}.leaflet-container .leaflet-control-attribution{background:#faf7efe6;font-size:9px}
 .checkpoint-section { background:var(--paper); }
 .checkpoint-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
 .checkpoint-card { min-width:0; border:1px solid var(--line); background:var(--cream); display:flex; flex-direction:column; }
