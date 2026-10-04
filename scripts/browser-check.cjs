@@ -5,7 +5,7 @@ const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.jso
 const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);const file=path.resolve(root,'.'+(pathname==='/'?'/index.html':pathname));if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}fs.readFile(file,(err,data)=>{if(err){res.writeHead(404).end();return;}res.setHeader('Content-Type',types[path.extname(file)]||'application/octet-stream');res.end(data);});});
 (async()=>{
     await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
-    const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',args:['--no-sandbox']});
+    const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
     try {
         const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];
         page.on('pageerror',error=>errors.push(error.message));
@@ -23,12 +23,16 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.goto(url+'/?day=3');await page.waitForSelector('.day-copy');assert.match(await page.locator('.day-copy h3').innerText(),/Above the canyon/);
         assert.equal(await page.locator('.leaflet-control-zoom').count(),0);
         assert.equal(await page.locator('[data-map-zoom]').count(),2);
+        assert.ok(await page.locator('#route-map canvas').count()>0,'Vector basemap canvas must exist');
         await page.locator('[data-map-zoom="1"]').click();await page.locator('[data-map-reset]').click();
         await page.locator('[data-map]').first().click();await page.waitForSelector('.leaflet-popup');
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
         fs.mkdirSync(path.resolve(__dirname,'../previews'),{recursive:true});
         await page.screenshot({path:path.resolve(__dirname,'../previews/desktop.png')});
         await page.locator('.day-layout').screenshot({path:path.resolve(__dirname,'../previews/roadbook.png')});
+        await page.locator('#route-map').scrollIntoViewIfNeeded();
+        await page.waitForTimeout(1500);
+        await page.locator('#route-map').screenshot({path:path.resolve(__dirname,'../previews/map.png')});
         for(const width of [390,768]){
             await page.setViewportSize({width,height:844});
             assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Overflow at '+width);

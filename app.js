@@ -26,10 +26,10 @@ function renderCheckpoints() {
 function renderMap() {
     if(!window.L) { $('[data-map-status]').textContent='Map unavailable. Google Maps links are available on every checkpoint.'; return; }
     map=L.map('route-map',{scrollWheelZoom:false,zoomControl:false,minZoom:2,maxZoom:18});
-    if(window.MaplibreGLLeaflet&&window.maplibregl&&maplibregl.supported()){
+    try { if(window.MaplibreGLLeaflet&&window.maplibregl){
         const base=MaplibreGLLeaflet.maplibreGL({style:'https://tiles.openfreemap.org/styles/positron',attribution:'<a href="https://openfreemap.org/">OpenFreeMap</a> · © <a href="https://openmaptiles.org/">OpenMapTiles</a> · © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
         base.getMaplibreMap().on('error',()=>{$('[data-map-status]').textContent='Some basemap resources could not load. Place pins and Google Maps links still work.';});
-    }else{$('[data-map-status]').textContent='Vector basemap needs WebGL and a connection. Place pins and Google Maps links remain available.';}
+    }else{throw new Error('Vector renderer unavailable');} } catch { $('[data-map-status]').textContent='Vector basemap needs WebGL and a connection. Place pins and Google Maps links remain available.'; }
     const controls=L.control({position:'topright'});controls.onAdd=()=>{const box=L.DomUtil.create('div','roadbook-map-controls');box.innerHTML='<button type="button" data-map-zoom="1" aria-label="Zoom in">+</button><button type="button" data-map-zoom="-1" aria-label="Zoom out">−</button><button type="button" data-map-reset aria-label="Show the whole route">↗</button>';L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);return box;};controls.addTo(map);
     const label=L.control({position:'topleft'});label.onAdd=()=>{const box=L.DomUtil.create('div','roadbook-map-label');box.innerHTML='<b>HA GIANG / THE LOOP</b><span>424 km · schematic stop order</span>';return box;};label.addTo(map);
     const origin=[22.8233,104.9836];
