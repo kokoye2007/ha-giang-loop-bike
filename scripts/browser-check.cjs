@@ -44,17 +44,21 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.waitForTimeout(1500);
         await page.locator('#route-map').screenshot({path:path.resolve(__dirname,'../previews/map.png')});
         await page.locator('#daily-weather').screenshot({path:path.resolve(__dirname,'../previews/weather.png')});
+        await page.locator('.crew-card').first().screenshot({path:path.resolve(__dirname,'../previews/crew-card-desktop.png')});
         await page.locator('[data-theme-choice="night"]').click();
         await page.locator('#budget').screenshot({path:path.resolve(__dirname,'../previews/night-budget.png')});
         await page.locator('[data-theme-choice="forest"]').click();
         for(const width of [320,390,768]){
             await page.setViewportSize({width,height:844});
             assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Overflow at '+width);
+            const avatar=await page.locator('.crew-avatar').first().boundingBox();
+            assert.ok(avatar.width<=96&&avatar.height<=96,'Crew avatar must remain compact');
             assert.ok(await page.evaluate(()=>document.querySelector('.hero-copy').getBoundingClientRect().top>=document.querySelector('.appearance').getBoundingClientRect().bottom),'Theme switch must not overlap hero copy');
             for(const img of await page.locator('.hero img, .day-photo img, .checkpoint-card img, .gallery-grid img, .crew-grid img').all()){await img.scrollIntoViewIfNeeded();await img.evaluate(async node=>{try {await node.decode();}catch(error){throw new Error('Photo failed: '+node.src+' — '+error.message);}});}
         }
         await page.setViewportSize({width:390,height:844});await page.locator('.checkpoint-card').first().screenshot({path:path.resolve(__dirname,'../previews/mobile-card.png')});
         await page.locator('.hero').screenshot({path:path.resolve(__dirname,'../previews/mobile.png')});
+        await page.locator('.crew-card').first().screenshot({path:path.resolve(__dirname,'../previews/crew-card-mobile.png')});
         assert.deepEqual(errors,[]);
         const fixture=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../data/trip.json'),'utf8'));
         fixture.members=[{name:'Hidden test member',publishConsent:false},{name:'Approved test member',publishConsent:true,quote:'<b>A harmless joke</b>'}];
