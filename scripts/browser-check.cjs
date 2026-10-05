@@ -37,7 +37,7 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         assert.match(await page.locator('.crew-card').nth(1).innerText(),/Ko Ko Ye/);
         assert.match(await page.locator('.crew-card').nth(1).innerText(),/Easy Rider/);
         assert.match(await page.locator('.crew-card').nth(1).innerText(),/Script Kiddo/);
-        assert.match(await page.locator('.crew-card').nth(1).innerText(),/Deploy went down—DNS said no\./);
+        assert.match(await page.locator('.crew-card').nth(1).innerText(),/Deploy failed\? Blame DNS\./);
         assert.match(await page.locator('.crew-card').nth(1).locator('img').getAttribute('src'),/ko-ko-ye\.png$/);
         assert.equal(await page.locator('.week-day').count(),8);
         assert.equal(await page.locator('[data-weather-day]').count(),8);
