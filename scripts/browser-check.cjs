@@ -36,8 +36,8 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         assert.equal(await page.locator('.crew-card').count(),2);
         assert.match(await page.locator('.crew-card').nth(1).innerText(),/Ko Ko Ye/);
         assert.match(await page.locator('.crew-card').nth(1).innerText(),/Easy Rider/);
-        assert.match(await page.locator('.crew-card').nth(1).innerText(),/Linux Admin/);
-        assert.match(await page.locator('.crew-card').nth(1).innerText(),/I trust Linux more than my riding skills\./);
+        assert.match(await page.locator('.crew-card').nth(1).innerText(),/Script Kiddo/);
+        assert.match(await page.locator('.crew-card').nth(1).innerText(),/Deploy went down—DNS said no\./);
         assert.match(await page.locator('.crew-card').nth(1).locator('img').getAttribute('src'),/ko-ko-ye\.png$/);
         assert.equal(await page.locator('.week-day').count(),8);
         assert.equal(await page.locator('[data-weather-day]').count(),8);

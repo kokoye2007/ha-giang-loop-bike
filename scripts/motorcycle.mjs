@@ -6,6 +6,7 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 if(section&&canvas&&stage) try {
     const THREE=await import('three');
     const {GLTFLoader}=await import('three/addons/loaders/GLTFLoader.js');
+    const {MeshoptDecoder}=await import('three/addons/libs/meshopt_decoder.module.js');
     const scene=new THREE.Scene();
     const camera=new THREE.PerspectiveCamera(29,1,.1,100);
     camera.position.set(0,.35,7.4);
@@ -16,7 +17,7 @@ if(section&&canvas&&stage) try {
     renderer.toneMappingExposure=1.2;
 
     const bike=new THREE.Group();
-    const model=(await new GLTFLoader().loadAsync('../assets/road-sportbike.glb')).scene;
+    const model=(await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(new URL('../assets/motorcycle/suzuki.glb',import.meta.url).href)).scene;
     const bounds=new THREE.Box3().setFromObject(model),centre=bounds.getCenter(new THREE.Vector3());
     model.position.set(-centre.x,-bounds.min.y,-centre.z);
     model.traverse(node=>{if(node.isMesh){node.castShadow=true;node.receiveShadow=true;}});
@@ -31,7 +32,7 @@ if(section&&canvas&&stage) try {
     const render=()=>{
         scheduled=false;
         const zoom=reduced.matches?1.75:1.25+Math.sin(progress*Math.PI)*1.15;
-        const turn=reduced.matches?-.62:-.88+progress*1.75;
+        const turn=reduced.matches?-.62:-.4+progress*.8;
         bike.rotation.set(reduced.matches?.035:(progress-.5)*.055,turn,0);
         bike.scale.setScalar(zoom);
         bike.position.x=reduced.matches?0:(progress-.5)*-.28;

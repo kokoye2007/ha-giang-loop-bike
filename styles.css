@@ -161,7 +161,7 @@ footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space
 .crew-ride{display:inline-block;margin-top:20px;padding:5px 11px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.65rem}
 .crew-quote-frame{position:relative;margin-top:22px;padding:21px 23px;border:1px solid var(--line);border-radius:16px;background:var(--cream)}
 .crew-quote-frame::before{content:"";position:absolute;left:32px;top:-7px;width:12px;height:12px;background:var(--cream);border-left:1px solid var(--line);border-top:1px solid var(--line);transform:rotate(45deg)}
-.crew-quote-frame blockquote{margin:0;color:var(--ink);font:1.3rem/1.5 var(--display);overflow-wrap:anywhere}.crew-quote-label{margin-top:12px;color:var(--muted);font-size:.61rem;letter-spacing:.07em;text-transform:uppercase}
+.crew-quote-frame blockquote{margin:0;color:var(--ink);font:1.3rem/1.5 var(--display);overflow-wrap:anywhere;white-space:pre-line}.crew-quote-label{margin-top:12px;color:var(--muted);font-size:.61rem;letter-spacing:.07em;text-transform:uppercase}
 @media(max-width:620px){.crew-grid .crew-card{padding:20px}.crew-person{grid-template-columns:76px minmax(0,1fr);gap:16px}.crew-avatar,.crew-avatar-placeholder{width:76px;height:76px}.crew-identity h3{font-size:1.5rem}.crew-quote-frame{padding:18px}.crew-quote-frame blockquote{font-size:1.15rem}}
 @media(max-width:700px){.ride-grid,.crew-grid,.quote-grid{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery-grid img{height:180px}.group-controls{display:block}}
 .navigation,.hero,.day-photo figcaption{color:var(--on-forest)}

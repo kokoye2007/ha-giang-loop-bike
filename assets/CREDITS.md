@@ -17,3 +17,5 @@ Leaflet 1.9.4: BSD-2-Clause; see `LEAFLET-LICENSE.txt`. OpenStreetMap map attrib
 # 3D assets
 
 - `road-sportbike.glb` — “Road sportbike (Motorcycle Racing and Street Bikes)” by 3D Assets, [asset page](https://3dassets.dev/assets/motorcycle-racing-and-street-bikes-road-sportbike-e1418015), dedicated to the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). Bundled locally; 5,156 triangles.
+
+- Suzuki SV650 — johnnokomis, [source](https://sketchfab.com/3d-models/2020-suzuki-sv650-motorcycle-f087d91981284d118e433aab36c6bccd), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Optimised geometry and textures for web display.
