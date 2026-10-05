@@ -1,12 +1,12 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "updated": "2026-10-05",
   "trip": {
     "name": "Ha Giang Loop Bike",
     "title": "Ha Giang, one bend at a time.",
     "start": "2026-11-07",
     "end": "2026-11-14",
-    "dateStatus": "Provisional November/year assumption; user supplied days 7–14",
+    "dateStatus": "7 November — arrive in Hanoi. 8–11 November — Ha Giang Loop (4D3N). 14 November — depart Hanoi.",
     "travellers": null,
     "mode": "Group tour",
     "operator": "Valor",
@@ -25,17 +25,58 @@
       "sourceId": "valor",
       "note": "Prices read from Valor's public booking configuration, not a confirmed quote. Typical group size is 1–6; ask about larger groups. Currency is USD before conversion to VND at checkout.",
       "rides": [
-        {"id":"easy","name":"Easy Rider","amount":250,"description":"Ride pillion with an experienced local driver."},
-        {"id":"self","name":"Self-rider","amount":210,"description":"Ride yourself; licence, experience and insurance must be checked first."},
-        {"id":"friend","name":"Passenger behind a friend","amount":160,"description":"Your friend rides; confirm legal eligibility, safe capacity and cover for both."},
-        {"id":"jeep","name":"Jeep tour","amount":530,"description":"Operator lists a minimum of two people; confirm availability and inclusions."}
+        {
+          "id": "easy",
+          "name": "Easy Rider",
+          "amount": 250,
+          "description": "Ride pillion with an experienced local driver."
+        },
+        {
+          "id": "self",
+          "name": "Self-rider",
+          "amount": 210,
+          "description": "Ride yourself; licence, experience and insurance must be checked first."
+        },
+        {
+          "id": "friend",
+          "name": "Passenger behind a friend",
+          "amount": 160,
+          "description": "Your friend rides; confirm legal eligibility, safe capacity and cover for both."
+        },
+        {
+          "id": "jeep",
+          "name": "Jeep tour",
+          "amount": 530,
+          "description": "Operator lists a minimum of two people; confirm availability and inclusions."
+        }
       ],
       "extras": [
-        {"name":"Hanoi VIP bus","amount":18,"basis":"per person, each direction"},
-        {"name":"Dorm","amount":0,"basis":"listed accommodation option"},
-        {"name":"Private room","amount":30,"basis":"per selected unit; room/night basis to confirm"},
-        {"name":"Group tour","amount":0,"basis":"listed service option"},
-        {"name":"Private tour","amount":50,"basis":"per selected unit; group/person basis to confirm"}
+        {
+          "name": "Hanoi VIP bus",
+          "amount": 18,
+          "basis": "per person, each direction",
+          "id": "hanoi-bus"
+        },
+        {
+          "name": "Dorm",
+          "amount": 0,
+          "basis": "listed accommodation option"
+        },
+        {
+          "name": "Private room",
+          "amount": 30,
+          "basis": "per selected unit; room/night basis to confirm"
+        },
+        {
+          "name": "Group tour",
+          "amount": 0,
+          "basis": "listed service option"
+        },
+        {
+          "name": "Private tour",
+          "amount": 50,
+          "basis": "per selected unit; group/person basis to confirm"
+        }
       ]
     },
     "included": [
@@ -83,10 +124,23 @@
     }
   ],
   "crew": {
-    "note": "Member portraits and attributed quotes will appear here after members approve publication. Do not publish booking documents or contact details.",
-    "sampleQuotes": ["I came for the views. My knees came for the negotiation.","Professional passenger. Amateur photographer.","My itinerary says adventure. My backpack says snacks."]
+    "note": "Two approved crew profiles are published. Zawye Lwin’s ride choice is pending; Ko Ko Ye chose Easy Rider. Calculator counts are planning scenarios, not bookings.",
+    "sampleQuotes": [
+      "I came for the views. My knees came for the negotiation.",
+      "Professional passenger. Amateur photographer.",
+      "My itinerary says adventure. My backpack says snacks."
+    ]
   },
-  "gallery": ["ma-pi-leng","nho-que","dong-van","lung-cu","tham-ma","du-gia","quan-ba","hanoi"],
+  "gallery": [
+    "ma-pi-leng",
+    "nho-que",
+    "dong-van",
+    "lung-cu",
+    "tham-ma",
+    "du-gia",
+    "quan-ba",
+    "hanoi"
+  ],
   "photos": {
     "vuong-palace": {
       "image": "assets/vuong-palace.jpg",
@@ -169,11 +223,13 @@
       "photoId": "quan-ba",
       "mapsQuery": "Quan Ba & Bac Sum, Ha Giang, Vietnam",
       "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
+        "valor"
       ],
-      "budgetNote": "Package sightseeing; confirm ticket coverage"
+      "budgetNote": "Package sightseeing; confirm ticket coverage",
+      "evidenceIds": [
+        "planning-estimates",
+        "operator-stops"
+      ]
     },
     {
       "id": "nam-dam",
@@ -191,11 +247,13 @@
       "photoId": "quan-ba",
       "mapsQuery": "Nam Dam village, Ha Giang, Vietnam",
       "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
+        "valor"
       ],
-      "budgetNote": "Package sightseeing; confirm ticket coverage"
+      "budgetNote": "Package sightseeing; confirm ticket coverage",
+      "evidenceIds": [
+        "planning-estimates",
+        "operator-stops"
+      ]
     },
     {
       "id": "lung-tam",
@@ -213,11 +271,13 @@
       "photoId": "quan-ba",
       "mapsQuery": "Lung Tam weaving, Ha Giang, Vietnam",
       "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
+        "valor"
       ],
-      "budgetNote": "Package sightseeing; confirm ticket coverage"
+      "budgetNote": "Package sightseeing; confirm ticket coverage",
+      "evidenceIds": [
+        "planning-estimates",
+        "operator-stops"
+      ]
     },
     {
       "id": "tham-ma",
@@ -231,15 +291,14 @@
       "coordinateNote": "Approximate area centre, not a navigation waypoint",
       "loopDay": 2,
       "minutes": 20,
-      "status": "optional",
+      "status": "confirm",
       "photoId": "tham-ma",
       "mapsQuery": "Tham Ma Pass, Ha Giang, Vietnam",
-      "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
-      ],
-      "budgetNote": "Extra price / availability TBC"
+      "sourceIds": [],
+      "budgetNote": "Confirm stop and ticket coverage with Valor",
+      "evidenceIds": [
+        "planning-estimates"
+      ]
     },
     {
       "id": "vuong",
@@ -257,11 +316,13 @@
       "photoId": "vuong-palace",
       "mapsQuery": "Vuong Family Palace, Ha Giang, Vietnam",
       "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
+        "valor"
       ],
-      "budgetNote": "Package sightseeing; confirm ticket coverage"
+      "budgetNote": "Package sightseeing; confirm ticket coverage",
+      "evidenceIds": [
+        "planning-estimates",
+        "operator-stops"
+      ]
     },
     {
       "id": "lung-cu",
@@ -279,11 +340,13 @@
       "photoId": "lung-cu",
       "mapsQuery": "Lung Cu & Lo Lo village, Ha Giang, Vietnam",
       "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
+        "valor"
       ],
-      "budgetNote": "Confirm inclusion"
+      "budgetNote": "Confirm inclusion",
+      "evidenceIds": [
+        "planning-estimates",
+        "operator-stops"
+      ]
     },
     {
       "id": "dong-van",
@@ -301,11 +364,13 @@
       "photoId": "dong-van",
       "mapsQuery": "Dong Van old town, Ha Giang, Vietnam",
       "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
+        "valor"
       ],
-      "budgetNote": "Package sightseeing; confirm ticket coverage"
+      "budgetNote": "Package sightseeing; confirm ticket coverage",
+      "evidenceIds": [
+        "planning-estimates",
+        "operator-stops"
+      ]
     },
     {
       "id": "ma-pi-leng",
@@ -323,11 +388,13 @@
       "photoId": "ma-pi-leng",
       "mapsQuery": "Ma Pi Leng & Sky Path, Ha Giang, Vietnam",
       "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
+        "valor"
       ],
-      "budgetNote": "Package sightseeing; confirm ticket coverage"
+      "budgetNote": "Package sightseeing; confirm ticket coverage",
+      "evidenceIds": [
+        "planning-estimates",
+        "operator-stops"
+      ]
     },
     {
       "id": "nho-que",
@@ -344,12 +411,11 @@
       "status": "optional",
       "photoId": "nho-que",
       "mapsQuery": "Nho Que boat option, Ha Giang, Vietnam",
-      "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
-      ],
-      "budgetNote": "Extra price / availability TBC"
+      "sourceIds": [],
+      "budgetNote": "Extra price / availability TBC",
+      "evidenceIds": [
+        "planning-estimates"
+      ]
     },
     {
       "id": "du-gia",
@@ -367,11 +433,13 @@
       "photoId": "du-gia",
       "mapsQuery": "Du Gia & waterfall, Ha Giang, Vietnam",
       "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
+        "valor"
       ],
-      "budgetNote": "Package sightseeing; confirm ticket coverage"
+      "budgetNote": "Package sightseeing; confirm ticket coverage",
+      "evidenceIds": [
+        "planning-estimates",
+        "operator-stops"
+      ]
     },
     {
       "id": "lung-ho",
@@ -389,11 +457,13 @@
       "photoId": "du-gia",
       "mapsQuery": "Lung Ho / Duong Thuong, Ha Giang, Vietnam",
       "sourceIds": [
-        "valor",
-        "tourism",
-        "between"
+        "valor"
       ],
-      "budgetNote": "Package sightseeing; confirm ticket coverage"
+      "budgetNote": "Package sightseeing; confirm ticket coverage",
+      "evidenceIds": [
+        "planning-estimates",
+        "operator-stops"
+      ]
     }
   ],
   "loop": [
@@ -485,7 +555,30 @@
         }
       ],
       "sourceId": "valor",
-      "durationNote": "Distances are operator estimates. Timings may change."
+      "durationNote": "Core draft takes about 8h47 from a 09:30 departure, already beyond an illustrative 18:00 arrival target. Adding the boat makes about 10h47. Ask the guide to shorten the walk or omit add-ons; avoid a late riding commitment.",
+      "timeBudget": {
+        "note": "Draft feasibility model, not a guide schedule. Boat is excluded from the core day and only considered after guide approval.",
+        "parts": [
+          {
+            "label": "Riding 107 km · assumes 25 km/h moving average",
+            "minutes": 257
+          },
+          {
+            "label": "Pass / Sky Path allowance",
+            "minutes": 150
+          },
+          {
+            "label": "Lunch",
+            "minutes": 60
+          },
+          {
+            "label": "Access, rest and delay buffer",
+            "minutes": 60
+          }
+        ],
+        "optionalMinutes": 120,
+        "windowMinutes": 510
+      }
     },
     {
       "day": 4,
@@ -520,9 +613,9 @@
   "itinerary": [
     {
       "date": "2026-11-07",
-      "title": "Hanoi arrival → Ha Giang",
+      "title": "Arrive in Hanoi → Ha Giang",
       "place": "Travel day",
-      "detail": "A daytime transfer only works with an early Hanoi arrival. Confirm flight-to-pickup time; sleep in Ha Giang before the loop.",
+      "detail": "Arrive in Hanoi on 7 November, then transfer to Ha Giang for the pre-tour night. Coordinate pickup with Valor so the group can rest before the 8 November briefing.",
       "stay": "Ha Giang pre-tour dorm / upgrade",
       "phase": "transfer"
     },
@@ -557,7 +650,7 @@
       "date": "2026-11-11",
       "title": "Du Gia → Lung Ho → Ha Giang",
       "place": "Hanoi, if transfer confirmed",
-      "detail": "The road back",
+      "detail": "Return around 16:00 to Ha Giang; Hanoi around 23:00 only if the bus is confirmed. Arrange late check-in, or stay in Ha Giang and transfer the next morning.",
       "stay": "Hanoi, if transfer confirmed",
       "phase": "loop",
       "loopDay": 4
@@ -580,9 +673,9 @@
     },
     {
       "date": "2026-11-14",
-      "title": "Return flight",
+      "title": "Depart Hanoi",
       "place": "Hanoi airport",
-      "detail": "Confirm airport transfer and flight check-in time before adding activities.",
+      "detail": "Depart Hanoi on 14 November. Keep the day flexible and arrange the departure transfer.",
       "stay": "Departure",
       "phase": "departure"
     }
@@ -677,96 +770,106 @@
       "id": "return",
       "label": "Confirm 11 November return bus and Hanoi accommodation",
       "category": "Return"
+    },
+    {
+      "id": "entry",
+      "category": "Documents",
+      "label": "Verify entry requirements for each passport and match visa details; keep personal documents offline"
+    },
+    {
+      "id": "day-three",
+      "category": "Schedule",
+      "label": "Confirm Day 3 daylight arrival, Sky Path duration and whether the boat must be omitted"
     }
   ],
   "budget": [
     {
-      "item": "Valor 4D3N package",
-      "amount": null,
-      "quantity": 2,
-      "basis": "per person",
-      "status": "Quote required",
-      "sourceId": "valor",
-      "currency": "AUD"
-    },
-    {
-      "item": "Hanoi–Ha Giang return buses",
-      "amount": 25,
-      "quantity": 4,
-      "basis": "per person / direction",
-      "status": "Allowance; inclusion TBC",
-      "sourceId": null,
-      "currency": "AUD"
-    },
-    {
       "item": "Hanoi room",
       "amount": 50,
-      "quantity": 3,
       "basis": "per room / night",
       "status": "Allowance",
       "sourceId": null,
-      "currency": "AUD"
+      "currency": "AUD",
+      "scale": "roomNights"
     },
     {
       "item": "Hanoi food and coffee",
       "amount": 20,
-      "quantity": 6,
       "basis": "per person / day",
       "status": "Allowance",
       "sourceId": null,
-      "currency": "AUD"
+      "currency": "AUD",
+      "scale": "foodDays"
     },
     {
       "item": "Airport transfers",
       "amount": 25,
-      "quantity": 2,
       "basis": "per vehicle / transfer",
       "status": "Allowance",
       "sourceId": null,
-      "currency": "AUD"
+      "currency": "AUD",
+      "scale": "vehicleTransfers"
     },
     {
       "item": "Tips, drinks and small extras",
       "amount": 35,
-      "quantity": 2,
       "basis": "per person",
       "status": "Allowance",
       "sourceId": null,
-      "currency": "AUD"
+      "currency": "AUD",
+      "scale": "people"
     },
     {
       "item": "Flights",
       "amount": null,
-      "quantity": 2,
       "basis": "per person",
       "status": "Quote required",
       "sourceId": null,
-      "currency": "AUD"
+      "currency": "AUD",
+      "scale": "people"
     },
     {
       "item": "Insurance",
       "amount": null,
-      "quantity": 2,
       "basis": "per person",
       "status": "Quote required",
       "sourceId": null,
-      "currency": "AUD"
+      "currency": "AUD",
+      "scale": "people"
     },
     {
       "item": "VAT, card fees, upgrades",
       "amount": null,
-      "quantity": 1,
       "basis": "booking total",
       "status": "Confirm with Valor",
       "sourceId": "valor",
-      "currency": "AUD"
+      "currency": "AUD",
+      "scale": "booking"
     },
     {
       "item": "Optional boat trip",
       "amount": null,
-      "quantity": 2,
       "basis": "per person",
       "status": "Optional / TBC",
+      "sourceId": null,
+      "currency": "AUD",
+      "scale": "people"
+    },
+    {
+      "item": "Hanoi attraction tickets",
+      "amount": null,
+      "basis": "per person",
+      "scale": "people",
+      "status": "Activity selection / quote required",
+      "sourceId": null,
+      "currency": "AUD"
+    },
+    {
+      "item": "Contingency reserve",
+      "amount": 40,
+      "basis": "per person",
+      "scale": "people",
+      "status": "Planning allowance; not an operator charge",
       "sourceId": null,
       "currency": "AUD"
     }
@@ -780,7 +883,7 @@
       "Keep offline maps, cash and a charged phone."
     ],
     "dont": [
-      "Do not self-ride until Valor confirms your motorcycle licence, recognised international permit and insurance are valid in Vietnam.",
+      "Do not self-ride until the relevant authority confirms your actual licence/permit eligibility and your insurer confirms cover. Operator approval alone is insufficient.",
       "Do not drink before riding or distract your driver.",
       "Do not stop on blind bends or cross border restrictions.",
       "Do not give children sweets or money for photographs.",
@@ -792,14 +895,70 @@
     "note": "Expect cooler mountain mornings and evenings. Seasonal notes are not a date-specific forecast; recheck road conditions and weather with the guide before departure.",
     "sourceId": "weather",
     "days": [
-      {"date":"2026-11-07","name":"Hanoi / arrival","coordinates":[21.0285,105.8542]},
-      {"date":"2026-11-08","name":"Quan Ba / Yen Minh","coordinates":[23.1187,105.1425]},
-      {"date":"2026-11-09","name":"Lung Cu / Dong Van","coordinates":[23.2781,105.3629]},
-      {"date":"2026-11-10","name":"Ma Pi Leng / Meo Vac","coordinates":[23.1854,105.4106]},
-      {"date":"2026-11-11","name":"Du Gia / return","coordinates":[22.9263,105.2247]},
-      {"date":"2026-11-12","name":"Hanoi / rest","coordinates":[21.0285,105.8542]},
-      {"date":"2026-11-13","name":"Hanoi / explore","coordinates":[21.0285,105.8542]},
-      {"date":"2026-11-14","name":"Hanoi / departure","coordinates":[21.0285,105.8542]}
+      {
+        "date": "2026-11-07",
+        "name": "Hanoi / arrival",
+        "coordinates": [
+          21.0285,
+          105.8542
+        ]
+      },
+      {
+        "date": "2026-11-08",
+        "name": "Quan Ba / Yen Minh",
+        "coordinates": [
+          23.1187,
+          105.1425
+        ]
+      },
+      {
+        "date": "2026-11-09",
+        "name": "Lung Cu / Dong Van",
+        "coordinates": [
+          23.2781,
+          105.3629
+        ]
+      },
+      {
+        "date": "2026-11-10",
+        "name": "Ma Pi Leng / Meo Vac",
+        "coordinates": [
+          23.1854,
+          105.4106
+        ]
+      },
+      {
+        "date": "2026-11-11",
+        "name": "Du Gia / return",
+        "coordinates": [
+          22.9263,
+          105.2247
+        ]
+      },
+      {
+        "date": "2026-11-12",
+        "name": "Hanoi / rest",
+        "coordinates": [
+          21.0285,
+          105.8542
+        ]
+      },
+      {
+        "date": "2026-11-13",
+        "name": "Hanoi / explore",
+        "coordinates": [
+          21.0285,
+          105.8542
+        ]
+      },
+      {
+        "date": "2026-11-14",
+        "name": "Hanoi / departure",
+        "coordinates": [
+          21.0285,
+          105.8542
+        ]
+      }
     ]
   },
   "sources": [
@@ -890,6 +1049,76 @@
       "type": "unavailable",
       "note": "Could not verify; canonical official article used instead.",
       "checked": "2026-10-05"
+    },
+    {
+      "id": "official-safety",
+      "title": "Smartraveller • independent safety and documents",
+      "url": "https://www.smartraveller.gov.au/destinations/asia/vietnam",
+      "type": "official advice; Australian document context",
+      "checked": "2026-10-05",
+      "note": "Official advice distinguishes Australian-issued driving documents, entry checks and insurance coverage. Apply the guidance appropriate to each traveller’s passport and licence issuer; no individual eligibility is established."
+    }
+  ],
+  "budgetRules": {
+    "hanoiNights": 3,
+    "foodDays": 3,
+    "airportTransfers": 2,
+    "busDirections": 2,
+    "note": "Assumes Hanoi nights 11–13 November and food days 12–14. Change nights if the return transfer is delayed. Arrival-day food, extra accommodation and all TBC rows are outside known totals."
+  },
+  "planning": {
+    "title": "Before this becomes a booking",
+    "items": [
+      {
+        "title": "7 November arrival",
+        "detail": "Arrive in Hanoi on 7 November. Coordinate the onward transfer and pre-tour dorm with Valor, allowing rest before the loop starts on 8 November. Flight numbers and times are not part of this roadbook."
+      },
+      {
+        "title": "11 November return",
+        "detail": "Valor estimates Ha Giang around 16:00 and Hanoi around 23:00; neither is a guaranteed connection. Confirm the bus and late hotel check-in. If delayed, stay in Ha Giang and reduce Hanoi room nights from three to two."
+      },
+      {
+        "title": "Documents and insurance",
+        "detail": "Nationality, licence issuer and policy are unknown. Check entry requirements with Vietnam’s immigration authorities and riding eligibility with the relevant authority, not only the operator. Obtain written pillion/self-rider and evacuation cover from the insurer. Australian-issued licences/IDPs are not accepted according to Smartraveller; this is issuer-specific advice.",
+        "sourceId": "official-safety"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "id": "operator-route",
+      "claim": "Four advertised legs: 123, 95, 107 and 99 km; 08:00 briefing; Day 3 departure 09:30; return estimates 16:00 / 23:00.",
+      "sourceId": "valor",
+      "checked": "2026-10-05",
+      "confidence": "Operator statement; not booking confirmation"
+    },
+    {
+      "id": "operator-stops",
+      "claim": "Published itinerary mentions Nam Dam, Lung Tam, Vuong Palace, Dong Van, Ma Pi Leng/Sky Path, Du Gia and Lung Ho. Lung Cu is in the route heading but tower visit detail requires confirmation.",
+      "sourceId": "valor",
+      "checked": "2026-10-05",
+      "confidence": "Operator statement; specific ticket coverage needs quote"
+    },
+    {
+      "id": "planning-estimates",
+      "claim": "Checkpoint durations and area-centre coordinates are editorial planning estimates, not published operator timings or navigation waypoints.",
+      "sourceId": null,
+      "checked": "2026-10-05",
+      "confidence": "Unverified planning estimates"
+    },
+    {
+      "id": "riding-documents",
+      "claim": "Australian-issued licences and IDPs are not accepted; check actual licence issuer and insurance policy before choosing self-rider.",
+      "sourceId": "official-safety",
+      "checked": "2026-10-05",
+      "confidence": "Official issuer-specific advice"
+    },
+    {
+      "id": "operator-prices",
+      "claim": "Live tours booking configuration for tour 4297 lists Easy Rider 250, self-rider 210, friend passenger 160 and Jeep 530 USD. These are listed prices, not a written quote.",
+      "sourceId": "valor",
+      "checked": "2026-10-05",
+      "confidence": "Live booking configuration checked"
     }
   ]
 }

@@ -1,3 +1,4 @@
+import {calculateBudget, normaliseCount} from './scripts/budget.mjs';
 import {forecastStatus, weatherTarget, fetchForecast, weatherTimezone} from './scripts/weather.mjs';
 const $ = selector => document.querySelector(selector);
 const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -54,12 +55,16 @@ function renderDay() {
     const item=trip.loop.find(d=>d.day===day), photo=trip.photos[item.photoId];
     document.querySelectorAll('[data-day]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.day)===day)));
     $('[data-day-detail]').innerHTML='<article class="day-layout"><figure class="day-photo"><img src="'+e(photo.image)+'" alt="'+e(photo.alt)+'" width="1200" height="800"><figcaption>'+photoCaption(photo)+'</figcaption></figure><div class="day-copy"><p class="eyebrow">DAY '+e(day)+' / '+e(date(item.date))+'</p><h3>'+e(item.title)+'</h3><p class="day-route">'+e(item.route)+'</p><div class="day-facts"><span>'+e(item.km)+' km · operator estimate</span><span>Night: '+e(item.stay)+'</span></div>'+item.blocks.map(block=>'<div class="time-block"><small>'+e(block.time)+'</small><p>'+e(block.activity)+'</p></div>').join('')+'<div class="day-stops"><p>Checkpoints & options</p>'+item.checkpointIds.map(id=>{const point=trip.checkpoints.find(p=>p.id===id);return '<a href="#checkpoint-'+e(id)+'" data-show-checkpoint="'+e(id)+'">'+e(point.name)+' ↗</a>';}).join('')+'</div><p class="fineprint">'+e(item.durationNote)+' '+sourceLink(item.sourceId,'Package route ↗')+'</p></div></article>';
+    if (item.timeBudget) {
+        const timing=item.timeBudget;
+        $('[data-day-detail] .day-copy').insertAdjacentHTML('beforeend','<details class="time-budget"><summary>Time budget · draft, needs guide approval</summary><ul>'+timing.parts.map(part=>'<li>'+e(part.label)+': '+e(part.minutes)+' min</li>').join('')+'</ul><p>Core: '+timing.parts.reduce((sum,part)=>sum+part.minutes,0)+' min. Optional boat: +'+timing.optionalMinutes+' min. Target window: '+timing.windowMinutes+' min.</p><p>'+e(timing.note)+'</p></details>');
+    }
     const url=new URL(location); url.searchParams.set('day',day); history.replaceState({},'',url);
 }
 function renderCheckpoints() {
     $('[data-checkpoints]').innerHTML=trip.checkpoints.filter(point=>!filter||point.loopDay===filter).map(point=>{
         const photo=trip.photos[point.photoId];
-        return '<article class="checkpoint-card" id="checkpoint-'+e(point.id)+'"><figure><img src="'+e(photo.image)+'" alt="'+e(photo.alt)+'" loading="lazy" decoding="async" width="1200" height="800"><figcaption>'+photoCaption(photo)+'<br>Photo: '+e(photo.alt)+'</figcaption></figure><div class="checkpoint-copy"><p class="eyebrow">DAY '+e(point.loopDay)+' / '+e(point.type)+'</p><h3>'+e(point.name)+'</h3><p>'+e(point.description)+'</p><div class="checkpoint-meta"><span>Allow ~'+e(point.minutes)+' min</span><span>'+e(point.status)+'</span></div><p>'+e(point.budgetNote)+'</p><div class="checkpoint-links"><a href="'+e(maps(point))+'" target="_blank" rel="noopener">Google Maps ↗</a><button type="button" class="text-button" data-map="'+e(point.id)+'">Find on map ↗</button></div></div></article>';
+        return '<article class="checkpoint-card" id="checkpoint-'+e(point.id)+'"><figure><img src="'+e(photo.image)+'" alt="'+e(photo.alt)+'" loading="lazy" decoding="async" width="1200" height="800"><figcaption>'+photoCaption(photo)+'<br>Photo: '+e(photo.alt)+'</figcaption></figure><div class="checkpoint-copy"><p class="eyebrow">DAY '+e(point.loopDay)+' / '+e(point.type)+'</p><h3>'+e(point.name)+'</h3><p>'+e(point.description)+'</p><div class="checkpoint-meta"><span>Allow ~'+e(point.minutes)+' min</span><span>'+e(point.status)+'</span></div><p>'+e(point.budgetNote)+'</p><p class="fineprint">Duration / coordinates: editorial estimates. '+point.evidenceIds.map(id=>e(id)).join(' · ')+'</p><div class="checkpoint-links"><a href="'+e(maps(point))+'" target="_blank" rel="noopener">Google Maps ↗</a><button type="button" class="text-button" data-map="'+e(point.id)+'">Find on map ↗</button></div></div></article>';
     }).join('');
     document.querySelectorAll('[data-filter]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.filter)===filter)));
 }
@@ -71,35 +76,39 @@ function renderMap() {
         base.getMaplibreMap().on('error',()=>{$('[data-map-status]').textContent='Some basemap resources could not load. Place pins and Google Maps links still work.';});
     }else{throw new Error('Vector renderer unavailable');} } catch { $('[data-map-status]').textContent='Vector basemap needs WebGL and a connection. Place pins and Google Maps links remain available.'; }
     const controls=L.control({position:'topright'});controls.onAdd=()=>{const box=L.DomUtil.create('div','roadbook-map-controls');box.innerHTML='<button type="button" data-map-zoom="1" aria-label="Zoom in">+</button><button type="button" data-map-zoom="-1" aria-label="Zoom out">−</button><button type="button" data-map-reset aria-label="Show the whole route">↗</button>';L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);return box;};controls.addTo(map);
-    const label=L.control({position:'topleft'});label.onAdd=()=>{const box=L.DomUtil.create('div','roadbook-map-label');box.innerHTML='<b>HA GIANG / THE LOOP</b><span>424 km · schematic stop order</span>';return box;};label.addTo(map);
+    const label=L.control({position:'topleft'});label.onAdd=()=>{const box=L.DomUtil.create('div','roadbook-map-label');box.innerHTML='<b>HA GIANG / THE LOOP</b><span>'+e(trip.trip.routeKm)+' km · schematic core order</span>';return box;};label.addTo(map);
     const origin=[22.8233,104.9836];
     L.marker(origin,{icon:L.divIcon({className:'route-pin',html:'<span>H</span>',iconSize:[28,28],iconAnchor:[14,14]})}).addTo(map).bindPopup('Ha Giang · start / finish');
     trip.checkpoints.forEach((point,index)=>{
-        const icon=L.divIcon({className:'route-pin',html:'<span>'+e(index+1)+'</span>',iconSize:[28,28],iconAnchor:[14,14]});
-        const marker=L.marker(point.coordinates,{icon,title:point.name}).addTo(map).bindPopup('<b>'+e(point.name)+'</b><br>Day '+e(point.loopDay)+' · approximate location<br><a href="'+e(maps(point))+'" target="_blank" rel="noopener">Google Maps ↗</a>'); markers.set(point.id,marker);
+        const icon=L.divIcon({className:'route-pin status-'+point.status,html:'<span>'+e(index+1)+'</span>',iconSize:[28,28],iconAnchor:[14,14]});
+        const marker=L.marker(point.coordinates,{icon,title:point.name}).addTo(map).bindPopup('<b>'+e(point.name)+'</b><br>Day '+e(point.loopDay)+' · '+e(point.status)+' · approximate location<br><a href="'+e(maps(point))+'" target="_blank" rel="noopener">Google Maps ↗</a>'); markers.set(point.id,marker);
     });
-    const line=L.polyline([origin,...trip.checkpoints.filter(p=>p.status!=='optional').map(p=>p.coordinates),origin],{color:'#bd653d',weight:3,dashArray:'4 8',opacity:.85}).addTo(map);routeBounds=line.getBounds();map.fitBounds(routeBounds,{padding:[45,45]});
+    const line=L.polyline([origin,...trip.checkpoints.filter(p=>p.status==='included').map(p=>p.coordinates),origin],{color:'#bd653d',weight:3,dashArray:'4 8',opacity:.85}).addTo(map);routeBounds=L.latLngBounds([origin,...trip.checkpoints.map(point=>point.coordinates)]);map.fitBounds(routeBounds,{padding:[45,45]});
 }
 function renderBudget() {
     $('[data-package]').innerHTML=[['Listed inclusions',trip.package.included],['Listed exclusions',trip.package.excluded],['Ask Valor to confirm',trip.package.clarifications]].map(([title,items])=>'<article><h3>'+e(title)+'</h3><ul>'+items.map(item=>'<li>'+e(item)+'</li>').join('')+'</ul></article>').join('');
-    const count=id=>Math.max(0,Math.min(100,Math.floor(Number($('[data-ride="'+id+'"]').value)||0)));
-    const people=trip.package.pricing.rides.reduce((sum,ride)=>sum+count(ride.id),0);
-    const tour=trip.package.pricing.rides.reduce((sum,ride)=>sum+count(ride.id)*ride.amount,0);
-    const bus=$('[data-bus]').checked?people*2*trip.package.pricing.extras[0].amount:0;
-    const rooms=Math.ceil(people/Math.max(1,Number($('[data-room-sharing]').value)||1));
-    const vehicles=Math.ceil(people/Math.max(1,Number($('[data-vehicle-sharing]').value)||1));
-    const allowances=trip.budget.filter(item=>!['Valor 4D3N package','Hanoi–Ha Giang return buses'].includes(item.item)).map(item=>({...item,quantity:item.basis==='per room / night'?rooms*3:item.basis==='per vehicle / transfer'?vehicles*2:item.basis==='per person / day'?people*3:item.basis==='booking total'?(people?1:0):people}));
-    const known=allowances.reduce((sum,item)=>sum+(item.amount===null?0:item.amount*item.quantity),0);
-    const warnings=[people>6?'Ask Valor to confirm capacity or a split/private group for more than six.':'',count('jeep')===1?'Jeep requires at least two people.':'',count('self')||count('friend')?'Self-riding requires the motorcycle licence and international permit recognised in Vietnam, riding experience and suitable insurance. Confirm the exact documents with Valor.':''].filter(Boolean);
+    document.querySelectorAll('[data-ride], [data-room-sharing], [data-vehicle-sharing], [data-hanoi-nights]').forEach(input => {
+        input.value = normaliseCount(input.value, Number(input.min), Number(input.max));
+    });
+    const scenario = {
+        rides: Object.fromEntries(trip.package.pricing.rides.map(ride => [ride.id, $('[data-ride="'+ride.id+'"]').value])),
+        bus: $('[data-bus]').checked,
+        roomSharing: $('[data-room-sharing]').value,
+        vehicleSharing: $('[data-vehicle-sharing]').value,
+        hanoiNights: $('[data-hanoi-nights]').value
+    };
+    const {people, tour, bus, allowances, known, warnings} = calculateBudget(trip, scenario);
     $('[data-budget-summary]').innerHTML='<div><p class="eyebrow">'+people+' PEOPLE / LISTED TOUR'+(bus?' + RETURN BUSES':'')+'</p><strong>'+usd(tour+bus)+'</strong><small>'+money(known)+' AUD local allowances · kept separate</small></div><p>'+(people?'Partial group estimate, not a booking or complete trip cost.':'Add travellers to the ride options to calculate your group.')+' '+warnings.map(e).join(' ')+' '+sourceLink('valor','Verify current prices ↗')+'</p>';
     $('[data-budget]').innerHTML=allowances.map(item=>'<tr><td>'+e(item.item)+'</td><td>'+money(item.amount)+'<small>'+e(item.basis)+'</small></td><td>'+e(item.quantity)+'</td><td>'+money(item.amount===null?null:item.amount*item.quantity)+'</td><td>'+e(item.status)+'</td></tr>').join('');
 }
 function renderGroup() {
-    $('[data-rides]').innerHTML=trip.package.pricing.rides.map(ride=>'<article><p class="eyebrow">4 DAYS / 3 NIGHTS</p><h3>'+e(ride.name)+'</h3><strong>'+usd(ride.amount)+' / person</strong><p>'+e(ride.description)+'</p><label>Travellers <input type="number" min="0" max="100" value="0" data-ride="'+e(ride.id)+'"></label></article>').join('');
+    $('[data-hanoi-nights]').value=trip.budgetRules.hanoiNights;
+    $('[data-rides]').innerHTML=trip.package.pricing.rides.map(ride=>'<article><p class="eyebrow">4 DAYS / 3 NIGHTS</p><h3>'+e(ride.name)+'</h3><strong>'+usd(ride.amount)+' / person</strong><p>'+e(ride.description)+'</p><label>'+e(ride.name)+' travellers <input type="number" min="0" max="100" value="0" data-ride="'+e(ride.id)+'"></label></article>').join('');
     $('[data-price-note]').innerHTML=e(trip.package.pricing.note)+' Checked '+e(trip.package.pricing.checked)+'. '+sourceLink('valor','Booking source ↗');
     $('[data-extras]').innerHTML=trip.package.pricing.extras.map(extra=>'<p>'+e(extra.name)+': <b>'+usd(extra.amount)+'</b> · '+e(extra.basis)+'</p>').join('');
     $('[data-gallery]').innerHTML=trip.gallery.map(id=>{const photo=trip.photos[id];return '<figure><img src="'+e(photo.image)+'" alt="'+e(photo.alt)+'" loading="lazy"><figcaption>'+e(photo.alt)+'<br>'+photoCaption(photo)+'</figcaption></figure>';}).join('');
     $('[data-crew-note]').textContent=trip.crew.note;
+    trip.members.forEach(member => { const ride=trip.package.pricing.rides.find(ride=>ride.name===member.ride); if(ride) $('[data-ride="'+ride.id+'"]').value=Number($('[data-ride="'+ride.id+'"]').value)+1; });
     const members=trip.members.filter(member=>member.publishConsent===true);
     $('[data-members]').innerHTML=members.length?members.map(member=>{
         const initials=String(member.name||'').trim().split(/\s+/).slice(0,2).map(part=>part[0]||'').join('');
@@ -111,8 +120,13 @@ function renderGroup() {
 function updateProgress() { const state=saved();$('[data-progress]').textContent=trip.checklist.filter(item=>state[item.id]).length+' / '+trip.checklist.length+' ready'; }
 function renderChecklist() { const state=saved();$('[data-checklist]').innerHTML=trip.checklist.map(item=>'<label class="check-row"><input type="checkbox" data-check="'+e(item.id)+'" '+(state[item.id]?'checked':'')+'><span><small>'+e(item.category)+'</small>'+e(item.label)+'</span></label>').join('');updateProgress(); }
 function render() {
-    $('[data-stats]').innerHTML=[['7–14 Nov','Hanoi arrival & return · provisional'],['8–11 Nov','The loop · 4 days / 3 nights'],[trip.trip.routeKm+' km','Valor route estimate'],[trip.trip.mode,'Mix your crew’s ride choices']].map(([value,label])=>'<div><b>'+e(value)+'</b><small>'+e(label)+'</small></div>').join('');
-    $('[data-week]').innerHTML=trip.itinerary.map(item=>'<div class="week-day'+(item.phase==='loop'?' is-loop':'')+'"><b>'+e(Number(item.date.slice(-2)))+'</b><span>'+e(item.title)+'</span><small>'+e(item.stay)+'</small></div>').join('');
+    $('[data-stats]').innerHTML=[[date(trip.trip.start)+' – '+date(trip.trip.end),'Hanoi arrival & departure'],[trip.trip.loopDates,'The loop · '+trip.trip.loopDays+' days / '+trip.trip.loopNights+' nights'],[trip.trip.routeKm+' km','Valor route estimate'],[trip.trip.mode,'Mix your crew’s ride choices']].map(([value,label])=>'<div><b>'+e(value)+'</b><small>'+e(label)+'</small></div>').join('');
+    $('[data-week]').innerHTML=trip.itinerary.map(item=>'<div class="week-day'+(item.phase==='loop'?' is-loop':'')+'"><b>'+e(Number(item.date.slice(-2)))+'</b><span>'+e(item.title)+'</span><small>'+e(item.stay)+'</small><p class="week-detail">'+e(item.detail)+'</p></div>').join('');
+    $('[data-plan-summary]').textContent = trip.trip.dateStatus;
+    $('[data-research-summary]').textContent = 'Selected package: '+trip.trip.operator+'. Research checked '+trip.updated+'. Group planning guide, not a booking site.';
+    $('[data-budget-assumptions]').textContent = trip.budgetRules.note;
+    $('[data-planning]').innerHTML = trip.planning.items.map(item=>'<details><summary>'+e(item.title)+'</summary><p>'+e(item.detail)+' '+(item.sourceId?sourceLink(item.sourceId,'Official guidance ↗'):'')+'</p></details>').join('');
+    $('[data-evidence]').innerHTML = trip.evidence.map(item=>'<details><summary>'+e(item.id)+' · '+e(item.confidence)+'</summary><p>'+e(item.claim)+'</p><small>Checked '+e(item.checked)+'</small> '+(item.sourceId?sourceLink(item.sourceId):'Editorial estimate')+'</details>').join('');
     $('[data-tabs]').innerHTML=trip.loop.map(item=>'<button type="button" data-day="'+e(item.day)+'" aria-pressed="false">Day '+e(item.day)+' · '+e(Number(item.date.slice(-2)))+' Nov</button>').join('');
     $('[data-filters]').innerHTML=[0,1,2,3,4].map(i=>'<button type="button" data-filter="'+i+'" aria-pressed="false">'+(i?'Day '+i:'All checkpoints')+'</button>').join('');
     $('[data-weather]').innerHTML='<h3>'+e(trip.weather.title)+'</h3><p>'+e(trip.weather.note)+' '+sourceLink(trip.weather.sourceId,'Seasonal notes ↗')+'</p>';
@@ -126,9 +140,9 @@ document.addEventListener('click',event=>{
     const dayButton=event.target.closest('[data-day]');if(dayButton&&trip){day=Number(dayButton.dataset.day);renderDay();}
     const filterButton=event.target.closest('[data-filter]');if(filterButton&&trip){filter=Number(filterButton.dataset.filter);renderCheckpoints();}
     const checkpoint=event.target.closest('[data-show-checkpoint]');if(checkpoint&&trip){filter=0;renderCheckpoints();}
-    const mapButton=event.target.closest('[data-map]');if(mapButton&&map){const marker=markers.get(mapButton.dataset.map);if(marker){map.setView(marker.getLatLng(),12,{animate:!matchMedia('(prefers-reduced-motion:reduce)').matches});marker.openPopup();$('#route-map').scrollIntoView({block:'center'});}}
+    const mapButton=event.target.closest('[data-map]');if(mapButton&&map){const marker=markers.get(mapButton.dataset.map);if(marker){map.setView(marker.getLatLng(),12,{animate:!matchMedia('(prefers-reduced-motion:reduce)').matches});marker.openPopup();$('#route-map').scrollIntoView({block:'center'});const popup=marker.getPopup().getElement();popup.tabIndex=-1;popup.focus({preventScroll:true});const returnButton=document.createElement('button');returnButton.type='button';returnButton.textContent='Back to checkpoint';returnButton.addEventListener('click',()=>{map.closePopup();mapButton.focus();});popup.querySelector('.leaflet-popup-content').append(returnButton);}}
     if(event.target.closest('[data-print]'))window.print();
 });
-$('#budget').addEventListener('input',event=>{if(event.target.matches('[data-ride], [data-room-sharing], [data-vehicle-sharing], [data-bus]'))renderBudget();});
+$('#budget').addEventListener('input',event=>{if(event.target.matches('[data-ride], [data-room-sharing], [data-vehicle-sharing], [data-hanoi-nights], [data-bus]'))renderBudget();});
 $('[data-checklist]').addEventListener('change',event=>{const input=event.target.closest('[data-check]');if(!input)return;const state=saved();state[input.dataset.check]=input.checked;try{localStorage.setItem(storageKey,JSON.stringify(state));}catch{}updateProgress();});
 fetch('data/trip.json').then(response=>{if(!response.ok)throw new Error('Trip data unavailable');return response.json();}).then(data=>{trip=data;const requested=Number(new URLSearchParams(location.search).get('day'));if([1,2,3,4].includes(requested))day=requested;render();}).catch(()=>{$('[data-day-detail]').innerHTML='<p role="alert">The roadbook could not load. Please refresh or check your connection.</p>';});

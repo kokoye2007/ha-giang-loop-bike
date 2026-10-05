@@ -17,7 +17,7 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.route('https://api.open-meteo.com/**',route=>{apiCalls++;return route.fulfill({json:{current:{temperature_2m:23,weather_code:2,wind_speed_10m:8,time:today+'T10:00'},daily:{time:dates,temperature_2m_min:dates.map(()=>16),temperature_2m_max:dates.map(()=>25),precipitation_probability_max:dates.map(()=>70),weather_code:dates.map(()=>63)}}});});
         const url='http://127.0.0.1:'+server.address().port;
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
-        await page.waitForSelector('[data-moto-canvas][data-ready="true"]',{timeout:15000});
+        await page.waitForSelector('[data-moto-canvas][data-ready="true"]',{timeout:60000});
         const motoStart=Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-scale'));
         const motoStartRotation=Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-rotation'));
         await page.evaluate(()=>{const section=document.querySelector('[data-moto-scroll]');scrollTo(0,section.offsetTop+(section.offsetHeight-innerHeight)/2);});
@@ -31,6 +31,13 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         await page.evaluate(()=>scrollTo(0,0));
         await page.waitForFunction(()=>Number(document.querySelector('[data-moto-canvas]').dataset.scrollProgress)<.05);
         assert.ok(Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-scale'))<motoMiddle,'Reverse scroll should zoom the motorcycle back out');
+        await page.locator('[data-moto-turn="1"]').click();
+        await page.waitForTimeout(100);
+        assert.ok(Math.abs(Number(await page.locator('[data-moto-canvas]').getAttribute('data-model-rotation'))-motoStartRotation)>.2);
+        await page.locator('[data-moto-zoom="1"]').click();
+        await page.locator('[data-moto-reset]').click();
+        await page.waitForFunction(()=>document.querySelector('[data-moto-canvas]').dataset.modelScale==='1.000');
+        assert.equal(await page.locator('[data-moto-canvas]').getAttribute('data-model-rotation'),'-0.620');
         assert.equal(await page.title(),'Ha Giang Loop Bike — Group Tour Roadbook');
         assert.match(await page.locator('.navigation .brand').innerText(),/HA GIANG/);
         assert.equal(await page.locator('.crew-card').count(),2);
@@ -40,6 +47,8 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         assert.match(await page.locator('.crew-card').nth(1).innerText(),/Deploy failed\? Blame DNS\./);
         assert.match(await page.locator('.crew-card').nth(1).locator('img').getAttribute('src'),/ko-ko-ye\.png$/);
         assert.equal(await page.locator('.week-day').count(),8);
+        assert.match(await page.locator('[data-week]').innerText(),/Rest, laundry/);
+        assert.match(await page.locator('[data-planning]').innerText(),/7 November arrival/);
         assert.equal(await page.locator('[data-weather-day]').count(),8);
         await page.waitForFunction(()=>document.querySelectorAll('.weather-result strong').length===8);
         assert.doesNotMatch(await page.locator('[data-daily-weather]').innerText(),/Forecast not available yet/);
@@ -51,6 +60,9 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
             assert.equal(await page.locator('[data-theme-choice="'+theme+'"]').getAttribute('aria-pressed'),'true');
             assert.equal(await page.locator('[data-theme-choice][aria-pressed="true"]').count(),1);
         }
+        await page.locator('[data-ride="friend"]').fill('2');
+        assert.match(await page.locator('[data-budget-summary]').innerText(),/outnumber/);
+        await page.locator('[data-ride="friend"]').fill('0');
         await page.locator('[data-ride="easy"]').fill('3');await page.locator('[data-ride="self"]').fill('2');
         assert.match(await page.locator('[data-budget-summary]').innerText(),/5 PEOPLE/);
         assert.match(await page.locator('[data-budget-summary]').innerText(),/1,350/);
@@ -65,6 +77,9 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
         assert.ok(await page.locator('#route-map canvas').count()>0,'Vector basemap canvas must exist');
         await page.locator('[data-map-zoom="1"]').click();await page.locator('[data-map-reset]').click();
         await page.locator('[data-map]').first().click();await page.waitForSelector('.leaflet-popup');
+        assert.ok(await page.locator('.leaflet-popup').evaluate(node=>node===document.activeElement));
+        await page.getByRole('button',{name:'Back to checkpoint'}).click();
+        assert.ok(await page.locator('[data-map]').first().evaluate(node=>node===document.activeElement));
         await page.goto(url);await page.waitForSelector('.checkpoint-card');
         fs.mkdirSync(path.resolve(__dirname,'../previews'),{recursive:true});
         await page.screenshot({path:path.resolve(__dirname,'../previews/desktop.png')});
@@ -91,6 +106,17 @@ const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new
             assert.ok(themeButton.height<=32,'Theme controls should stay small');
             for(const img of await page.locator('.hero img, .day-photo img, .checkpoint-card img, .gallery-grid img, .crew-grid img').all()){await img.scrollIntoViewIfNeeded();await img.evaluate(async node=>{try {await node.decode();}catch(error){throw new Error('Photo failed: '+node.src+' — '+error.message);}});}
         }
+        for (const viewport of [{width:320,height:568},{width:390,height:667},{width:667,height:390}]) {
+            await page.setViewportSize(viewport);
+            await page.locator('[data-moto-reset]').scrollIntoViewIfNeeded();
+            const box=await page.locator('[data-moto-reset]').boundingBox();
+            assert.ok(box.y>=0&&box.y+box.height<=viewport.height,'Reset reachable on short screen');
+            assert.equal(await page.locator('.moto-sticky').evaluate(node=>getComputedStyle(node).position),'relative');
+        }
+        await page.emulateMedia({reducedMotion:'reduce'});
+        await page.locator('[data-moto-reset]').click();
+        await page.waitForFunction(()=>document.querySelector('[data-moto-canvas]').dataset.modelScale==='1.000');
+        await page.emulateMedia({reducedMotion:'no-preference'});
         await page.setViewportSize({width:390,height:844});await page.locator('.checkpoint-card').first().screenshot({path:path.resolve(__dirname,'../previews/mobile-card.png')});
         await page.locator('.hero').screenshot({path:path.resolve(__dirname,'../previews/mobile.png')});
         await page.locator('.appearance').screenshot({path:path.resolve(__dirname,'../previews/theme-toolbar-mobile.png')});

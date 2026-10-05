@@ -4,7 +4,7 @@
 
 [Valor 4D3N](https://valorhagiangloop.com/tours/ha-giang-loop-tour-4-days/) replaces the initially considered HaGiangGo tour as the primary plan. The route returns via Lung Ho. Lung Tam belongs to the first day. A river cruise is an optional question, not an assumed inclusion. The advertised route legs total 424 km; actual riding distances and times can vary.
 
-Valor’s page contains inconsistent payment/cancellation wording between its conditions, FAQ and booking form. Get written terms and a final quote. The website keeps tour price, fees and upgrades unpriced. It does not perform a booking.
+Valor’s page contains inconsistent payment/cancellation wording between its conditions, FAQ and booking form. Get written terms and a final quote. The website displays listed USD ride prices (Easy Rider 250, self-rider 210, friend passenger 160, Jeep 530), not a confirmed quote. Fees and upgrade charging units remain TBC. It does not perform a booking.
 
 ## Date assumptions
 
@@ -12,7 +12,7 @@ The user specified Hanoi on the 7th, tour on the 8th–11th and return on the 14
 
 ## Official advice and alternatives
 
-[Vietnam Tourism](https://vietnam.travel/things-to-do/ha-giang-loop-four-day-road-trip) uses a different final night in Bao Lam; its route was not combined with Valor’s. Valor’s published package requirements are the linked starting point for riding documents. Travellers should get written confirmation for their own licence, international permit and insurance before choosing self-rider.
+[Vietnam Tourism](https://vietnam.travel/things-to-do/ha-giang-loop-four-day-road-trip) uses a different final night in Bao Lam; its route was not combined with Valor’s. Valor’s published package requirements are the linked starting point for riding documents. Travellers must check their actual licence issuer with the relevant authority and obtain written insurance cover. Operator approval alone does not establish eligibility. Independent official advice is now recorded in the dataset.
 
 [Local Vietnam](https://localvietnam.com/ha-giang/ha-giang-loop-november-weather/) provides November context, not a forecast. Do not promise clear skies or festival dates.
 
@@ -21,3 +21,7 @@ Relevant operator, marketplace and travelogue references are retained in `data/t
 ## Visual and implementation decisions
 
 Forest green, warm paper and rust give the site a travel-journal feel. Large real location photos, a week overview and a focused daily roadbook support planning. Local, compressed images and Leaflet keep the static deployment small. Coordinates are approximate area centres and map lines show sequence, not turn-by-turn directions. Checklist state stays in the browser.
+
+## Audit follow-up
+
+Budget rules now live in JSON and a shared calculator. Transfer times remain unconfirmed, Hanoi nights are editable, and Day 3 exposes an over-budget core schedule rather than assuming the optional boat fits. Claim-level evidence distinguishes operator statements from editorial estimates. See `reports/fix-audit.md` for remaining confirmation work.

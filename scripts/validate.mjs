@@ -25,7 +25,15 @@ export async function validate() {
     }
     for(const photo of Object.values(data.photos)) { assert(photo.image.startsWith('assets/'));await access(path.join(root,photo.image));assert(photo.alt&&photo.credit);assert(new URL(photo.source).protocol==='https:'); }
     for(const point of data.checkpoints) { assert(data.photos[point.photoId]);assert(point.minutes>0);assert(point.mapsQuery);assert(point.coordinates.length===2&&point.coordinates.every(Number.isFinite)); }
-    for(const item of data.budget) {assert(item.amount===null||(Number.isFinite(item.amount)&&item.amount>=0));assert(item.quantity>0);}
+    for(const item of data.budget) {assert(item.amount===null||(Number.isFinite(item.amount)&&item.amount>=0));assert(['roomNights','vehicleTransfers','foodDays','booking','people'].includes(item.scale));assert(!('quantity' in item));assert.equal(item.currency,'AUD');}
+    const sourceIds=new Set(data.sources.map(source=>source.id));
+    const evidenceIds=new Set(data.evidence.map(item=>item.id));
+    for(const item of data.evidence){assert(item.claim&&item.checked&&item.confidence);if(item.sourceId)assert(sourceIds.has(item.sourceId));}
+    for(const point of data.checkpoints){assert(['included','optional','confirm'].includes(point.status));assert(point.evidenceIds.length);for(const id of point.evidenceIds)assert(evidenceIds.has(id));for(const id of point.sourceIds)assert(sourceIds.has(id));}
+    for(const item of data.itinerary)assert(item.detail);
+    for(const item of data.budget)if(item.sourceId)assert(sourceIds.has(item.sourceId));
+    assert(data.budgetRules.hanoiNights>=0);
+    assert(data.package.pricing.extras.find(extra=>extra.id==='hanoi-bus'));
     assert.equal(new Set(data.checklist.map(item=>item.id)).size,data.checklist.length);
     console.log(`Validated 4 loop days, 8 travel days, ${ids.size} checkpoints and ${Object.keys(data.photos).length} photographs.`);
     return data;

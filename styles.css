@@ -170,3 +170,32 @@ footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space
 @media(max-width:620px){.navigation nav{max-width:190px}.navigation .brand{font-size:1rem}.navigation .brand small{font-size:.43rem;max-width:125px}}
 .button{color:var(--ink)}.route-pin span{color:var(--on-forest);border-color:var(--on-forest)}
 @media print{.appearance,.weather-toolbar,.moto-scroll{display:none}}
+
+/* Keep the workshop usable on short screens without a pinned overflow panel. */
+:root { --map-ink:#183d35; --map-surface:#faf7ef; }
+.roadbook-map-label { color:var(--map-ink); background:var(--map-surface); }
+.week-detail { font-size:.72rem; line-height:1.65; margin-top:12px; }
+.week-strip { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.planning-notes { margin-block:24px; }
+.planning-notes details,.time-budget { padding:16px; border:1px solid var(--line); margin-bottom:10px; }
+.planning-notes summary,.time-budget summary { cursor:pointer; font-weight:600; }
+.status-optional span { border:2px dashed var(--map-ink); background:var(--map-surface); color:var(--map-ink); }
+.status-confirm span { border:3px double var(--map-ink); background:var(--orange); color:var(--map-ink); }
+.moto-controls button { min-width:44px; min-height:44px; }
+.moto-controls [data-moto-reset] { width:auto; padding-inline:14px; border-radius:24px; font-size:.8rem; }
+.moto-hint { bottom:72px; }
+.moto-scroll.is-error { height:auto; min-height:0; }
+.moto-scroll.is-error .moto-sticky { position:relative; min-height:0; }
+.moto-scroll.is-error .moto-hint,.moto-scroll.is-error .moto-meter { display:none; }
+.moto-scroll.is-error .moto-stage { height:260px; min-height:260px; }
+@media(max-width:760px),(max-height:740px) {
+    .moto-scroll { height:auto; min-height:0; }
+    .moto-sticky { position:relative; min-height:0; padding-block:30px; grid-template-rows:auto; }
+    .moto-stage { height:390px; min-height:0; }
+    .moto-copy>p:not(.eyebrow) { margin:12px 0; }
+}
+@media(max-width:420px) {
+    .week-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .daily-weather-grid { grid-template-columns:1fr; }
+    .moto-stage { height:320px; }
+}
