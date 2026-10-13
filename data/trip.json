@@ -46,6 +46,18 @@
       },
       "permit": 70,
       "total": 1820,
+      "optionalAddOns": [
+        {
+          "name": "Route / attraction tickets",
+          "amount": 70,
+          "basis": "7 people × US$10 per person"
+        },
+        {
+          "name": "125/150cc bike-size upgrade",
+          "amount": 280,
+          "basis": "7 riders × US$10/day × 4 days; confirm which riders need it"
+        }
+      ],
       "note": "Bus transfers, drinks, insurance, VAT and any payment fees are not included. Confirm room allocation, permit basis and final inclusions with Valor."
     },
     "pricing": {
@@ -87,18 +99,18 @@
           "id": "hanoi-bus"
         },
         {
-          "name": "Extra route / attraction tickets",
+          "name": "Route / attraction tickets",
           "amount": 10,
-          "basis": "per person, entire trip estimate · confirm inclusions",
+          "basis": "per person, entire trip estimate · 7 people ≈ US$70",
           "id": "route-tickets",
           "status": "Planning estimate"
         },
         {
-          "name": "125/150cc bike rental",
+          "name": "125/150cc bike-size upgrade",
           "amount": 10,
-          "basis": "per bike / day estimate · 4 days ≈ US$40",
+          "basis": "per rider / day estimate · 4 days ≈ US$40 per rider",
           "id": "bike-rental",
-          "status": "Planning estimate; confirm with operator"
+          "status": "Upgrade estimate; confirm with operator"
         },
         {
           "name": "Dorm",
