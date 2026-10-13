@@ -5,6 +5,7 @@
 - Clarified that route/attraction tickets are charged per person: US$10 each, or US$70 for seven people.
 - Corrected 125/150cc wording from rental to bike-size upgrade: US$10 per rider/day, about US$40 per rider for the four-day loop.
 - Kept both items outside the US$1,820 base group quote as optional add-ons.
+- Applied the bike-size upgrade to the three self-riders only: US$120 for the four-day loop.
 
 ## Update — 13 October 2026 · riding costs and licence warning
 
