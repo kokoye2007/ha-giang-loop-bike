@@ -1,5 +1,11 @@
 # Changelog
 
+## Update — 14 October 2026 · required group costs
+
+- Made route/attraction tickets mandatory: US$10 per person, US$70 for seven people, included in the group estimate.
+- Recalculated private rooms at US$15 per person: US$105 for seven people across four rooms.
+- Updated the required group estimate to **US$1,875**, excluding bus transfers and the optional bike-size upgrade.
+
 ## Update — 14 October 2026 · cost labels corrected
 
 - Clarified that route/attraction tickets are charged per person: US$10 each, or US$70 for seven people.

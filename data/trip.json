@@ -22,7 +22,7 @@
     "groupQuote": {
       "travellers": 7,
       "dates": "8–11 November 2026",
-      "status": "Estimated group quote; bus transfers excluded",
+      "status": "Estimated group quote; route tickets and private rooms included; bus transfers excluded",
       "rides": [
         {
           "name": "Self Ride",
@@ -41,24 +41,23 @@
       "privateRooms": {
         "count": 4,
         "travellers": 7,
-        "amount": 120,
-        "basis": "4 rooms · two people in one room"
+        "amount": 105,
+        "basis": "US$15 per person · 3 shared rooms + 1 single room"
       },
       "permit": 70,
-      "total": 1820,
+      "routeTickets": {
+        "amount": 70,
+        "basis": "7 people × US$10 per person · mandatory"
+      },
       "optionalAddOns": [
-        {
-          "name": "Route / attraction tickets",
-          "amount": 70,
-          "basis": "7 people × US$10 per person"
-        },
         {
           "name": "125/150cc bike-size upgrade",
           "amount": 120,
           "basis": "3 self-riders × US$10/day × 4 days; confirm with Valor"
         }
       ],
-      "note": "Bus transfers, drinks, insurance, VAT and any payment fees are not included. Confirm room allocation, permit basis and final inclusions with Valor."
+      "total": 1875,
+      "note": "Route/attraction tickets and private rooms are included in this required estimate. Bus transfers, drinks, insurance, VAT and any payment fees are not included. Confirm room allocation, permit basis and final inclusions with Valor."
     },
     "pricing": {
       "currency": "USD",
@@ -103,7 +102,7 @@
           "amount": 10,
           "basis": "per person, entire trip estimate · 7 people ≈ US$70",
           "id": "route-tickets",
-          "status": "Planning estimate"
+          "status": "Required; confirm inclusions"
         },
         {
           "name": "125/150cc bike-size upgrade",
