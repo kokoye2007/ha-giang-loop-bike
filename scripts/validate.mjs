@@ -25,7 +25,7 @@ export async function validate() {
     }
     for(const photo of Object.values(data.photos)) { assert(photo.image.startsWith('assets/'));await access(path.join(root,photo.image));assert(photo.alt&&photo.credit);assert(new URL(photo.source).protocol==='https:'); }
     for(const point of data.checkpoints) { assert(data.photos[point.photoId]);assert(point.minutes>0);assert(point.mapsQuery);assert(point.coordinates.length===2&&point.coordinates.every(Number.isFinite)); }
-    for(const item of data.budget) {assert(item.amount===null||(Number.isFinite(item.amount)&&item.amount>=0));assert(['roomNights','vehicleTransfers','foodDays','booking','people'].includes(item.scale));assert(!('quantity' in item));assert.equal(item.currency,'AUD');}
+    for(const item of data.budget) {assert(item.amount===null||(Number.isFinite(item.amount)&&item.amount>=0));assert(['roomNights','vehicleTransfers','foodDays','booking','people'].includes(item.scale));assert(!('quantity' in item));assert.equal(item.currency,'USD');}
     const sourceIds=new Set(data.sources.map(source=>source.id));
     const evidenceIds=new Set(data.evidence.map(item=>item.id));
     for(const item of data.evidence){assert(item.claim&&item.checked&&item.confidence);if(item.sourceId)assert(sourceIds.has(item.sourceId));}

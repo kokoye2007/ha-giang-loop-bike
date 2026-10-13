@@ -2,7 +2,7 @@ import {calculateBudget, normaliseCount} from './scripts/budget.mjs';
 import {forecastStatus, weatherTarget, fetchForecast, weatherTimezone} from './scripts/weather.mjs';
 const $ = selector => document.querySelector(selector);
 const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const money = value => value === null ? 'TBC' : new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(value);
+const money = value => value === null ? 'TBC' : new Intl.NumberFormat('en-AU',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(value);
 const usd = value => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(value)+' USD';
 const date = value => new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'short',weekday:'short',timeZone:'UTC'}).format(new Date(value+'T12:00:00Z'));
 const maps = item => 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(item.mapsQuery);
@@ -86,7 +86,9 @@ function renderMap() {
     const line=L.polyline([origin,...trip.checkpoints.filter(p=>p.status==='included').map(p=>p.coordinates),origin],{color:'#bd653d',weight:3,dashArray:'4 8',opacity:.85}).addTo(map);routeBounds=L.latLngBounds([origin,...trip.checkpoints.map(point=>point.coordinates)]);map.fitBounds(routeBounds,{padding:[45,45]});
 }
 function renderBudget() {
-    $('[data-package]').innerHTML=[['Listed inclusions',trip.package.included],['Listed exclusions',trip.package.excluded],['Ask Valor to confirm',trip.package.clarifications]].map(([title,items])=>'<article><h3>'+e(title)+'</h3><ul>'+items.map(item=>'<li>'+e(item)+'</li>').join('')+'</ul></article>').join('');
+    const quote=trip.package.groupQuote;
+    const quoteCard=quote?'<article><p class="eyebrow">ESTIMATED GROUP QUOTE · '+e(quote.dates)+'</p><h3>'+e(quote.travellers)+' people · '+usd(quote.total)+'</h3><ul>'+quote.rides.map(ride=>'<li>'+e(ride.count)+' × '+e(ride.name)+': <b>'+usd(ride.amount)+'</b> <small>('+e(ride.basis)+')</small></li>').join('')+'<li>Private group surcharge: <b>'+usd(quote.privateGroupSurcharge)+'</b></li><li>Private rooms: <b>'+usd(quote.privateRooms.amount)+'</b> <small>'+e(quote.privateRooms.basis)+'</small></li><li>Permit: <b>'+usd(quote.permit)+'</b></li></ul><p class="fineprint">'+e(quote.status)+'. '+e(quote.note)+'</p></article>':'';
+    $('[data-package]').innerHTML=quoteCard+[ ['Listed inclusions',trip.package.included],['Listed exclusions',trip.package.excluded],['Ask Valor to confirm',trip.package.clarifications] ].map(([title,items])=>'<article><h3>'+e(title)+'</h3><ul>'+items.map(item=>'<li>'+e(item)+'</li>').join('')+'</ul></article>').join('');
     document.querySelectorAll('[data-ride], [data-room-sharing], [data-vehicle-sharing], [data-hanoi-nights]').forEach(input => {
         input.value = normaliseCount(input.value, Number(input.min), Number(input.max));
     });
@@ -98,14 +100,14 @@ function renderBudget() {
         hanoiNights: $('[data-hanoi-nights]').value
     };
     const {people, tour, bus, allowances, known, warnings} = calculateBudget(trip, scenario);
-    $('[data-budget-summary]').innerHTML='<div><p class="eyebrow">'+people+' PEOPLE / LISTED TOUR'+(bus?' + RETURN BUSES':'')+'</p><strong>'+usd(tour+bus)+'</strong><small>'+money(known)+' AUD local allowances · kept separate</small></div><p>'+(people?'Partial group estimate, not a booking or complete trip cost.':'Add travellers to the ride options to calculate your group.')+' '+warnings.map(e).join(' ')+' '+sourceLink('valor','Verify current prices ↗')+'</p>';
+    $('[data-budget-summary]').innerHTML='<div><p class="eyebrow">'+people+' PEOPLE / LISTED TOUR'+(bus?' + 7 NOV OUTBOUND + 11 NOV RETURN BUSES':'')+'</p><strong>'+usd(tour+bus)+'</strong><small>'+money(known)+' planning allowances · USD</small></div><p>'+(people?'Partial group estimate, not a booking or complete trip cost.':'Add travellers to the ride options to calculate your group.')+' '+warnings.map(e).join(' ')+' '+sourceLink('valor','Verify current prices ↗')+'</p>';
     $('[data-budget]').innerHTML=allowances.map(item=>'<tr><td>'+e(item.item)+'</td><td>'+money(item.amount)+'<small>'+e(item.basis)+'</small></td><td>'+e(item.quantity)+'</td><td>'+money(item.amount===null?null:item.amount*item.quantity)+'</td><td>'+e(item.status)+'</td></tr>').join('');
 }
 function renderGroup() {
     $('[data-hanoi-nights]').value=trip.budgetRules.hanoiNights;
     $('[data-rides]').innerHTML=trip.package.pricing.rides.map(ride=>'<article><p class="eyebrow">4 DAYS / 3 NIGHTS</p><h3>'+e(ride.name)+'</h3><strong>'+usd(ride.amount)+' / person</strong><p>'+e(ride.description)+'</p><label>'+e(ride.name)+' travellers <input type="number" min="0" max="100" value="0" data-ride="'+e(ride.id)+'"></label></article>').join('');
     $('[data-price-note]').innerHTML=e(trip.package.pricing.note)+' Checked '+e(trip.package.pricing.checked)+'. '+sourceLink('valor','Booking source ↗');
-    $('[data-extras]').innerHTML=trip.package.pricing.extras.map(extra=>'<p>'+e(extra.name)+': <b>'+usd(extra.amount)+'</b> · '+e(extra.basis)+'</p>').join('');
+    $('[data-extras]').innerHTML=trip.package.pricing.extras.map(extra=>'<article><h3>'+e(extra.name)+'</h3><strong>'+usd(extra.amount)+'</strong><p>'+e(extra.basis)+'</p></article>').join('');
     $('[data-gallery]').innerHTML=trip.gallery.map(id=>{const photo=trip.photos[id];return '<figure><img src="'+e(photo.image)+'" alt="'+e(photo.alt)+'" loading="lazy"><figcaption>'+e(photo.alt)+'<br>'+photoCaption(photo)+'</figcaption></figure>';}).join('');
     $('[data-crew-note]').textContent=trip.crew.note;
     trip.members.forEach(member => { const ride=trip.package.pricing.rides.find(ride=>ride.name===member.ride); if(ride) $('[data-ride="'+ride.id+'"]').value=Number($('[data-ride="'+ride.id+'"]').value)+1; });

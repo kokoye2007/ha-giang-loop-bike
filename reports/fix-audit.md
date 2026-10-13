@@ -33,7 +33,7 @@ Passed: canonical data/source validation, weather and budget tests, JavaScript s
 
 ## Still requires real confirmation
 
-Flight details are intentionally omitted; the public plan uses 7 November Hanoi arrival and 14 November Hanoi departure. Pickup windows, final group membership, Zawye Lwin's ride choice, final operator quote, charging units, late hotel check-in, guide-approved daylight schedule and actual insurance cover remain unconfirmed. No booking or individual eligibility is implied. The subsequent date-wording update is being published through the repository’s GitHub Actions Cloudflare Pages workflow.
+Flight details are intentionally omitted; the public plan uses 7 November Hanoi arrival and 14 November Hanoi departure. Pickup windows, final group membership, Zawye Lwin's ride choice, final operator quote, charging units, late hotel check-in, guide-approved daylight schedule and actual insurance cover remain unconfirmed. No booking or individual eligibility is implied. The subsequent date-wording update was published at revision `161a52f`; GitHub Actions run `37283116508` succeeded and live itinerary data was verified. Current follow-up priorities are in [ROADMAP.md](../ROADMAP.md).
 
 ## Sources
 

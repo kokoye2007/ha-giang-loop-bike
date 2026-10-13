@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
-  "updated": "2026-10-05",
+  "updated": "2026-10-13",
   "trip": {
     "name": "Ha Giang Loop Bike",
     "title": "Ha Giang, one bend at a time.",
     "start": "2026-11-07",
     "end": "2026-11-14",
-    "dateStatus": "7 November — arrive in Hanoi. 8–11 November — Ha Giang Loop (4D3N). 14 November — depart Hanoi.",
+    "dateStatus": "7 November — Hanoi to Ha Giang by bus; sleep in Ha Giang. 8–11 November — Ha Giang Loop (4D3N). 14 November — depart Hanoi.",
     "travellers": null,
     "mode": "Group tour",
     "operator": "Valor",
@@ -19,6 +19,35 @@
   "package": {
     "price": null,
     "priceStatus": "Listed ride prices in USD; final Valor quote required",
+    "groupQuote": {
+      "travellers": 7,
+      "dates": "8–11 November 2026",
+      "status": "Estimated group quote; bus transfers excluded",
+      "rides": [
+        {
+          "name": "Self Ride",
+          "count": 3,
+          "amount": 630,
+          "basis": "3 × US$210"
+        },
+        {
+          "name": "Easy Rider",
+          "count": 4,
+          "amount": 1000,
+          "basis": "4 × US$250"
+        }
+      ],
+      "privateGroupSurcharge": 0,
+      "privateRooms": {
+        "count": 4,
+        "travellers": 7,
+        "amount": 120,
+        "basis": "4 rooms · two people in one room"
+      },
+      "permit": 70,
+      "total": 1820,
+      "note": "Bus transfers, drinks, insurance, VAT and any payment fees are not included. Confirm room allocation, permit basis and final inclusions with Valor."
+    },
     "pricing": {
       "currency": "USD",
       "checked": "2026-10-05",
@@ -54,8 +83,22 @@
         {
           "name": "Hanoi VIP bus",
           "amount": 18,
-          "basis": "per person, each direction",
+          "basis": "per person, each direction · 7 Nov outbound + 11 Nov return",
           "id": "hanoi-bus"
+        },
+        {
+          "name": "Extra route / attraction tickets",
+          "amount": 10,
+          "basis": "per person, entire trip estimate · confirm inclusions",
+          "id": "route-tickets",
+          "status": "Planning estimate"
+        },
+        {
+          "name": "125/150cc bike rental",
+          "amount": 10,
+          "basis": "per bike / day estimate · 4 days ≈ US$40",
+          "id": "bike-rental",
+          "status": "Planning estimate; confirm with operator"
         },
         {
           "name": "Dorm",
@@ -615,7 +658,8 @@
       "date": "2026-11-07",
       "title": "Arrive in Hanoi → Ha Giang",
       "place": "Travel day",
-      "detail": "Arrive in Hanoi on 7 November, then transfer to Ha Giang for the pre-tour night. Coordinate pickup with Valor so the group can rest before the 8 November briefing.",
+      "detail": "Take the Hanoi → Ha Giang VIP bus on 7 November, then sleep in Ha Giang before the 8 November briefing. Allow USD 18 per person for this outbound bus; confirm pickup time, luggage and whether Valor includes the fare.",
+      "transport": "Hanoi → Ha Giang VIP bus · USD 18/person estimate",
       "stay": "Ha Giang pre-tour dorm / upgrade",
       "phase": "transfer"
     },
@@ -650,7 +694,8 @@
       "date": "2026-11-11",
       "title": "Du Gia → Lung Ho → Ha Giang",
       "place": "Hanoi, if transfer confirmed",
-      "detail": "Return around 16:00 to Ha Giang; Hanoi around 23:00 only if the bus is confirmed. Arrange late check-in, or stay in Ha Giang and transfer the next morning.",
+      "detail": "Return around 16:00 to Ha Giang, then take the return VIP bus to Hanoi if confirmed (USD 18 per person estimate). Hanoi may be around 23:00; otherwise stay in Ha Giang and transfer the next morning.",
+      "transport": "Ha Giang → Hanoi VIP bus · USD 18/person estimate",
       "stay": "Hanoi, if transfer confirmed",
       "phase": "loop",
       "loopDay": 4
@@ -714,6 +759,11 @@
     {
       "id": "insurance",
       "label": "Confirm motorcycle-pillion cover and medical evacuation",
+      "category": "Safety"
+    },
+    {
+      "id": "licence-fine",
+      "label": "Do not self-ride without the required licence; fines may be VND 2–4M up to 125cc or VND 6–8M above 125cc",
       "category": "Safety"
     },
     {
@@ -785,38 +835,38 @@
   "budget": [
     {
       "item": "Hanoi room",
-      "amount": 50,
-      "basis": "per room / night",
+      "amount": 35,
+      "basis": "per room / night · USD planning allowance",
       "status": "Allowance",
       "sourceId": null,
-      "currency": "AUD",
+      "currency": "USD",
       "scale": "roomNights"
     },
     {
       "item": "Hanoi food and coffee",
-      "amount": 20,
-      "basis": "per person / day",
+      "amount": 14,
+      "basis": "per person / day · USD planning allowance",
       "status": "Allowance",
       "sourceId": null,
-      "currency": "AUD",
+      "currency": "USD",
       "scale": "foodDays"
     },
     {
       "item": "Airport transfers",
-      "amount": 25,
-      "basis": "per vehicle / transfer",
+      "amount": 18,
+      "basis": "per vehicle / transfer · USD planning allowance",
       "status": "Allowance",
       "sourceId": null,
-      "currency": "AUD",
+      "currency": "USD",
       "scale": "vehicleTransfers"
     },
     {
       "item": "Tips, drinks and small extras",
-      "amount": 35,
-      "basis": "per person",
+      "amount": 24,
+      "basis": "per person · USD planning allowance",
       "status": "Allowance",
       "sourceId": null,
-      "currency": "AUD",
+      "currency": "USD",
       "scale": "people"
     },
     {
@@ -825,7 +875,7 @@
       "basis": "per person",
       "status": "Quote required",
       "sourceId": null,
-      "currency": "AUD",
+      "currency": "USD",
       "scale": "people"
     },
     {
@@ -834,7 +884,7 @@
       "basis": "per person",
       "status": "Quote required",
       "sourceId": null,
-      "currency": "AUD",
+      "currency": "USD",
       "scale": "people"
     },
     {
@@ -843,7 +893,7 @@
       "basis": "booking total",
       "status": "Confirm with Valor",
       "sourceId": "valor",
-      "currency": "AUD",
+      "currency": "USD",
       "scale": "booking"
     },
     {
@@ -852,7 +902,7 @@
       "basis": "per person",
       "status": "Optional / TBC",
       "sourceId": null,
-      "currency": "AUD",
+      "currency": "USD",
       "scale": "people"
     },
     {
@@ -862,16 +912,16 @@
       "scale": "people",
       "status": "Activity selection / quote required",
       "sourceId": null,
-      "currency": "AUD"
+      "currency": "USD"
     },
     {
       "item": "Contingency reserve",
-      "amount": 40,
-      "basis": "per person",
+      "amount": 28,
+      "basis": "per person · USD planning allowance",
       "scale": "people",
       "status": "Planning allowance; not an operator charge",
       "sourceId": null,
-      "currency": "AUD"
+      "currency": "USD"
     }
   ],
   "advice": {
@@ -1057,6 +1107,14 @@
       "type": "official advice; Australian document context",
       "checked": "2026-10-05",
       "note": "Official advice distinguishes Australian-issued driving documents, entry checks and insurance coverage. Apply the guidance appropriate to each traveller’s passport and licence issuer; no individual eligibility is established."
+    },
+    {
+      "id": "vietnam-road-fines",
+      "title": "Vietnam Government • Decree 168/2024 road-traffic penalties",
+      "url": "https://xaydungchinhsach.chinhphu.vn/toan-van-nghi-dinh-168-2024-nd-cp-quy-dinh-xu-phat-vi-pham-ve-trat-tu-atgt-duong-bo-119241231164556785.htm",
+      "type": "official legal reference",
+      "checked": "2026-10-13",
+      "note": "Article 18 lists VND 2–4M for no valid licence on motorcycles up to 125cc and VND 6–8M for motorcycles above 125cc. Confirm current amendments and individual eligibility before riding."
     }
   ],
   "budgetRules": {
@@ -1064,7 +1122,7 @@
     "foodDays": 3,
     "airportTransfers": 2,
     "busDirections": 2,
-    "note": "Assumes Hanoi nights 11–13 November and food days 12–14. Change nights if the return transfer is delayed. Arrival-day food, extra accommodation and all TBC rows are outside known totals."
+    "note": "All planning allowances are shown in USD using rounded estimates. Bus estimate assumes two directions per person: Hanoi → Ha Giang on 7 November and Ha Giang → Hanoi on 11 November, at USD 18 each way. Confirm whether Valor includes these fares. Hanoi nights 11–13 November and food days 12–14 remain editable; delayed transfers may change them."
   },
   "planning": {
     "title": "Before this becomes a booking",
@@ -1081,6 +1139,11 @@
         "title": "Documents and insurance",
         "detail": "Nationality, licence issuer and policy are unknown. Check entry requirements with Vietnam’s immigration authorities and riding eligibility with the relevant authority, not only the operator. Obtain written pillion/self-rider and evacuation cover from the insurer. Australian-issued licences/IDPs are not accepted according to Smartraveller; this is issuer-specific advice.",
         "sourceId": "official-safety"
+      },
+      {
+        "title": "Licence risk and bike size",
+        "detail": "Do not treat a 3M VND fine as a fixed budget. Vietnam’s current government road-traffic decree lists VND 2–4M for riding a motorcycle up to 125cc without a valid licence, and VND 6–8M for a motorcycle above 125cc. A 150cc bike falls in the higher bracket; confirm current rules and licence eligibility before renting.",
+        "sourceId": "vietnam-road-fines"
       }
     ]
   },

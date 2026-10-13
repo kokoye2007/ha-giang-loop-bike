@@ -1,5 +1,7 @@
 # Backlog status — 5 October 2026
 
+Current planning authority: [ROADMAP.md](../ROADMAP.md). See [RECAP.md](../RECAP.md) for context and [CHANGELOG.md](../CHANGELOG.md) for release history.
+
 ## Colour themes
 
 Implemented: Forest & cream, Sunrise & clay and Night ride using shared CSS tokens. Browser checks verify selection and persistence after reload. Reduced-motion behaviour is retained. Final palette selection remains open for user feedback.
@@ -10,7 +12,7 @@ Implemented: Open-Meteo destination-area weather, Vietnam local dates/time, temp
 
 ## Tour members
 
-Implemented infrastructure: editable member records, responsive cards, escaped quotes, publication-consent filtering and a member template. Browser tests verify unpublished profiles remain hidden. Awaiting real display names, ride choices, approved portraits and quotes. Store portraits in `assets/members/`. No private identifiers, booking documents or contact details.
+Implemented infrastructure: editable member records, responsive cards, escaped quotes, publication-consent filtering and a member template. Browser tests verify unpublished profiles remain hidden. Two approved profiles are now published: Zawye Lwin with a chosen avatar (ride choice pending), and Ko Ko Ye with supplied photo and Easy Rider choice. Additional profiles and final group membership remain pending. Store portraits in `assets/members/`. No private identifiers, booking documents or contact details.
 
 ## Checkpoint photographs
 
@@ -18,4 +20,4 @@ The four daily hero photos are distinct. Vuong Palace now has a licensed exact p
 
 ## Cloudflare deployment
 
-Both GitHub Actions secrets are configured. The first authenticated CI/CD deployment succeeded (run 37224364893), and https://vn-bike.pages.dev returns HTTP200. New main pushes validate/build and publish through Wrangler; no local OAuth token is used by CI.
+Active production is https://ha-giang-loop-bike.pages.dev/. GitHub Actions run `37283116508` successfully deployed revision `161a52f`, including audit fixes and 7 November arrival / 14 November departure wording. The old `vn-bike.pages.dev` address is a legacy snapshot. Main pushes validate/build and publish through Wrangler; CI does not use local OAuth credentials.

@@ -1,6 +1,6 @@
 # Ha Giang Loop Bike — Group Tour Roadbook
 
-A group-tour website for Valor’s 4-day/3-night Ha Giang package, with an eight-day Hanoi arrival/return plan. Dates currently assume **7–14 November 2026**, with the loop **8–11 November**; this is provisional.
+A group-tour website for Valor’s 4-day/3-night Ha Giang package. **7 November 2026: arrive in Hanoi; 8–11 November: the loop; 14 November: depart Hanoi.** Flight numbers and times are intentionally omitted; bookings and transfer arrangements still need confirmation.
 
 ## Local development
 
@@ -16,9 +16,9 @@ Open http://localhost:8001/. `public/index.html` is the published entry. Source 
 
 ## Editable data
 
-Edit `data/trip.json` for itinerary, checkpoints, photos, budget, ride options, members and checklist. Valor's booking configuration lists ride prices in **USD** (checked 5 October 2026); local allowances are **AUD**. The calculator keeps currencies separate and supports mixed ride choices, room sharing and vehicle sharing. No group size is assumed. Prices are not a final booking quote. Map markers are approximate location centres, not navigation waypoints.
+Edit `data/trip.json` for itinerary, checkpoints, photos, budget, ride options, members and checklist. Valor's booking configuration and all displayed planning allowances use **USD**. The calculator supports mixed ride choices, room sharing and vehicle sharing; bus transfers are optional and excluded by default from the displayed group quote. Known member ride choices seed the calculator; no final group size is assumed. Budget quantities come from `budgetRules` and each row’s `scale`, calculated by `scripts/budget.mjs`. Hanoi room nights are editable; TBC costs remain outside known totals. Prices are not a final booking quote. Map markers are approximate location centres, not navigation waypoints.
 
-Member entries use `name`, `photo` (a local `assets/members/` image), `ride`, `quote` and `publishConsent`. Only entries with `publishConsent: true` render. Get approval for both the portrait and quote before public publication. The current joke ideas are unassigned, not attributed to real members.
+Member entries use `name`, `photo` (a local `assets/members/` image), `ride`, `quote` and `publishConsent`. Only entries with `publishConsent: true` render. Get approval for both the portrait and quote before public publication. Two approved profiles are published: Zawye Lwin (ride pending) and Ko Ko Ye (Easy Rider). The separate sample joke ideas remain unassigned.
 
 ## Publish
 
@@ -60,4 +60,13 @@ The theme selector offers Forest & cream, Sunrise & clay and Night ride; prefere
 
 Daily weather locations/dates live in `trip.json` → `weather.days`. The browser calls [Open-Meteo's API](https://open-meteo.com/en/docs), using `Asia/Ho_Chi_Minh`. Within the 16-day forecast window it displays the actual trip-date forecast; otherwise it shows today's current temperature, conditions, wind and daily outlook for that destination. Cards clearly separate the trip date from the weather date. Repeated area/date requests are shared; network failures show a retry message. These are area-grid estimates, not readings at every mountain pass. The free API is for this non-commercial personal group guide; review [usage terms](https://open-meteo.com/en/terms) before adding advertising or commercial booking functions. Unit and browser tests stub API responses so forecast assertions remain deterministic.
 
-`data/member-template.json` shows the member schema. Names, portraits and joke quotes remain absent until supplied and approved; the consent gate is browser-tested. See `reports/backlog.md` for completed and remaining tasks.
+`data/member-template.json` shows the member schema. Additional names, portraits and quotes require approval; the consent gate is browser-tested. Current priorities are in [ROADMAP.md](ROADMAP.md); older backlog reports are historical snapshots.
+
+## Project documentation
+
+- [CHANGELOG.md](CHANGELOG.md) — shipped changes and Git revision references.
+- [ROADMAP.md](ROADMAP.md) — completed work, priorities, owner roles and acceptance criteria.
+- [RECAP.md](RECAP.md) — what we built, why, who contributed and remaining limits.
+- [reports/fix-audit.md](reports/fix-audit.md) — audit findings addressed and confirmation gaps.
+
+Latest verified website deployment: `161a52f`, GitHub Actions run `37283116508`. The workflow runs data/unit tests and build; Playwright browser checks are a separate local verification step.
