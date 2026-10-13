@@ -1,5 +1,11 @@
 # Changelog
 
+## Update — 14 October 2026 · quote totals corrected
+
+- Removed the duplicate route/attraction-ticket line; the US$70 permit remains the mandatory route cost.
+- Added calculated Hanoi ↔ Ha Giang bus transfers: US$252 for seven people and two directions.
+- Set the required group estimate to **US$2,057**, excluding the optional 125/150cc bike-size upgrade.
+
 ## Update — 14 October 2026 · required group costs
 
 - Made route/attraction tickets mandatory: US$10 per person, US$70 for seven people, included in the group estimate.

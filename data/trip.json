@@ -22,7 +22,7 @@
     "groupQuote": {
       "travellers": 7,
       "dates": "8–11 November 2026",
-      "status": "Estimated group quote; route tickets and private rooms included; bus transfers excluded",
+      "status": "Estimated group quote; permit, private rooms and calculated bus transfers included",
       "rides": [
         {
           "name": "Self Ride",
@@ -45,19 +45,19 @@
         "basis": "US$15 per person · 3 shared rooms + 1 single room"
       },
       "permit": 70,
-      "routeTickets": {
-        "amount": 70,
-        "basis": "7 people × US$10 per person · mandatory"
+      "busTransfers": {
+        "amount": 252,
+        "basis": "7 people × US$18 × 2 directions · calculated"
       },
       "optionalAddOns": [
         {
           "name": "125/150cc bike-size upgrade",
           "amount": 120,
-          "basis": "3 self-riders × US$10/day × 4 days; confirm with Valor"
+          "basis": "US$10 per person/day · example: 3 self-riders × 4 days; optional"
         }
       ],
-      "total": 1875,
-      "note": "Route/attraction tickets and private rooms are included in this required estimate. Bus transfers, drinks, insurance, VAT and any payment fees are not included. Confirm room allocation, permit basis and final inclusions with Valor."
+      "total": 2057,
+      "note": "The permit is the required route/attraction access cost; no separate route-ticket line is added. Private rooms and calculated bus transfers are included. Drinks, insurance, VAT and payment fees remain excluded. Confirm room allocation, permit basis and bus inclusion with Valor."
     },
     "pricing": {
       "currency": "USD",
@@ -96,13 +96,6 @@
           "amount": 18,
           "basis": "per person, each direction · 7 Nov outbound + 11 Nov return",
           "id": "hanoi-bus"
-        },
-        {
-          "name": "Route / attraction tickets",
-          "amount": 10,
-          "basis": "per person, entire trip estimate · 7 people ≈ US$70",
-          "id": "route-tickets",
-          "status": "Required; confirm inclusions"
         },
         {
           "name": "125/150cc bike-size upgrade",
